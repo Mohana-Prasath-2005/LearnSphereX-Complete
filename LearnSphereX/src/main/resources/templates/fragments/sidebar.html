@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<aside th:fragment="sidebar" class="sidebar">
+    <div class="brand">
+        <div class="brand-mark">J</div>
+        <div>
+            <strong>JOBI</strong>
+            <span>Learning & Evaluation</span>
+        </div>
+    </div>
+
+    <nav class="nav">
+        <div class="nav-label">MAIN</div>
+        <a th:href="@{/}" class="nav-item">⌂ <span>Dashboard</span></a>
+        <a th:href="@{/students}" class="nav-item">◉ <span>Students</span></a>
+        <a th:href="@{/courses}" class="nav-item">▣ <span>Courses</span></a>
+        <a th:href="@{/batches}" class="nav-item">▤ <span>Batches</span></a>
+
+        <div class="nav-label">PROJECTS</div>
+        <a th:href="@{/projects}" class="nav-item">◆ <span>Projects</span></a>
+        <a th:href="@{/submissions}" class="nav-item">↗ <span>Submissions</span></a>
+        <a th:href="@{/reports}" class="nav-item">▥ <span>Reports</span></a>
+    </nav>
+
+    <div class="sidebar-footer">
+        <div class="mini-avatar">A</div>
+        <div>
+            <strong>JOBI Admin</strong>
+            <span>Management Portal</span>
+        </div>
+    </div>
+</aside>
+</body>
+</html>

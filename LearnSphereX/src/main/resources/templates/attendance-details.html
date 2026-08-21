@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Attendance Details</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+            background-color: #f7f7f7;
+        }
+
+        .container {
+            width: 500px;
+            margin: auto;
+            background-color: white;
+            padding: 25px;
+            border-radius: 8px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .row {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .label {
+            font-weight: bold;
+        }
+
+        .buttons {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        a {
+            margin: 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Attendance Details</h1>
+
+    <div class="row">
+        <span class="label">ID:</span>
+        <span th:text="${attendance.id}"></span>
+    </div>
+
+    <div class="row">
+        <span class="label">Batch ID:</span>
+        <span th:text="${attendance.batchId}"></span>
+    </div>
+
+    <div class="row">
+        <span class="label">Student ID:</span>
+        <span th:text="${attendance.studentId}"></span>
+    </div>
+
+    <div class="row">
+        <span class="label">Attendance Date:</span>
+        <span th:text="${attendance.attendanceDate}"></span>
+    </div>
+
+    <div class="row">
+        <span class="label">Status:</span>
+        <span th:text="${attendance.status}"></span>
+    </div>
+
+    <div class="buttons">
+
+        <a
+            th:href="@{/attendance/{id}/edit(id=${attendance.id})}">
+            Edit
+        </a>
+
+        |
+
+        <a href="/attendance">
+            Back
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Batch Schedule</title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/batch.css}">
+
+</head>
+
+
+<body>
+
+<div class="app-container">
+
+
+    <!-- =========================
+         SIDEBAR
+    ========================== -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+
+            <div class="brand-logo">
+                L
+            </div>
+
+            <div class="brand-text">
+
+                <h2>LearnSphereX</h2>
+
+                <span>Training Management</span>
+
+            </div>
+
+        </div>
+
+
+        <div class="menu-title">
+            MAIN
+        </div>
+
+
+        <nav class="sidebar-menu">
+
+            <a href="/batches"
+               class="menu-item active">
+
+                <span class="menu-icon">📚</span>
+
+                <span>Batches</span>
+
+            </a>
+
+
+            <a href="/attendance"
+               class="menu-item">
+
+                <span class="menu-icon">📋</span>
+
+                <span>Attendance</span>
+
+            </a>
+
+
+            <a href="#"
+               class="menu-item">
+
+                <span class="menu-icon">🎓</span>
+
+                <span>Courses</span>
+
+            </a>
+
+
+            <a href="#"
+               class="menu-item">
+
+                <span class="menu-icon">👨‍🎓</span>
+
+                <span>Students</span>
+
+            </a>
+
+
+            <a href="#"
+               class="menu-item">
+
+                <span class="menu-icon">🔔</span>
+
+                <span>Notifications</span>
+
+            </a>
+
+        </nav>
+
+
+        <div class="menu-title">
+            BATCH MANAGEMENT
+        </div>
+
+
+        <nav class="sidebar-menu">
+
+            <a href="/batches"
+               class="menu-item">
+
+                <span class="menu-icon">📋</span>
+
+                <span>All Batches</span>
+
+            </a>
+
+
+            <a href="/batches/new"
+               class="menu-item">
+
+                <span class="menu-icon">➕</span>
+
+                <span>Create Batch</span>
+
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <div class="admin-avatar">
+                A
+            </div>
+
+            <div class="admin-info">
+
+                <strong>Admin</strong>
+
+                <span>Administrator</span>
+
+            </div>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- =========================
+         MAIN CONTENT
+    ========================== -->
+
+    <main class="main-content">
+
+
+        <!-- HEADER -->
+
+        <header class="top-header">
+
+            <div>
+
+                <div class="page-label">
+                    BATCH MANAGEMENT
+                </div>
+
+                <h1>
+                    Batch Dashboard
+                </h1>
+
+            </div>
+
+
+            <div class="system-status">
+
+                <span class="status-dot"></span>
+
+                <span>
+                    System Online
+                </span>
+
+
+                <div class="user-circle">
+                    A
+                </div>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- =========================
+             PAGE CONTENT
+        ========================== -->
+
+        <section class="content-area">
+
+
+            <!-- PAGE TITLE -->
+
+            <div class="page-heading">
+
+                <div>
+
+                    <h2
+                        th:if="${schedule.id == null}">
+                        Create Batch Schedule
+                    </h2>
+
+
+                    <h2
+                        th:if="${schedule.id != null}">
+                        Edit Batch Schedule
+                    </h2>
+
+
+                    <p>
+                        Create and manage the weekly schedule for this batch.
+                    </p>
+
+                </div>
+
+
+                <a
+                    th:href="@{/batch-schedules/batch/{id}(id=${batchId})}"
+                    class="back-link">
+
+                    ← Back to Schedules
+
+                </a>
+
+            </div>
+
+
+
+            <!-- =========================
+                 FORM CARD
+            ========================== -->
+
+            <div class="form-card">
+
+
+                <form
+                    th:action="${schedule.id == null}
+                        ? @{/batch-schedules}
+                        : @{/batch-schedules/{id}(id=${schedule.id})}"
+                    th:object="${schedule}"
+                    method="post">
+
+
+                    <!-- BATCH ID -->
+
+                    <div class="form-group">
+
+                        <label for="batchId">
+                            Batch ID
+                        </label>
+
+                        <input
+                            id="batchId"
+                            type="number"
+                            th:field="*{batchId}"
+                            placeholder="Enter batch ID"
+                            required>
+
+                    </div>
+
+
+
+                    <!-- DAY OF WEEK -->
+
+                    <div class="form-group">
+
+                        <label for="dayOfWeek">
+                            Day of Week
+                        </label>
+
+                        <select
+                            id="dayOfWeek"
+                            th:field="*{dayOfWeek}"
+                            required>
+
+                            <option value="">
+                                Select Day
+                            </option>
+
+                            <option value="MONDAY">
+                                Monday
+                            </option>
+
+                            <option value="TUESDAY">
+                                Tuesday
+                            </option>
+
+                            <option value="WEDNESDAY">
+                                Wednesday
+                            </option>
+
+                            <option value="THURSDAY">
+                                Thursday
+                            </option>
+
+                            <option value="FRIDAY">
+                                Friday
+                            </option>
+
+                            <option value="SATURDAY">
+                                Saturday
+                            </option>
+
+                            <option value="SUNDAY">
+                                Sunday
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+
+                    <!-- TIME ROW -->
+
+                    <div class="time-row">
+
+
+                        <!-- START TIME -->
+
+                        <div class="form-group">
+
+                            <label for="startTime">
+                                Start Time
+                            </label>
+
+                            <input
+                                id="startTime"
+                                type="time"
+                                th:field="*{startTime}"
+                                required>
+
+                        </div>
+
+
+
+                        <!-- END TIME -->
+
+                        <div class="form-group">
+
+                            <label for="endTime">
+                                End Time
+                            </label>
+
+                            <input
+                                id="endTime"
+                                type="time"
+                                th:field="*{endTime}"
+                                required>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- BUTTONS -->
+
+                    <div class="form-actions">
+
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary">
+
+                            <span>✓</span>
+
+                            <span
+                                th:if="${schedule.id == null}">
+                                Save Schedule
+                            </span>
+
+                            <span
+                                th:if="${schedule.id != null}">
+                                Update Schedule
+                            </span>
+
+                        </button>
+
+
+                        <a
+                            th:href="@{/batch-schedules/batch/{id}(id=${batchId})}"
+                            class="btn btn-secondary">
+
+                            Cancel
+
+                        </a>
+
+                    </div>
+
+
+                </form>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================
+             FOOTER
+        ========================== -->
+
+        <footer class="footer">
+
+            <span>
+                LearnSphereX Batch Management Module
+            </span>
+
+            <span>
+                Spring Boot · JPA · Thymeleaf
+            </span>
+
+        </footer>
+
+
+    </main>
+
+</div>
+
+</body>
+
+</html>

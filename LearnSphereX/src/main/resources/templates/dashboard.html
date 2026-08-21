@@ -1,0 +1,2378 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>LearnSphereX | Dashboard</title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/styles.css}">
+
+    <style>
+
+        /* =====================================================
+           RESET
+           ===================================================== */
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f7fb;
+            color: #172033;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+
+        /* =====================================================
+           MAIN LAYOUT
+           ===================================================== */
+
+        .app-shell {
+            display: flex;
+            min-height: 100vh;
+        }
+
+
+        /* =====================================================
+           SIDEBAR
+           ===================================================== */
+
+        .sidebar {
+            width: 250px;
+            background: #101827;
+            color: white;
+
+            padding: 22px 16px;
+
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+
+            overflow-y: auto;
+
+            z-index: 1000;
+        }
+
+
+        /* =====================================================
+           BRAND
+           ===================================================== */
+
+        .brand {
+            display: flex;
+            align-items: center;
+
+            gap: 12px;
+
+            padding: 8px 10px 28px;
+        }
+
+
+        .brand-mark {
+            width: 42px;
+            height: 42px;
+
+            background: #315bea;
+
+            border-radius: 11px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 21px;
+            font-weight: bold;
+
+            flex-shrink: 0;
+        }
+
+
+        .brand strong {
+            display: block;
+
+            font-size: 18px;
+
+            color: #ffffff;
+        }
+
+
+        .brand span {
+            display: block;
+
+            font-size: 9px;
+
+            color: #9ba8bd;
+
+            margin-top: 3px;
+
+            letter-spacing: .5px;
+        }
+
+
+        /* =====================================================
+           NAVIGATION LABEL
+           ===================================================== */
+
+        .nav-label {
+            font-size: 10px;
+
+            color: #75839b;
+
+            letter-spacing: 1.2px;
+
+            margin: 20px 10px 7px;
+
+            font-weight: 600;
+        }
+
+
+        /* =====================================================
+           NAVIGATION ITEM
+           ===================================================== */
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+
+            width: 100%;
+
+            padding: 10px 12px;
+
+            margin: 3px 0;
+
+            border-radius: 8px;
+
+            color: #c9d2e1;
+
+            font-size: 14px;
+
+            transition: all .2s ease;
+
+            cursor: pointer;
+        }
+
+
+        .nav-item:hover {
+            background: #1c293d;
+
+            color: #ffffff;
+
+            transform: translateX(2px);
+        }
+
+
+        .nav-item.active {
+            background: #1e2d47;
+
+            color: #ffffff;
+        }
+
+
+        /* =====================================================
+           SIDEBAR FOOTER
+           ===================================================== */
+
+        .sidebar-footer {
+            border-top: 1px solid #273246;
+
+            margin-top: 30px;
+
+            padding: 18px 10px;
+        }
+
+
+        .sidebar-footer strong {
+            display: block;
+
+            font-size: 14px;
+
+            color: #ffffff;
+        }
+
+
+        .sidebar-footer span {
+            display: block;
+
+            color: #8592a8;
+
+            font-size: 11px;
+
+            margin-top: 3px;
+        }
+
+
+        .logout-button {
+            background: none;
+
+            border: none;
+
+            color: #c9d2e1;
+
+            cursor: pointer;
+
+            padding: 10px 0 0;
+
+            font-size: 13px;
+        }
+
+
+        .logout-button:hover {
+            color: #ffffff;
+        }
+
+
+        /* =====================================================
+           MAIN AREA
+           ===================================================== */
+
+        .main-area {
+            margin-left: 250px;
+
+            width: calc(100% - 250px);
+
+            min-height: 100vh;
+        }
+
+
+        /* =====================================================
+           TOP BAR
+           ===================================================== */
+
+        .topbar {
+            height: 76px;
+
+            background: #ffffff;
+
+            border-bottom: 1px solid #e7eaf0;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            padding: 0 35px;
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 500;
+        }
+
+
+        .eyebrow {
+            font-size: 10px;
+
+            color: #8792a5;
+
+            letter-spacing: 1.2px;
+
+            font-weight: bold;
+        }
+
+
+        .topbar h1 {
+            margin: 5px 0 0;
+
+            font-size: 24px;
+
+            color: #172033;
+        }
+
+
+        .user-area {
+            display: flex;
+
+            align-items: center;
+
+            gap: 9px;
+
+            color: #657187;
+
+            font-size: 13px;
+        }
+
+
+        .online-dot {
+            width: 9px;
+
+            height: 9px;
+
+            background: #23bd78;
+
+            border-radius: 50%;
+        }
+
+
+        /* =====================================================
+           PAGE CONTENT
+           ===================================================== */
+
+        .page-content {
+            padding: 30px 35px 50px;
+        }
+
+
+        /* =====================================================
+           WELCOME
+           ===================================================== */
+
+        .welcome {
+            background: linear-gradient(
+                135deg,
+                #17294d,
+                #29458a
+            );
+
+            color: white;
+
+            border-radius: 16px;
+
+            padding: 30px;
+
+            margin-bottom: 25px;
+
+            box-shadow: 0 8px 25px rgba(30, 55, 110, .12);
+        }
+
+
+        .welcome small {
+            color: #c9d7f8;
+
+            font-size: 11px;
+
+            letter-spacing: 1px;
+        }
+
+
+        .welcome h2 {
+            margin: 10px 0 7px;
+
+            font-size: 27px;
+        }
+
+
+        .welcome p {
+            margin: 0;
+
+            color: #d6def0;
+
+            max-width: 750px;
+
+            line-height: 1.6;
+
+            font-size: 14px;
+        }
+
+
+        /* =====================================================
+           STATISTICS
+           ===================================================== */
+
+        .stats {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, minmax(0, 1fr));
+
+            gap: 18px;
+
+            margin-bottom: 25px;
+        }
+
+
+        .stat-card {
+            background: #ffffff;
+
+            border: 1px solid #e6e9ef;
+
+            border-radius: 13px;
+
+            padding: 20px;
+
+            transition: .2s;
+        }
+
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+
+            box-shadow: 0 8px 22px rgba(25, 40, 70, .06);
+        }
+
+
+        .stat-card .title {
+            font-size: 11px;
+
+            color: #8792a5;
+
+            letter-spacing: .4px;
+        }
+
+
+        .stat-card .value {
+            font-size: 27px;
+
+            font-weight: bold;
+
+            margin-top: 8px;
+
+            color: #172033;
+        }
+
+
+        .stat-card .info {
+            font-size: 11px;
+
+            color: #7c8798;
+
+            margin-top: 7px;
+        }
+
+
+        /* =====================================================
+           DASHBOARD GRID
+           ===================================================== */
+
+        .dashboard-grid {
+            display: grid;
+
+            grid-template-columns:
+                1.4fr 1fr;
+
+            gap: 20px;
+
+            margin-bottom: 25px;
+        }
+
+
+        /* =====================================================
+           COMMON CARD
+           ===================================================== */
+
+        .card {
+            background: #ffffff;
+
+            border: 1px solid #e6e9ef;
+
+            border-radius: 14px;
+
+            padding: 22px;
+        }
+
+
+        .card-header {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 20px;
+        }
+
+
+        .card-header h3 {
+            margin: 0;
+
+            font-size: 17px;
+
+            color: #172033;
+        }
+
+
+        .card-header a {
+            font-size: 12px;
+
+            text-decoration: none;
+
+            color: #315bea;
+
+            font-weight: 600;
+        }
+
+
+        .card-header a:hover {
+            text-decoration: underline;
+        }
+
+
+        /* =====================================================
+           ATTENDANCE
+           ===================================================== */
+
+        .attendance-row {
+            margin-bottom: 18px;
+        }
+
+
+        .attendance-top {
+            display: flex;
+
+            justify-content: space-between;
+
+            font-size: 13px;
+
+            margin-bottom: 7px;
+        }
+
+
+        .attendance-top strong {
+            font-size: 12px;
+        }
+
+
+        .progress {
+            height: 8px;
+
+            background: #edf0f5;
+
+            border-radius: 10px;
+
+            overflow: hidden;
+        }
+
+
+        .progress span {
+            display: block;
+
+            height: 100%;
+
+            border-radius: 10px;
+        }
+
+
+        .present-bar {
+            width: 82%;
+
+            background: #22a06b;
+        }
+
+
+        .late-bar {
+            width: 8%;
+
+            background: #e7a629;
+        }
+
+
+        .absent-bar {
+            width: 10%;
+
+            background: #dc5362;
+        }
+
+
+        /* =====================================================
+           SESSIONS
+           ===================================================== */
+
+        .session {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            padding: 13px 0;
+
+            border-bottom: 1px solid #edf0f4;
+        }
+
+
+        .session:last-child {
+            border-bottom: none;
+        }
+
+
+        .session-title {
+            font-weight: 600;
+
+            font-size: 13px;
+        }
+
+
+        .session-info {
+            color: #8792a5;
+
+            font-size: 11px;
+
+            margin-top: 4px;
+        }
+
+
+        .session-time {
+            font-size: 12px;
+
+            font-weight: bold;
+
+            color: #315bea;
+
+            white-space: nowrap;
+        }
+
+
+        /* =====================================================
+           ACTIVITY
+           ===================================================== */
+
+        .activity {
+            display: flex;
+
+            gap: 12px;
+
+            padding: 12px 0;
+
+            border-bottom: 1px solid #edf0f4;
+        }
+
+
+        .activity:last-child {
+            border-bottom: none;
+        }
+
+
+        .activity-icon {
+            width: 32px;
+
+            height: 32px;
+
+            border-radius: 50%;
+
+            background: #eef2ff;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            flex-shrink: 0;
+        }
+
+
+        .activity-text strong {
+            display: block;
+
+            font-size: 13px;
+        }
+
+
+        .activity-text span {
+            font-size: 11px;
+
+            color: #8a94a5;
+        }
+
+
+        /* =====================================================
+           SECTION TITLE
+           ===================================================== */
+
+        .section-title {
+            margin: 30px 0 15px;
+        }
+
+
+        .section-title h2 {
+            margin: 4px 0;
+
+            font-size: 20px;
+
+            color: #172033;
+        }
+
+
+        /* =====================================================
+           MODULE GRID
+           ===================================================== */
+
+        .module-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, minmax(0, 1fr));
+
+            gap: 17px;
+        }
+
+
+        .module-card {
+            display: block;
+
+            background: #ffffff;
+
+            border: 1px solid #e6e9ef;
+
+            border-radius: 13px;
+
+            padding: 20px;
+
+            transition: all .2s ease;
+
+            color: inherit;
+
+            cursor: pointer;
+        }
+
+
+        .module-card:hover {
+            transform: translateY(-3px);
+
+            box-shadow:
+                0 8px 25px rgba(25, 40, 70, .08);
+
+            border-color: #d6def4;
+        }
+
+
+        .module-icon {
+            width: 40px;
+
+            height: 40px;
+
+            border-radius: 10px;
+
+            background: #eef2ff;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 19px;
+
+            margin-bottom: 13px;
+        }
+
+
+        .module-card h3 {
+            margin: 0;
+
+            font-size: 15px;
+
+            color: #172033;
+        }
+
+
+        .module-card p {
+            color: #7b8798;
+
+            font-size: 12px;
+
+            line-height: 1.5;
+
+            min-height: 38px;
+
+            margin-bottom: 13px;
+        }
+
+
+        .module-card .open-link {
+            color: #315bea;
+
+            font-size: 12px;
+
+            font-weight: bold;
+        }
+
+
+        /* =====================================================
+           QUICK ACTIONS
+           ===================================================== */
+
+        .quick-actions {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 14px;
+
+            margin-top: 20px;
+        }
+
+
+        .quick-action {
+            background: #ffffff;
+
+            border: 1px solid #e6e9ef;
+
+            border-radius: 11px;
+
+            padding: 15px;
+
+            color: #172033;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            transition: .2s;
+        }
+
+
+        .quick-action:hover {
+            background: #f8faff;
+
+            transform: translateY(-2px);
+        }
+
+
+        /* =====================================================
+           EMPTY / COMING SOON
+           ===================================================== */
+
+        .disabled-card {
+            opacity: .65;
+
+            cursor: default;
+        }
+
+
+        .disabled-card:hover {
+            transform: none;
+
+            box-shadow: none;
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+           ===================================================== */
+
+        @media (max-width: 1200px) {
+
+            .stats {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .module-grid {
+                grid-template-columns:
+                    repeat(3, 1fr);
+            }
+
+            .quick-actions {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+        }
+
+
+        @media (max-width: 950px) {
+
+            .sidebar {
+                width: 220px;
+            }
+
+            .main-area {
+                margin-left: 220px;
+
+                width: calc(100% - 220px);
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .module-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+        }
+
+
+        @media (max-width: 650px) {
+
+            .sidebar {
+                position: relative;
+
+                width: 100%;
+
+                min-height: auto;
+            }
+
+            .app-shell {
+                display: block;
+            }
+
+            .main-area {
+                margin-left: 0;
+
+                width: 100%;
+            }
+
+            .topbar {
+                padding: 0 20px;
+            }
+
+            .page-content {
+                padding: 20px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .module-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .quick-actions {
+                grid-template-columns: 1fr;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="app-shell">
+
+
+    <!-- =====================================================
+         SIDEBAR
+         ===================================================== -->
+
+    <aside class="sidebar">
+
+
+        <!-- BRAND -->
+
+        <div class="brand">
+
+            <div class="brand-mark">
+                S
+            </div>
+
+            <div>
+
+                <strong>
+                    LearnSphereX
+                </strong>
+
+                <span>
+                    LEARNING MANAGEMENT SYSTEM
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             NAVIGATION
+             ================================================= -->
+
+        <nav>
+
+
+            <!-- WORKSPACE -->
+
+            <div class="nav-label">
+                WORKSPACE
+            </div>
+
+
+            <a class="nav-item active"
+               th:href="@{/dashboard}">
+
+                🏠 Dashboard
+
+            </a>
+
+
+            <!-- LEARNING -->
+
+            <div class="nav-label">
+                LEARNING
+            </div>
+
+
+            <a class="nav-item"
+               th:href="@{/courses}">
+
+                📚 Courses
+
+            </a>
+
+
+            <a class="nav-item"
+               th:href="@{/assignments}">
+
+                📝 Assignments
+
+            </a>
+
+
+            <!-- TRAINING -->
+
+            <div class="nav-label">
+                TRAINING
+            </div>
+
+
+            <a class="nav-item"
+               th:href="@{/batches}">
+
+                🏢 Batches
+
+            </a>
+
+
+            <a class="nav-item"
+               th:href="@{/batch-schedules}">
+
+                🗓 Schedule
+
+            </a>
+
+
+            <a class="nav-item"
+               th:href="@{/holidays}">
+
+                🏖 Holidays
+
+            </a>
+
+
+            <a class="nav-item"
+               th:href="@{/attendance}">
+
+                ✅ Attendance
+
+            </a>
+
+
+            <!-- EVALUATION -->
+
+            <div class="nav-label">
+                EVALUATION
+            </div>
+
+
+            <!--
+                 These are disabled for now because
+                 the current dashboard template does not
+                 have confirmed Thymeleaf page routes.
+            -->
+
+            <div class="nav-item disabled-card"
+                 title="Examination page will be connected when its UI route is available">
+
+                🧪 Examination
+
+            </div>
+
+
+            <div class="nav-item disabled-card"
+                 title="Project page will be connected when its UI route is available">
+
+                💻 Projects
+
+            </div>
+
+
+            <div class="nav-item disabled-card"
+                 title="Certification page will be connected when its UI route is available">
+
+                🏆 Certification
+
+            </div>
+
+
+            <!-- FINANCE -->
+
+            <div class="nav-label">
+                FINANCE
+            </div>
+
+
+            <a class="nav-item"
+               th:href="@{/fee-plans}">
+
+                💰 Fee Plans
+
+            </a>
+
+
+            <a class="nav-item"
+               th:href="@{/payments}">
+
+                💳 Payments
+
+            </a>
+
+
+            <!-- COMMUNICATION -->
+
+            <div class="nav-label">
+                COMMUNICATION
+            </div>
+
+
+            <a class="nav-item"
+               th:href="@{/notifications}">
+
+                🔔 Notifications
+
+            </a>
+
+
+            <!-- REPORTING -->
+
+            <div class="nav-label">
+                REPORTING
+            </div>
+
+
+            <div class="nav-item disabled-card"
+                 title="Reports page will be connected when its UI route is available">
+
+                📊 Reports
+
+            </div>
+
+
+            <!-- ADMINISTRATION -->
+
+            <div class="nav-label"
+                 th:if="${#lists.contains(roles,'ADMIN')}">
+
+                ADMINISTRATION
+
+            </div>
+
+
+            <a class="nav-item"
+               th:if="${#lists.contains(roles,'ADMIN')}"
+               th:href="@{/users}">
+
+                👥 Users
+
+            </a>
+
+
+        </nav>
+
+
+        <!-- =================================================
+             USER FOOTER
+             ================================================= -->
+
+        <div class="sidebar-footer">
+
+
+            <strong th:text="${username}">
+                sharmila
+            </strong>
+
+
+            <span th:text="${roles}">
+                [STUDENT]
+            </span>
+
+
+            <form th:action="@{/logout}"
+                  method="post">
+
+
+                <button type="submit"
+                        class="logout-button">
+
+                    Sign out
+
+                </button>
+
+
+            </form>
+
+
+        </div>
+
+
+    </aside>
+
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+         ===================================================== -->
+
+    <main class="main-area">
+
+
+        <!-- =================================================
+             TOPBAR
+             ================================================= -->
+
+        <header class="topbar">
+
+
+            <div>
+
+                <div class="eyebrow">
+                    LEARNSPHEREX / WORKSPACE
+                </div>
+
+
+                <h1>
+                    Dashboard
+                </h1>
+
+            </div>
+
+
+            <div class="user-area">
+
+                <span class="online-dot"></span>
+
+
+                <span th:text="${username}">
+                    sharmila
+                </span>
+
+            </div>
+
+
+        </header>
+
+
+
+        <!-- =================================================
+             PAGE CONTENT
+             ================================================= -->
+
+        <div class="page-content">
+
+
+            <!-- =================================================
+                 WELCOME
+                 ================================================= -->
+
+            <section class="welcome">
+
+
+                <small>
+                    LEARNING MANAGEMENT SYSTEM
+                </small>
+
+
+                <h2>
+
+                    Welcome back,
+
+                    <span th:text="${username}">
+                        Sharmila
+                    </span>
+
+                    👋
+
+                </h2>
+
+
+                <p>
+
+                    Manage your learning, training,
+                    attendance, assignments and
+                    notifications from your LearnSphereX
+                    workspace.
+
+                </p>
+
+
+            </section>
+
+
+
+            <!-- =================================================
+                 STATISTICS
+                 ================================================= -->
+
+            <section class="stats">
+
+
+                <div class="stat-card">
+
+                    <div class="title">
+                        ACTIVE COURSES
+                    </div>
+
+
+                    <div class="value" th:text="${activeCourses}">
+                        12
+                    </div>
+
+
+                    <div class="info">
+                        Courses assigned
+                    </div>
+
+                </div>
+
+
+
+                <div class="stat-card">
+
+                    <div class="title">
+                        ACTIVE BATCHES
+                    </div>
+
+
+                    <div class="value" th:text="${activeBatches}">
+                        4
+                    </div>
+
+
+                    <div class="info">
+                        Training batches
+                    </div>
+
+                </div>
+
+
+
+                <div class="stat-card">
+
+                    <div class="title">
+                        ATTENDANCE
+                    </div>
+
+
+                    <div class="value" th:text="${attendancePercentage} + '%'">
+                        86%
+                    </div>
+
+
+                    <div class="info">
+                        Current attendance
+                    </div>
+
+                </div>
+
+
+
+                <div class="stat-card">
+
+                    <div class="title">
+                        UPCOMING EXAMS
+                    </div>
+
+
+                    <div class="value" th:text="${upcomingExams}">
+                        3
+                    </div>
+
+
+                    <div class="info">
+                        Scheduled examinations
+                    </div>
+
+                </div>
+
+
+            </section>
+
+
+
+            <!-- =================================================
+                 ATTENDANCE + SCHEDULE
+                 ================================================= -->
+
+            <section class="dashboard-grid">
+
+
+                <!-- ATTENDANCE -->
+
+                <div class="card">
+
+
+                    <div class="card-header">
+
+
+                        <h3>
+                            Attendance Overview
+                        </h3>
+
+
+                        <a th:href="@{/attendance}">
+                            View details
+                        </a>
+
+
+                    </div>
+
+
+                    <!-- PRESENT -->
+
+                    <div class="attendance-row">
+
+
+                        <div class="attendance-top">
+
+
+                            <span>
+                                Present
+                            </span>
+
+
+                            <strong>
+                                82%
+                            </strong>
+
+
+                        </div>
+
+
+                        <div class="progress">
+
+                            <span class="present-bar"></span>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <!-- LATE -->
+
+                    <div class="attendance-row">
+
+
+                        <div class="attendance-top">
+
+
+                            <span>
+                                Late
+                            </span>
+
+
+                            <strong>
+                                8%
+                            </strong>
+
+
+                        </div>
+
+
+                        <div class="progress">
+
+                            <span class="late-bar"></span>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <!-- ABSENT -->
+
+                    <div class="attendance-row">
+
+
+                        <div class="attendance-top">
+
+
+                            <span>
+                                Absent
+                            </span>
+
+
+                            <strong>
+                                10%
+                            </strong>
+
+
+                        </div>
+
+
+                        <div class="progress">
+
+                            <span class="absent-bar"></span>
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- UPCOMING SCHEDULE -->
+
+                <div class="card">
+
+
+                    <div class="card-header">
+
+
+                        <h3>
+                            Upcoming Sessions
+                        </h3>
+
+
+                        <a th:href="@{/batch-schedules}">
+                            View all
+                        </a>
+
+
+                    </div>
+
+
+                    <div class="session">
+
+
+                        <div>
+
+                            <div class="session-title">
+                                Java Full Stack
+                            </div>
+
+
+                            <div class="session-info">
+                                Batch JAVA-FS-2026
+                            </div>
+
+                        </div>
+
+
+                        <div class="session-time">
+                            10:00 AM
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="session">
+
+
+                        <div>
+
+                            <div class="session-title">
+                                Spring Boot
+                            </div>
+
+
+                            <div class="session-info">
+                                Batch JAVA-FS-2026
+                            </div>
+
+                        </div>
+
+
+                        <div class="session-time">
+                            02:00 PM
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="session">
+
+
+                        <div>
+
+                            <div class="session-title">
+                                SQL & Database
+                            </div>
+
+
+                            <div class="session-info">
+                                Tomorrow
+                            </div>
+
+                        </div>
+
+
+                        <div class="session-time">
+                            10:00 AM
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+            </section>
+
+
+
+            <!-- =================================================
+                 ACTIVITY + NOTIFICATIONS
+                 ================================================= -->
+
+            <section class="dashboard-grid">
+
+
+                <!-- ACTIVITY -->
+
+                <div class="card">
+
+
+                    <div class="card-header">
+
+
+                        <h3>
+                            Recent Activity
+                        </h3>
+
+
+                    </div>
+
+
+                    <div class="activity">
+
+
+                        <div class="activity-icon">
+                            ✓
+                        </div>
+
+
+                        <div class="activity-text">
+
+
+                            <strong>
+                                Attendance marked
+                            </strong>
+
+
+                            <span>
+                                Today
+                            </span>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="activity">
+
+
+                        <div class="activity-icon">
+                            📝
+                        </div>
+
+
+                        <div class="activity-text">
+
+
+                            <strong>
+                                Assignment submitted
+                            </strong>
+
+
+                            <span>
+                                Yesterday
+                            </span>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="activity">
+
+
+                        <div class="activity-icon">
+                            📚
+                        </div>
+
+
+                        <div class="activity-text">
+
+
+                            <strong>
+                                Course activity updated
+                            </strong>
+
+
+                            <span>
+                                2 days ago
+                            </span>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- NOTIFICATIONS -->
+
+                <div class="card">
+
+
+                    <div class="card-header">
+
+
+                        <h3>
+                            Notifications
+                        </h3>
+
+
+                        <a th:href="@{/notifications}">
+                            View all
+                        </a>
+
+
+                    </div>
+
+
+                    <div class="activity">
+
+
+                        <div class="activity-icon">
+                            🔔
+                        </div>
+
+
+                        <div class="activity-text">
+
+
+                            <strong>
+                                New session scheduled
+                            </strong>
+
+
+                            <span>
+                                Today
+                            </span>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="activity">
+
+
+                        <div class="activity-icon">
+                            🏖
+                        </div>
+
+
+                        <div class="activity-text">
+
+
+                            <strong>
+                                Holiday notification
+                            </strong>
+
+
+                            <span>
+                                Yesterday
+                            </span>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="activity">
+
+
+                        <div class="activity-icon">
+                            📝
+                        </div>
+
+
+                        <div class="activity-text">
+
+
+                            <strong>
+                                New assignment available
+                            </strong>
+
+
+                            <span>
+                                2 days ago
+                            </span>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+            </section>
+
+
+
+            <!-- =================================================
+                 QUICK ACTIONS
+                 ================================================= -->
+
+            <div class="section-title">
+
+
+                <div class="eyebrow">
+                    QUICK ACTIONS
+                </div>
+
+
+                <h2>
+                    Frequently Used
+                </h2>
+
+
+            </div>
+
+
+            <section class="quick-actions">
+
+
+                <a class="quick-action"
+                   th:href="@{/batches}">
+
+                    🏢 View Batches
+
+                </a>
+
+
+                <a class="quick-action"
+                   th:href="@{/attendance}">
+
+                    ✅ View Attendance
+
+                </a>
+
+
+                <a class="quick-action"
+                   th:href="@{/batch-schedules}">
+
+                    🗓 View Schedule
+
+                </a>
+
+
+                <a class="quick-action"
+                   th:href="@{/notifications}">
+
+                    🔔 View Notifications
+
+                </a>
+
+
+            </section>
+
+
+
+            <!-- =================================================
+                 MODULES
+                 ================================================= -->
+
+            <div class="section-title">
+
+
+                <div class="eyebrow">
+                    PLATFORM
+                </div>
+
+
+                <h2>
+                    LearnSphereX Modules
+                </h2>
+
+
+            </div>
+
+
+            <section class="module-grid">
+
+
+                <!-- COURSE -->
+
+                <a class="module-card"
+                   th:href="@{/courses}">
+
+
+                    <div class="module-icon">
+                        📚
+                    </div>
+
+
+                    <h3>
+                        Courses
+                    </h3>
+
+
+                    <p>
+                        Browse and manage available
+                        learning courses.
+                    </p>
+
+
+                    <span class="open-link">
+                        Open →
+                    </span>
+
+
+                </a>
+
+
+
+                <!-- ASSIGNMENT -->
+
+                <a class="module-card"
+                   th:href="@{/assignments}">
+
+
+                    <div class="module-icon">
+                        📝
+                    </div>
+
+
+                    <h3>
+                        Assignments
+                    </h3>
+
+
+                    <p>
+                        View assignments and
+                        submissions.
+                    </p>
+
+
+                    <span class="open-link">
+                        Open →
+                    </span>
+
+
+                </a>
+
+
+
+                <!-- BATCH -->
+
+                <a class="module-card"
+                   th:href="@{/batches}">
+
+
+                    <div class="module-icon">
+                        🏢
+                    </div>
+
+
+                    <h3>
+                        Batches
+                    </h3>
+
+
+                    <p>
+                        Manage batches, enrollment
+                        and training.
+                    </p>
+
+
+                    <span class="open-link">
+                        Open →
+                    </span>
+
+
+                </a>
+
+
+
+                <!-- SCHEDULE -->
+
+                <a class="module-card"
+                   th:href="@{/batch-schedules}">
+
+
+                    <div class="module-icon">
+                        🗓
+                    </div>
+
+
+                    <h3>
+                        Schedule
+                    </h3>
+
+
+                    <p>
+                        View batch sessions
+                        and schedules.
+                    </p>
+
+
+                    <span class="open-link">
+                        Open →
+                    </span>
+
+
+                </a>
+
+
+
+                <!-- HOLIDAYS -->
+
+                <a class="module-card"
+                   th:href="@{/holidays}">
+
+
+                    <div class="module-icon">
+                        🏖
+                    </div>
+
+
+                    <h3>
+                        Holidays
+                    </h3>
+
+
+                    <p>
+                        Government, institute
+                        and batch holidays.
+                    </p>
+
+
+                    <span class="open-link">
+                        Open →
+                    </span>
+
+
+                </a>
+
+
+
+                <!-- ATTENDANCE -->
+
+                <a class="module-card"
+                   th:href="@{/attendance}">
+
+
+                    <div class="module-icon">
+                        ✅
+                    </div>
+
+
+                    <h3>
+                        Attendance
+                    </h3>
+
+
+                    <p>
+                        View attendance records
+                        and attendance status.
+                    </p>
+
+
+                    <span class="open-link">
+                        Open →
+                    </span>
+
+
+                </a>
+
+
+
+                <!-- FEE PLANS -->
+
+                <a class="module-card"
+                   th:href="@{/fee-plans}">
+
+
+                    <div class="module-icon">
+                        💰
+                    </div>
+
+
+                    <h3>
+                        Fee Plans
+                    </h3>
+
+
+                    <p>
+                        View available training
+                        fee plans.
+                    </p>
+
+
+                    <span class="open-link">
+                        Open →
+                    </span>
+
+
+                </a>
+
+
+
+                <!-- PAYMENTS -->
+
+                <a class="module-card"
+                   th:href="@{/payments}">
+
+
+                    <div class="module-icon">
+                        💳
+                    </div>
+
+
+                    <h3>
+                        Payments
+                    </h3>
+
+
+                    <p>
+                        View payment and
+                        transaction information.
+                    </p>
+
+
+                    <span class="open-link">
+                        Open →
+                    </span>
+
+
+                </a>
+
+
+
+                <!-- NOTIFICATION -->
+
+                <a class="module-card"
+                   th:href="@{/notifications}">
+
+
+                    <div class="module-icon">
+                        🔔
+                    </div>
+
+
+                    <h3>
+                        Notifications
+                    </h3>
+
+
+                    <p>
+                        View important LearnSphereX
+                        notifications.
+                    </p>
+
+
+                    <span class="open-link">
+                        Open →
+                    </span>
+
+
+                </a>
+
+
+
+                <!-- ADMIN USERS -->
+
+                <a class="module-card"
+                   th:if="${#lists.contains(roles,'ADMIN')}"
+                   th:href="@{/users}">
+
+
+                    <div class="module-icon">
+                        👥
+                    </div>
+
+
+                    <h3>
+                        Users
+                    </h3>
+
+
+                    <p>
+                        Manage LearnSphereX
+                        application users.
+                    </p>
+
+
+                    <span class="open-link">
+                        Open →
+                    </span>
+
+
+                </a>
+
+
+
+                <!-- EXAMINATION -->
+
+                <div class="module-card disabled-card"
+                     title="Examination UI will be connected after its page/controller is created">
+
+
+                    <div class="module-icon">
+                        🧪
+                    </div>
+
+
+                    <h3>
+                        Examination
+                    </h3>
+
+
+                    <p>
+                        Exams, attempts and
+                        examination results.
+                    </p>
+
+
+                    <span class="open-link">
+                        Coming soon
+                    </span>
+
+
+                </div>
+
+
+
+                <!-- PROJECT -->
+
+                <div class="module-card disabled-card"
+                     title="Project UI will be connected after its page/controller is created">
+
+
+                    <div class="module-icon">
+                        💻
+                    </div>
+
+
+                    <h3>
+                        Projects
+                    </h3>
+
+
+                    <p>
+                        Student projects and
+                        project evaluation.
+                    </p>
+
+
+                    <span class="open-link">
+                        Coming soon
+                    </span>
+
+
+                </div>
+
+
+
+                <!-- CERTIFICATION -->
+
+                <div class="module-card disabled-card"
+                     title="Certification UI will be connected after its page/controller is created">
+
+
+                    <div class="module-icon">
+                        🏆
+                    </div>
+
+
+                    <h3>
+                        Certification
+                    </h3>
+
+
+                    <p>
+                        Certificates and
+                        verification.
+                    </p>
+
+
+                    <span class="open-link">
+                        Coming soon
+                    </span>
+
+
+                </div>
+
+
+
+                <!-- REPORTING -->
+
+                <div class="module-card disabled-card"
+                     title="Reporting UI will be connected after its page/controller is created">
+
+
+                    <div class="module-icon">
+                        📊
+                    </div>
+
+
+                    <h3>
+                        Reports
+                    </h3>
+
+
+                    <p>
+                        Student, batch and
+                        performance reports.
+                    </p>
+
+
+                    <span class="open-link">
+                        Coming soon
+                    </span>
+
+
+                </div>
+
+
+            </section>
+
+
+        </div>
+
+
+    </main>
+
+
+</div>
+
+
+</body>
+
+</html>

@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head('Reports')}"></head>
+<body><div class="app-shell"><div th:replace="~{fragments/sidebar :: sidebar}"></div><main class="main-area"><div th:replace="~{fragments/navbar :: navbar}"></div><section class="page-content">
+<div class="page-title"><div><h2>Reports</h2><p>Open server-rendered performance reports generated through JPA.</p></div></div>
+<div class="report-grid">
+<div class="report-card"><h3>Student Performance</h3><p>Courses, submissions and project average.</p><form th:action="@{/reports/student}" method="get"><select class="select" name="studentId" required><option value="">Select student</option><option th:each="s : ${students}" th:value="${s.id}" th:text="${s.studentCode}"></option></select><button class="btn primary" type="submit">Open Report</button></form></div>
+<div class="report-card"><h3>Batch Performance</h3><p>Students, submissions and evaluation progress.</p><form th:action="@{/reports/batch}" method="get"><select class="select" name="batchId" required><option value="">Select batch</option><option th:each="b : ${batches}" th:value="${b.id}" th:text="${b.batchCode}"></option></select><button class="btn primary" type="submit">Open Report</button></form></div>
+<div class="report-card"><h3>Course Performance</h3><p>Students, projects and project evaluation.</p><form th:action="@{/reports/course}" method="get"><select class="select" name="courseId" required><option value="">Select course</option><option th:each="c : ${courses}" th:value="${c.id}" th:text="${c.courseName}"></option></select><button class="btn primary" type="submit">Open Report</button></form></div>
+<div class="report-card"><h3>Project Performance</h3><p>Submission count, averages and highest/lowest scores.</p><form th:action="@{/reports/project}" method="get"><select class="select" name="projectId" required><option value="">Select project</option><option th:each="p : ${projects}" th:value="${p.id}" th:text="${p.title}"></option></select><button class="btn primary" type="submit">Open Report</button></form></div>
+</div>
+<div class="notice section-space">This page intentionally uses only HTML forms and Thymeleaf. No fetch(), AJAX or custom JavaScript is used. The report selectors submit directly to Spring MVC routes.</div>
+</section><div th:replace="~{fragments/footer :: footer}"></div></main></div></body></html>

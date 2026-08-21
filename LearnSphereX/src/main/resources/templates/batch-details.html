@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Batch Details</title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/batch.css}">
+
+</head>
+
+<body>
+
+<div class="app-container">
+
+    <!-- ================= SIDEBAR ================= -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+
+            <div class="brand-logo">
+                L
+            </div>
+
+            <div>
+                <h2>LearnSphereX</h2>
+                <span>Training Management</span>
+            </div>
+
+        </div>
+
+
+        <div class="menu-title">
+            MAIN
+        </div>
+
+
+        <nav class="sidebar-menu">
+
+            <a href="/batches"
+               class="menu-item active">
+                📚
+                <span>Batches</span>
+            </a>
+
+            <a href="/attendance"
+               class="menu-item">
+                📋
+                <span>Attendance</span>
+            </a>
+
+            <a href="#"
+               class="menu-item">
+                🎓
+                <span>Courses</span>
+            </a>
+
+            <a href="#"
+               class="menu-item">
+                👨‍🎓
+                <span>Students</span>
+            </a>
+
+            <a href="#"
+               class="menu-item">
+                🔔
+                <span>Notifications</span>
+            </a>
+
+        </nav>
+
+
+        <div class="menu-title">
+            BATCH MANAGEMENT
+        </div>
+
+
+        <nav class="sidebar-menu">
+
+            <a href="/batches"
+               class="menu-item active">
+                📋
+                <span>All Batches</span>
+            </a>
+
+            <a href="/batches/new"
+               class="menu-item">
+                ➕
+                <span>Create Batch</span>
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <div class="admin-avatar">
+                A
+            </div>
+
+            <div>
+
+                <strong>Admin</strong>
+
+                <span>
+                    Administrator
+                </span>
+
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="main-content">
+
+
+        <!-- HEADER -->
+
+        <header class="top-header">
+
+            <div>
+
+                <div class="page-label">
+                    BATCH MANAGEMENT
+                </div>
+
+                <h1>
+                    Batch Dashboard
+                </h1>
+
+            </div>
+
+
+            <div class="system-status">
+
+                <span class="status-dot"></span>
+
+                <span>
+                    System Online
+                </span>
+
+                <div class="user-circle">
+                    A
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- ================= CONTENT ================= -->
+
+        <section class="content-area">
+
+
+            <!-- PAGE HEADING -->
+
+            <div class="page-heading">
+
+                <div>
+
+                    <h2>
+                        Batch Details
+                    </h2>
+
+                    <p>
+                        View complete information about this training batch.
+                    </p>
+
+                </div>
+
+
+                <div class="actions">
+
+                    <a th:href="@{/batches/{id}/edit(id=${batch.id})}"
+                       class="btn btn-edit">
+
+                        Edit Batch
+
+                    </a>
+
+
+                    <a href="/batches"
+                       class="btn btn-primary">
+
+                        Back to Batches
+
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= DETAILS CARD ================= -->
+
+            <div class="details-card">
+
+
+                <!-- ID -->
+
+                <div class="detail-row">
+
+                    <span class="detail-label">
+                        Batch ID
+                    </span>
+
+                    <span class="detail-value"
+                          th:text="${batch.id}">
+                        1
+                    </span>
+
+                </div>
+
+
+                <!-- NAME -->
+
+                <div class="detail-row">
+
+                    <span class="detail-label">
+                        Batch Name
+                    </span>
+
+                    <span class="detail-value"
+                          th:text="${batch.batchName}">
+                        Java Full Stack August 2026
+                    </span>
+
+                </div>
+
+
+                <!-- MODE -->
+
+                <div class="detail-row">
+
+                    <span class="detail-label">
+                        Batch Mode
+                    </span>
+
+                    <span class="detail-value"
+                          th:text="${batch.batchMode}">
+                        ONLINE
+                    </span>
+
+                </div>
+
+
+                <!-- STATUS -->
+
+                <div class="detail-row">
+
+                    <span class="detail-label">
+                        Batch Status
+                    </span>
+
+                    <span>
+
+                        <span class="status-badge"
+                              th:text="${batch.batchStatus}">
+                            ACTIVE
+                        </span>
+
+                    </span>
+
+                </div>
+
+
+                <!-- CAPACITY -->
+
+                <div class="detail-row">
+
+                    <span class="detail-label">
+                        Capacity
+                    </span>
+
+                    <span class="detail-value"
+                          th:text="${batch.capacity}">
+                        30
+                    </span>
+
+                </div>
+
+
+                <!-- START DATE -->
+
+                <div class="detail-row">
+
+                    <span class="detail-label">
+                        Start Date
+                    </span>
+
+                    <span class="detail-value"
+                          th:text="${batch.startDate}">
+                        2026-08-01
+                    </span>
+
+                </div>
+
+
+                <!-- END DATE -->
+
+                <div class="detail-row">
+
+                    <span class="detail-label">
+                        End Date
+                    </span>
+
+                    <span class="detail-value"
+                          th:text="${batch.endDate}">
+                        2026-11-30
+                    </span>
+
+                </div>
+
+
+                <!-- TRAINER -->
+
+                <div class="detail-row">
+
+                    <span class="detail-label">
+                        Trainer ID
+                    </span>
+
+                    <span class="detail-value"
+                          th:text="${batch.trainerId != null
+                              ? batch.trainerId
+                              : 'Not Assigned'}">
+                        1
+                    </span>
+
+                </div>
+
+
+                <!-- COURSE -->
+
+                <div class="detail-row">
+
+                    <span class="detail-label">
+                        Course ID
+                    </span>
+
+                    <span class="detail-value"
+                          th:text="${batch.courseId != null
+                              ? batch.courseId
+                              : 'Not Assigned'}">
+                        1
+                    </span>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- ================= QUICK ACTIONS ================= -->
+
+            <div style="
+                margin-top: 25px;
+                display: flex;
+                gap: 10px;
+                flex-wrap: wrap;
+            ">
+
+
+                <a th:href="@{/batch-schedules/batch/{batchId}(batchId=${batch.id})}"
+                   class="btn btn-primary">
+
+                    View Schedules
+
+                </a>
+
+
+                <a th:href="@{/batch-schedules/new(batchId=${batch.id})}"
+                   class="btn btn-view">
+
+                    + Add Schedule
+
+                </a>
+
+
+                <a href="/batches"
+                   class="btn"
+                   style="
+                       background-color:#667085;
+                       color:white;
+                   ">
+
+                    Back
+
+                </a>
+
+            </div>
+
+
+        </section>
+
+
+        <!-- FOOTER -->
+
+        <footer class="footer">
+
+            <span>
+                LearnSphereX Batch Management Module
+            </span>
+
+            <span>
+                Spring Boot · JPA · Thymeleaf
+            </span>
+
+        </footer>
+
+
+    </main>
+
+</div>
+
+</body>
+
+</html>

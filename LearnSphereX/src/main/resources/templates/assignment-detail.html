@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>LearnSphereX - Assignment Detail</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+
+<div class="app-shell">
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-mark">SS</div>
+            <div>
+                <strong>LearnSphereX</strong>
+                <span>Enterprise Portal</span>
+            </div>
+        </div>
+        <div class="nav-label">NAVIGATION</div>
+        <nav class="nav">
+            <a class="nav-item" th:href="@{/courses}">📚 Courses</a>
+            <a class="nav-item" th:href="@{/assignments}">📝 Assignments</a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="mini-avatar">AD</div>
+            <div>
+                <strong>Admin User</strong>
+                <span>admin@learnspherex.com</span>
+            </div>
+        </div>
+    </aside>
+
+    <div class="main-area">
+        <header class="topbar">
+            <div>
+                <span class="eyebrow">MODULE MANAGEMENT</span>
+                <h1 th:text="${assignment.title}">Assignment Title</h1>
+            </div>
+            <div class="topbar-right">
+                <a class="btn btn-secondary btn-sm" th:href="@{/assignments}">← Back to Assignments</a>
+            </div>
+        </header>
+
+        <main class="page-content">
+            <!-- Assignment summary -->
+            <section class="hero">
+                <div>
+                    <span class="badge" th:text="${assignment.difficulty}">MEDIUM</span>
+                    <h2 th:text="${assignment.title}">Title</h2>
+                    <p th:text="${assignment.description}">Description</p>
+                    <p>
+                        <strong>Course:</strong> <span th:text="${assignment.course != null ? assignment.course.courseName : 'N/A'}"></span> &nbsp;|&nbsp;
+                        <strong>Deadline:</strong> <span th:text="${assignment.deadline}"></span> &nbsp;|&nbsp;
+                        <strong>Max Marks:</strong> <span th:text="${assignment.maxMarks}"></span> &nbsp;|&nbsp;
+                        <strong>Status:</strong> <span class="pill" th:text="${assignment.status}"></span>
+                    </p>
+                </div>
+            </section>
+
+            <!-- Submit form (simulates a student submitting) -->
+            <div class="panel form-panel">
+                <div class="panel-head">
+                    <div>
+                        <span class="eyebrow">STUDENT ACTION</span>
+                        <h3>Submit This Assignment</h3>
+                    </div>
+                </div>
+                <form th:action="@{/assignments/{id}/submit(id=${assignment.id})}" method="post">
+                    <div class="form-group">
+                        <label>Student ID</label>
+                        <input type="number" name="studentId" placeholder="e.g. 101" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Submission URL</label>
+                        <input type="text" name="submissionUrl" placeholder="e.g. https://github.com/student/repo" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Comments</label>
+                        <textarea name="comments" placeholder="Any notes for the trainer"></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Submit Assignment</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Submissions list + evaluate -->
+            <div class="panel">
+                <div class="panel-head">
+                    <div>
+                        <span class="eyebrow">DATABASE RECORDS</span>
+                        <h3>Submissions</h3>
+                    </div>
+                </div>
+
+                <div th:if="${#lists.isEmpty(submissions)}" class="empty">
+                    No submissions yet.
+                </div>
+
+                <div th:each="submission : ${submissions}" class="detail-block">
+                    <div class="chip-item">
+                        <strong th:text="'Student #' + ${submission.studentId} + ' — Version ' + ${submission.version}">Student</strong>
+                        <small>
+                            <a th:href="${submission.submissionUrl}" target="_blank" th:text="${submission.submissionUrl}"></a>
+                        </small>
+                        <p th:if="${submission.comments}" th:text="${submission.comments}"></p>
+                        <p>
+                            <span class="pill" th:text="${submission.status}">SUBMITTED</span>
+                            &nbsp;<span th:if="${submission.marks != null}" th:text="'Marks: ' + ${submission.marks} + ' / ' + ${assignment.maxMarks}"></span>
+                        </p>
+                        <p th:if="${submission.feedback}">
+                            <strong>Feedback:</strong> <span th:text="${submission.feedback}"></span>
+                        </p>
+
+                        <!-- Evaluate form -->
+                        <form th:action="@{/submissions/{id}/evaluate(id=${submission.id})}" method="post"
+                              style="display:flex; gap:8px; flex-wrap:wrap; margin-top:8px;">
+                            <input type="hidden" name="assignmentId" th:value="${assignment.id}">
+                            <input type="number" name="marks" min="0" th:max="${assignment.maxMarks}" placeholder="Marks" required style="width:100px;">
+                            <input type="text" name="feedback" placeholder="Feedback" style="flex:1; min-width:150px;">
+                            <button type="submit" class="btn btn-secondary btn-sm">Evaluate</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <span>&copy; 2026 LearnSphereX Enterprise. All rights reserved.</span>
+        </footer>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>LearnSphereX - Course Detail</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+
+<div class="app-shell">
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-mark">SS</div>
+            <div>
+                <strong>LearnSphereX</strong>
+                <span>Enterprise Portal</span>
+            </div>
+        </div>
+        <div class="nav-label">NAVIGATION</div>
+        <nav class="nav">
+            <a class="nav-item" th:href="@{/courses}">📚 Courses</a>
+            <a class="nav-item" th:href="@{/assignments}">📝 Assignments</a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="mini-avatar">AD</div>
+            <div>
+                <strong>Admin User</strong>
+                <span>admin@learnspherex.com</span>
+            </div>
+        </div>
+    </aside>
+
+    <div class="main-area">
+        <header class="topbar">
+            <div>
+                <span class="eyebrow">MODULE MANAGEMENT</span>
+                <h1 th:text="${course.courseName}">Course Name</h1>
+            </div>
+            <div class="topbar-right">
+                <a class="btn btn-secondary btn-sm" th:href="@{/courses}">← Back to Courses</a>
+            </div>
+        </header>
+
+        <main class="page-content">
+            <section class="hero">
+                <div>
+                    <span class="badge" th:text="${course.courseCode}">JAVA-101</span>
+                    <h2 th:text="${course.courseName}">Course Name</h2>
+                    <p th:text="${course.description}">Description</p>
+                    <p>
+                        <strong>Duration:</strong> <span th:text="${course.duration}"></span> &nbsp;|&nbsp;
+                        <strong>Fee:</strong> ₹<span th:text="${course.fee}"></span> &nbsp;|&nbsp;
+                        <strong>Status:</strong> <span class="pill" th:text="${course.status}"></span>
+                    </p>
+                </div>
+            </section>
+
+            <div class="panel">
+                <div class="panel-head">
+                    <div>
+                        <span class="eyebrow">CURRICULUM</span>
+                        <h3>Modules &amp; Topics</h3>
+                    </div>
+                </div>
+
+                <div style="padding: 0 22px 22px;">
+
+                <div th:if="${#lists.isEmpty(course.modules)}" class="empty">
+                    No modules added yet. Add one below.
+                </div>
+
+                <div th:each="module : ${course.modules}" class="detail-block">
+                    <div class="chip-item">
+                        <strong th:text="'Module ' + ${module.moduleOrder} + ': ' + ${module.moduleName}">Module</strong>
+                        <small th:text="${module.description}">Module description</small>
+
+                        <div class="chip-list" style="margin-top:10px;">
+                            <div class="chip-item" th:each="topic : ${module.topics}" style="background:#fff;">
+                                <strong th:text="'Topic ' + ${topic.topicOrder} + ': ' + ${topic.topicName}">Topic</strong>
+                                <small th:text="${topic.content}">Topic content</small>
+
+                                <ul>
+                                    <li th:each="material : ${topic.materials}">
+                                        <span th:text="${material.materialType} + ' — ' + ${material.materialTitle}">Material</span>
+                                        (<a th:href="${material.fileUrl}" target="_blank">link</a>)
+                                    </li>
+                                </ul>
+
+                                <form th:action="@{/topics/{topicId}/materials(topicId=${topic.id})}" method="post"
+                                      style="display:flex; gap:8px; flex-wrap:wrap; margin-top:8px;">
+                                    <input type="hidden" name="courseId" th:value="${course.id}">
+                                    <input type="text" name="title" placeholder="Material title" required style="flex:1; min-width:120px;">
+                                    <select name="materialType">
+                                        <option value="PDF">PDF</option>
+                                        <option value="VIDEO">VIDEO</option>
+                                        <option value="LINK">LINK</option>
+                                        <option value="DOCUMENT">DOCUMENT</option>
+                                    </select>
+                                    <input type="text" name="fileUrl" placeholder="File URL" required style="flex:1; min-width:150px;">
+                                    <button type="submit" class="btn btn-secondary btn-sm">+ Add Material</button>
+                                </form>
+                            </div>
+                        </div>
+
+                        <form th:action="@{/modules/{moduleId}/topics(moduleId=${module.id})}" method="post"
+                              style="display:flex; gap:8px; flex-wrap:wrap; margin-top:12px;">
+                            <input type="hidden" name="courseId" th:value="${course.id}">
+                            <input type="text" name="topicName" placeholder="Topic name" required style="flex:1; min-width:150px;">
+                            <input type="number" name="topicOrder" placeholder="Order" min="1" style="width:80px;" required>
+                            <input type="text" name="description" placeholder="Content / notes" style="flex:2; min-width:150px;">
+                            <button type="submit" class="btn btn-secondary btn-sm">+ Add Topic</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="detail-block">
+                    <h4>Add New Module</h4>
+                    <form th:action="@{/courses/{courseId}/modules(courseId=${course.id})}" method="post"
+                          style="display:flex; gap:8px; flex-wrap:wrap;">
+                        <input type="text" name="moduleName" placeholder="Module name" required style="flex:1; min-width:150px;">
+                        <input type="number" name="moduleOrder" placeholder="Order" min="1" style="width:80px;" required>
+                        <input type="text" name="description" placeholder="Description" style="flex:2; min-width:150px;">
+                        <button type="submit" class="btn btn-primary btn-sm">+ Add Module</button>
+                    </form>
+                </div>
+
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <span>&copy; 2026 LearnSphereX Enterprise. All rights reserved.</span>
+        </footer>
+    </div>
+</div>
+
+</body>
+</html>

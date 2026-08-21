@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head(${pageTitle})}"></head>
+<body><div class="app-shell"><div th:replace="~{fragments/sidebar :: sidebar}"></div><main class="main-area">
+<div th:replace="~{fragments/navbar :: navbar}"></div><section class="page-content"><a class="back-link" th:href="@{/projects}">← Back to Projects</a><div class="page-title"><div><h2 th:text="${pageTitle}">Create Project</h2><p>Define the project brief and evaluation settings.</p></div></div>
+<form class="form-panel" th:action="@{/projects/save}" th:object="${projectForm}" method="post"><input type="hidden" th:field="*{id}"><div class="form-grid">
+<div class="field full"><label>Project Title <span class="required">*</span></label><input class="input" th:field="*{title}" placeholder="E-Commerce Application" required></div>
+<div class="field full"><label>Description <span class="required">*</span></label><textarea class="textarea" th:field="*{description}" required></textarea></div>
+<div class="field full"><label>Requirements</label><textarea class="textarea" th:field="*{requirements}"></textarea></div>
+<div class="field"><label>Technology</label><input class="input" th:field="*{technology}" placeholder="Java, Spring Boot, MySQL"></div>
+<div class="field"><label>Deadline <span class="required">*</span></label><input class="input" type="date" th:field="*{deadline}" required></div>
+<div class="field"><label>Maximum Marks <span class="required">*</span></label><input class="input" type="number" min="1" th:field="*{maximumMarks}" required></div>
+<div class="field"><label>Trainer ID <span class="required">*</span></label><input class="input" type="number" th:field="*{trainerId}" placeholder="101" required></div>
+<div class="field"><label>Course <span class="required">*</span></label><select class="select" th:field="*{courseId}" required><option value="">Select course</option><option th:each="c : ${courses}" th:value="${c.id}" th:text="${c.courseName}"></option></select></div>
+<div class="field"><label>Status</label><select class="select" th:field="*{status}"><option th:each="s : ${statuses}" th:value="${s}" th:text="${s}"></option></select></div>
+</div><div class="form-actions"><a class="btn secondary" th:href="@{/projects}">Cancel</a><button class="btn primary" type="submit">Save Project</button></div></form>
+</section><div th:replace="~{fragments/footer :: footer}"></div></main></div></body></html>

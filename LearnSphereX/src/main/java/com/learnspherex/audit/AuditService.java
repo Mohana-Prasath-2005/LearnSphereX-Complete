@@ -1,0 +1,2 @@
+package com.learnspherex.audit; import org.springframework.stereotype.Service; import org.springframework.transaction.annotation.Transactional; import lombok.RequiredArgsConstructor;
+@Service @RequiredArgsConstructor public class AuditService { private final AuditLogRepository logs; @Transactional public void record(Long userId,String action,String entity,Long entityId,String ip,String description){logs.save(new AuditLog(userId,action,entity,entityId,ip,description));} }

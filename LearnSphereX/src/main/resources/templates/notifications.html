@@ -1,0 +1,1404 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Notifications | LearnSphereX</title>
+
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+
+        body {
+            background: #f8f9fd;
+            color: #172033;
+        }
+
+        /* ================================
+           LAYOUT
+        ================================= */
+
+        .app {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* ================================
+           SIDEBAR
+        ================================= */
+
+        .sidebar {
+            width: 235px;
+            background: #ffffff;
+            border-right: 1px solid #e7eaf2;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 10;
+        }
+
+        .brand {
+            height: 85px;
+            display: flex;
+            align-items: center;
+            padding: 0 25px;
+            border-bottom: 1px solid #f0f1f5;
+        }
+
+        .brand-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: #fce4ee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            margin-right: 12px;
+        }
+
+        .brand-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: #20263a;
+        }
+
+        .brand-subtitle {
+            font-size: 12px;
+            color: #6f7890;
+            margin-top: 2px;
+        }
+
+        .menu {
+            padding: 22px 15px;
+        }
+
+        .menu-title {
+            font-size: 11px;
+            color: #9aa1b2;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            padding: 10px 15px;
+        }
+
+        .menu a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: #344054;
+            padding: 12px 15px;
+            border-radius: 10px;
+            margin: 4px 0;
+            font-size: 14px;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .menu a:hover {
+            background: #fff1f6;
+            color: #ed3d73;
+        }
+
+        .menu a.active {
+            background: #fff0f5;
+            color: #ed3d73;
+            border-left: 3px solid #ed3d73;
+        }
+
+        .menu-icon {
+            width: 22px;
+            text-align: center;
+            font-size: 17px;
+        }
+
+        .notification-count {
+            margin-left: auto;
+            background: #ed3d73;
+            color: white;
+            min-width: 21px;
+            height: 21px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+        }
+
+        .logout {
+            position: absolute;
+            bottom: 25px;
+            left: 15px;
+            right: 15px;
+        }
+
+        /* ================================
+           MAIN
+        ================================= */
+
+        .main {
+            margin-left: 235px;
+            width: calc(100% - 235px);
+        }
+
+        /* ================================
+           TOPBAR
+        ================================= */
+
+        .topbar {
+            height: 85px;
+            background: white;
+            border-bottom: 1px solid #e8eaf0;
+            display: flex;
+            align-items: center;
+            padding: 0 35px;
+        }
+
+        .search {
+            width: 440px;
+            display: flex;
+            border: 1px solid #dfe3eb;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .search input {
+            flex: 1;
+            border: none;
+            outline: none;
+            padding: 12px 15px;
+            font-size: 14px;
+        }
+
+        .search button {
+            width: 48px;
+            border: none;
+            background: #ed3d73;
+            color: white;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .top-right {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .bell {
+            position: relative;
+            font-size: 22px;
+            cursor: pointer;
+        }
+
+        .bell-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #ed3d73;
+            color: white;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .profile-circle {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: #fbd9e6;
+            color: #ed3d73;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .profile-text small {
+            display: block;
+            color: #7e8799;
+            font-size: 12px;
+        }
+
+        .profile-text strong {
+            font-size: 14px;
+        }
+
+        /* ================================
+           CONTENT
+        ================================= */
+
+        .content {
+            padding: 35px;
+            max-width: 1400px;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .page-header h1 {
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+
+        .page-header p {
+            color: #737d91;
+            font-size: 14px;
+        }
+
+        .mark-all {
+            border: none;
+            background: #ed3d73;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .mark-all:hover {
+            background: #d92e62;
+        }
+
+        /* ================================
+           STAT CARDS
+        ================================= */
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: white;
+            border: 1px solid #e7eaf1;
+            border-radius: 14px;
+            padding: 22px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .stat-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+        }
+
+        .pink {
+            background: #ffe4ee;
+            color: #ed3d73;
+        }
+
+        .blue {
+            background: #e6efff;
+            color: #3478e5;
+        }
+
+        .green {
+            background: #e3f7ed;
+            color: #20a66a;
+        }
+
+        .yellow {
+            background: #fff2d7;
+            color: #e69a00;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: #778196;
+        }
+
+        /* ================================
+           NOTIFICATION BOX
+        ================================= */
+
+        .notification-container {
+            background: white;
+            border: 1px solid #e7eaf1;
+            border-radius: 14px;
+            overflow: hidden;
+        }
+
+        .notification-toolbar {
+            padding: 18px 20px;
+            border-bottom: 1px solid #edf0f4;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 25px;
+        }
+
+        .tab {
+            border: none;
+            background: transparent;
+            padding: 10px 0;
+            font-size: 14px;
+            cursor: pointer;
+            color: #596377;
+            font-weight: 600;
+        }
+
+        .tab.active {
+            color: #ed3d73;
+            border-bottom: 2px solid #ed3d73;
+        }
+
+        .filter {
+            border: 1px solid #dfe3eb;
+            background: white;
+            padding: 9px 15px;
+            border-radius: 7px;
+            color: #4b5568;
+        }
+
+        /* ================================
+           NOTIFICATION ITEM
+        ================================= */
+
+        .notification-list {
+            padding: 12px 18px 20px;
+        }
+
+        .notification-item {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            padding: 20px;
+            border: 1px solid #edf0f4;
+            border-left: 4px solid #ed3d73;
+            border-radius: 11px;
+            margin: 10px 0;
+            transition: 0.2s;
+            background: white;
+        }
+
+        .notification-item:hover {
+            box-shadow: 0 5px 20px rgba(20, 30, 50, 0.07);
+            transform: translateY(-1px);
+        }
+
+        .notification-item.read {
+            border-left-color: #cbd2df;
+            opacity: 0.85;
+        }
+
+        .notification-icon {
+            width: 52px;
+            height: 52px;
+            min-width: 52px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 21px;
+            background: #ffe4ee;
+            color: #ed3d73;
+        }
+
+        .notification-body {
+            flex: 1;
+        }
+
+        .notification-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: #1c2538;
+        }
+
+        .notification-message {
+            color: #657085;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .notification-meta {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 9px;
+        }
+
+        .type {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            background: #fff0f5;
+            color: #ed3d73;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .date {
+            color: #929aaa;
+            font-size: 12px;
+        }
+
+        .unread-dot {
+            width: 9px;
+            height: 9px;
+            background: #ed3d73;
+            border-radius: 50%;
+        }
+
+        .notification-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .action-btn {
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-size: 18px;
+            color: #70798a;
+        }
+
+        /* ================================
+           EMPTY STATE
+        ================================= */
+
+        .empty {
+            text-align: center;
+            padding: 80px 20px;
+        }
+
+        .empty-icon {
+            width: 75px;
+            height: 75px;
+            border-radius: 50%;
+            margin: auto;
+            background: #f0f2f7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+        }
+
+        .empty h2 {
+            margin-top: 18px;
+            font-size: 22px;
+        }
+
+        .empty p {
+            color: #7d8698;
+            margin-top: 7px;
+        }
+
+        /* ================================
+           RESPONSIVE
+        ================================= */
+
+        @media (max-width: 1000px) {
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .sidebar {
+                width: 190px;
+            }
+
+            .main {
+                margin-left: 190px;
+                width: calc(100% - 190px);
+            }
+
+            .search {
+                width: 300px;
+            }
+        }
+
+        @media (max-width: 700px) {
+
+            .sidebar {
+                display: none;
+            }
+
+            .main {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .topbar {
+                padding: 0 15px;
+            }
+
+            .search {
+                width: 200px;
+            }
+
+            .content {
+                padding: 20px 15px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .notification-item {
+                align-items: flex-start;
+            }
+
+            .notification-actions {
+                display: none;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="app">
+
+    <!-- =========================================
+         SIDEBAR
+    ========================================== -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                🎓
+            </div>
+
+            <div>
+                <div class="brand-name">
+                    LearnSphereX
+                </div>
+
+                <div class="brand-subtitle">
+                    Enterprise
+                </div>
+            </div>
+
+        </div>
+
+
+        <nav class="menu">
+
+            <div class="menu-title">
+                Workspace
+            </div>
+
+            <a href="/dashboard">
+                <span class="menu-icon">⌂</span>
+                Dashboard
+            </a>
+
+            <a href="/profile">
+                <span class="menu-icon">👤</span>
+                Profile
+            </a>
+
+            <a href="/batches">
+                <span class="menu-icon">👥</span>
+                Batches
+            </a>
+
+            <a href="/attendance">
+                <span class="menu-icon">✓</span>
+                Attendance
+            </a>
+
+            <a href="/schedule">
+                <span class="menu-icon">📅</span>
+                Schedule
+            </a>
+
+            <a href="/holidays">
+                <span class="menu-icon">🏖</span>
+                Holidays
+            </a>
+
+            <a href="/notifications" class="active">
+
+                <span class="menu-icon">
+                    🔔
+                </span>
+
+                Notifications
+
+                <!-- Shows actual unread count -->
+                <span class="notification-count"
+                      th:if="${notifications != null}"
+                      th:text="${#lists.size(notifications)}">
+                    0
+                </span>
+
+            </a>
+
+            <a href="/reports">
+                <span class="menu-icon">📊</span>
+                Reports
+            </a>
+
+            <a href="/settings">
+                <span class="menu-icon">⚙</span>
+                Settings
+            </a>
+
+        </nav>
+
+
+        <div class="logout">
+
+            <a href="/logout"
+               style="
+                   display:flex;
+                   align-items:center;
+                   gap:12px;
+                   text-decoration:none;
+                   color:#344054;
+                   padding:12px 15px;
+                   font-weight:600;
+               ">
+
+                🚪 Logout
+
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =========================================
+         MAIN
+    ========================================== -->
+
+    <main class="main">
+
+
+        <!-- TOP BAR -->
+
+        <header class="topbar">
+
+            <div class="search">
+
+                <input
+                        type="text"
+                        placeholder="Search anything..."
+                        id="searchInput">
+
+                <button onclick="searchNotifications()">
+                    🔍
+                </button>
+
+            </div>
+
+
+            <div class="top-right">
+
+                <div class="bell">
+
+                    🔔
+
+                    <span class="bell-count"
+                          th:if="${notifications != null and !notifications.isEmpty()}"
+                          th:text="${notifications.size()}">
+                        0
+                    </span>
+
+                </div>
+
+
+                <div class="profile">
+
+                    <div class="profile-circle"
+                         th:text="${username != null ? #strings.substring(username,0,1).toUpperCase() : 'S'}">
+                        S
+                    </div>
+
+                    <div class="profile-text">
+
+                        <small>
+                            Welcome,
+                        </small>
+
+                        <strong th:text="${username}">
+                            Sharmila
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- PAGE CONTENT -->
+
+        <section class="content">
+
+
+            <!-- HEADER -->
+
+            <div class="page-header">
+
+                <div>
+
+                    <h1>
+                        Notifications
+                    </h1>
+
+                    <p>
+                        Stay updated with important system information.
+                    </p>
+
+                </div>
+
+                <button class="mark-all"
+                        onclick="markAllRead()">
+
+                    ✓ Mark all as read
+
+                </button>
+
+            </div>
+
+
+            <!-- STATISTICS -->
+
+            <div class="stats">
+
+
+                <!-- TOTAL -->
+
+                <div class="stat-card">
+
+                    <div class="stat-icon blue">
+                        ✉
+                    </div>
+
+                    <div>
+
+                        <div class="stat-value"
+                             th:text="${notifications != null ? #lists.size(notifications) : 0}">
+                            0
+                        </div>
+
+                        <div class="stat-label">
+                            Total notifications
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- UNREAD -->
+
+                <div class="stat-card">
+
+                    <div class="stat-icon pink">
+                        🔔
+                    </div>
+
+                    <div>
+
+                        <div class="stat-value"
+                             th:text="${notifications != null ? #lists.size(notifications.?[!readStatus]) : 0}">
+                            0
+                        </div>
+
+                        <div class="stat-label">
+                            Unread
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- READ -->
+
+                <div class="stat-card">
+
+                    <div class="stat-icon green">
+                        ✓
+                    </div>
+
+                    <div>
+
+                        <div class="stat-value"
+                             th:text="${notifications != null ? #lists.size(notifications.?[readStatus]) : 0}">
+                            0
+                        </div>
+
+                        <div class="stat-label">
+                            Read
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- IMPORTANT -->
+
+                <div class="stat-card">
+
+                    <div class="stat-icon yellow">
+                        ⚠
+                    </div>
+
+                    <div>
+
+                        <div class="stat-value"
+                             th:text="${notifications != null ? #lists.size(notifications.?[type == 'IMPORTANT']) : 0}">
+                            0
+                        </div>
+
+                        <div class="stat-label">
+                            Important
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- NOTIFICATION CONTAINER -->
+
+            <div class="notification-container">
+
+
+                <!-- TOOLBAR -->
+
+                <div class="notification-toolbar">
+
+                    <div class="tabs">
+
+                        <button class="tab active"
+                                onclick="showAll()">
+                            All
+                        </button>
+
+                        <button class="tab"
+                                onclick="showUnread()">
+                            Unread
+                        </button>
+
+                        <button class="tab"
+                                onclick="showImportant()">
+                            Important
+                        </button>
+
+                    </div>
+
+
+                    <select class="filter"
+                            id="typeFilter"
+                            onchange="filterType()">
+
+                        <option value="ALL">
+                            All Types
+                        </option>
+
+                        <option value="BATCH">
+                            Batch
+                        </option>
+
+                        <option value="SCHEDULE">
+                            Schedule
+                        </option>
+
+                        <option value="ATTENDANCE_ALERT">
+                            Attendance
+                        </option>
+
+                        <option value="HOLIDAY">
+                            Holiday
+                        </option>
+
+                        <option value="SYSTEM">
+                            System
+                        </option>
+
+                        <option value="IMPORTANT">
+                            Important
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- NOTIFICATION LIST -->
+
+                <div class="notification-list">
+
+
+                    <!-- EMPTY STATE -->
+
+                    <div class="empty"
+                         th:if="${notifications == null or #lists.isEmpty(notifications)}">
+
+                        <div class="empty-icon">
+                            🔔
+                        </div>
+
+                        <h2>
+                            No notifications
+                        </h2>
+
+                        <p>
+                            You're all caught up.
+                        </p>
+
+                    </div>
+
+
+                    <!-- REAL DATABASE NOTIFICATIONS -->
+
+                    <div th:each="notification : ${notifications}"
+                         class="notification-item"
+                         th:classappend="${notification.readStatus ? 'read' : ''}"
+                         th:attr="
+                            data-type=${notification.type},
+                            data-read=${notification.readStatus},
+                            data-title=${notification.title}">
+
+                        <div class="notification-icon">
+
+                            <span th:switch="${notification.type}">
+
+                                <span th:case="'ATTENDANCE_ALERT'">
+                                    ⚠
+                                </span>
+
+                                <span th:case="'HOLIDAY'">
+                                    📅
+                                </span>
+
+                                <span th:case="'SCHEDULE'">
+                                    🗓
+                                </span>
+
+                                <span th:case="'BATCH'">
+                                    👥
+                                </span>
+
+                                <span th:case="'IMPORTANT'">
+                                    🚨
+                                </span>
+
+                                <span th:case="*">
+                                    🔔
+                                </span>
+
+                            </span>
+
+                        </div>
+
+
+                        <div class="notification-body">
+
+                            <div class="notification-title">
+
+                                <span th:text="${notification.title}">
+                                    Notification Title
+                                </span>
+
+                                <span
+                                        th:if="${!notification.readStatus}"
+                                        style="
+                                            color:#ed3d73;
+                                            font-size:10px;
+                                            margin-left:8px;
+                                        ">
+                                    NEW
+                                </span>
+
+                            </div>
+
+
+                            <div class="notification-message"
+                                 th:text="${notification.message}">
+
+                                Notification message.
+
+                            </div>
+
+
+                            <div class="notification-meta">
+
+                                <span class="type"
+                                      th:text="${notification.type}">
+                                    SYSTEM
+                                </span>
+
+                                <span class="date"
+                                      th:text="${notification.createdAt != null ? #temporals.format(notification.createdAt, 'dd MMM yyyy, hh:mm a') : 'Recently'}">
+                                    Recently
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="notification-actions">
+
+                            <span class="unread-dot"
+                                  th:if="${!notification.readStatus}">
+                            </span>
+
+                            <button class="action-btn"
+                                    title="Mark as read"
+                                    th:if="${!notification.readStatus}"
+                                    th:attr="data-id=${notification.id}"
+                                    onclick="markAsRead(this)">
+                                ✓
+                            </button>
+
+                            <button class="action-btn"
+                                    title="Notification options">
+                                ⋮
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<script>
+
+    /* ==========================================
+       SEARCH
+    ========================================== */
+
+    function searchNotifications() {
+
+        const input =
+            document.getElementById("searchInput")
+                .value
+                .toLowerCase();
+
+        const items =
+            document.querySelectorAll(
+                ".notification-item");
+
+        items.forEach(function(item) {
+
+            const title =
+                item
+                    .getAttribute("data-title")
+                    .toLowerCase();
+
+            const text =
+                item
+                    .innerText
+                    .toLowerCase();
+
+            if (title.includes(input)
+                    || text.includes(input)) {
+
+                item.style.display = "flex";
+
+            } else {
+
+                item.style.display = "none";
+
+            }
+
+        });
+
+    }
+
+
+    /* ==========================================
+       SHOW ALL
+    ========================================== */
+
+    function showAll() {
+
+        setActiveTab(0);
+
+        document
+            .querySelectorAll(".notification-item")
+            .forEach(function(item) {
+
+                item.style.display = "flex";
+
+            });
+
+    }
+
+
+    /* ==========================================
+       SHOW UNREAD
+    ========================================== */
+
+    function showUnread() {
+
+        setActiveTab(1);
+
+        document
+            .querySelectorAll(".notification-item")
+            .forEach(function(item) {
+
+                if (item.getAttribute("data-read")
+                    === "false") {
+
+                    item.style.display = "flex";
+
+                } else {
+
+                    item.style.display = "none";
+
+                }
+
+            });
+
+    }
+
+
+    /* ==========================================
+       SHOW IMPORTANT
+    ========================================== */
+
+    function showImportant() {
+
+        setActiveTab(2);
+
+        document
+            .querySelectorAll(".notification-item")
+            .forEach(function(item) {
+
+                if (item.getAttribute("data-type")
+                    === "IMPORTANT") {
+
+                    item.style.display = "flex";
+
+                } else {
+
+                    item.style.display = "none";
+
+                }
+
+            });
+
+    }
+
+
+    /* ==========================================
+       TAB ACTIVE STATE
+    ========================================== */
+
+    function setActiveTab(index) {
+
+        const tabs =
+            document.querySelectorAll(".tab");
+
+        tabs.forEach(function(tab) {
+
+            tab.classList.remove("active");
+
+        });
+
+        if (tabs[index]) {
+
+            tabs[index]
+                .classList
+                .add("active");
+
+        }
+
+    }
+
+
+    /* ==========================================
+       FILTER TYPE
+    ========================================== */
+
+    function filterType() {
+
+        const selected =
+            document
+                .getElementById("typeFilter")
+                .value;
+
+        const items =
+            document.querySelectorAll(
+                ".notification-item");
+
+        items.forEach(function(item) {
+
+            const type =
+                item.getAttribute("data-type");
+
+            if (selected === "ALL"
+                    || type === selected) {
+
+                item.style.display = "flex";
+
+            } else {
+
+                item.style.display = "none";
+
+            }
+
+        });
+
+    }
+
+
+    /* ==========================================
+       MARK AS READ
+    ========================================== */
+
+    function markAsRead(button) {
+
+        const id =
+            button.getAttribute("data-id");
+
+        const csrfToken =
+            document.querySelector('meta[name="_csrf"]').content;
+
+        const csrfHeader =
+            document.querySelector('meta[name="_csrf_header"]').content;
+
+        const headers = {
+            "Content-Type": "application/json"
+        };
+
+        headers[csrfHeader] = csrfToken;
+
+        // Routed through the session-authenticated web layer (not /api/**),
+        // since this fetch() call carries the browser session cookie, not a
+        // JWT - a stateless /api/** chain would otherwise reject it outright.
+        fetch("/notifications/" + id + "/read", {
+
+            method: "POST",
+
+            headers: headers
+
+        })
+        .then(function(response) {
+
+            if (response.ok) {
+
+                location.reload();
+
+            }
+
+        })
+        .catch(function(error) {
+
+            console.error(
+                "Unable to mark notification as read:",
+                error);
+
+        });
+
+    }
+
+
+    /* ==========================================
+       MARK ALL AS READ
+    ========================================== */
+
+    function markAllRead() {
+
+        const unread =
+            document.querySelectorAll(
+                '.notification-item[data-read="false"]');
+
+        unread.forEach(function(item) {
+
+            const button =
+                item.querySelector(
+                    '[data-id]');
+
+            if (button) {
+
+                markAsRead(button);
+
+            }
+
+        });
+
+    }
+
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,80 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Create User | LearnSphereX</title>
+<link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+	<div class="app-shell">
+		<aside class="sidebar">
+			<div class="brand">
+				<div class="brand-mark">S</div>
+				<div>
+					<strong>LearnSphereX</strong><span>LEARNING MANAGEMENT SYSTEM</span>
+				</div>
+			</div>
+			<nav class="nav">
+				<a class="nav-item" th:href="@{/dashboard}">Dashboard</a>
+				<div class="nav-label">SORN MODULE</div>
+				<a class="nav-item active" th:href="@{/users}">Users</a><a
+					class="nav-item" th:href="@{/fee-plans}">Fee Plans</a><a
+					class="nav-item" th:href="@{/payments}">Record Payment</a>
+			</nav>
+		</aside>
+		<section class="main-area">
+			<header class="topbar">
+				<div>
+					<div class="eyebrow">LEARNSPHEREX / ADMINISTRATION</div>
+					<h1>Create user</h1>
+				</div>
+			</header>
+			<div class="page-content">
+				<section class="form-panel">
+					<div class="eyebrow">ADMIN ONLY</div>
+					<h2>Create staff or student account</h2>
+					<p style="color: var(--muted)">Select the role that controls
+						this user's access.</p>
+					<div class="alert error" th:if="${error}" th:text="${error}"></div>
+					<form th:action="@{/users/new}" method="post">
+						<div class="form-grid">
+							<div class="field">
+								<label>First name *</label><input class="input" name="firstName"
+									required>
+							</div>
+							<div class="field">
+								<label>Last name *</label><input class="input" name="lastName"
+									required>
+							</div>
+							<div class="field">
+								<label>Username *</label><input class="input" name="username"
+									required>
+							</div>
+							<div class="field">
+								<label>Phone</label><input class="input" name="phone">
+							</div>
+							<div class="field">
+								<label>Email *</label><input class="input" name="email"
+									type="email" required>
+							</div>
+							<div class="field">
+								<label>Role *</label><select class="select" name="role"><option
+										th:each="role : ${roles}" th:value="${role}" th:text="${role}"></option></select>
+							</div>
+							<div class="field full">
+								<label>Temporary password *</label><input class="input"
+									name="password" type="password" minlength="8" required>
+							</div>
+						</div>
+						<div class="form-actions">
+							<a class="btn secondary" th:href="@{/users}">Cancel</a>
+							<button class="btn primary">Create user</button>
+						</div>
+					</form>
+				</section>
+			</div>
+		</section>
+	</div>
+</body>
+</html>

@@ -1,0 +1,6 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head('Batches')}"></head>
+<body><div class="app-shell"><div th:replace="~{fragments/sidebar :: sidebar}"></div><main class="main-area"><div th:replace="~{fragments/navbar :: navbar}"></div><section class="page-content">
+<div class="page-title"><div><h2>Batches</h2><p>Training batches used for student enrollment.</p></div></div><div class="panel"><div class="table-wrap"><table><thead><tr><th>Batch Code</th><th>Course</th><th>Trainer</th><th>Start</th><th>End</th><th>Mode</th><th>Status</th></tr></thead><tbody><tr th:each="b : ${batches}"><td><strong th:text="${b.batchCode}">JAVA-FS-2026-08</strong></td><td th:text="${b.course.name}">Java</td><td th:text="${b.trainerId}">101</td><td th:text="${b.startDate}">2026-08-01</td><td th:text="${b.endDate}">2026-11-30</td><td th:text="${b.mode}">Online</td><td><span class="pill" th:text="${b.active ? 'ACTIVE' : 'INACTIVE'}">ACTIVE</span></td></tr><tr th:if="${#lists.isEmpty(batches)}"><td colspan="7" class="empty">No batches found.</td></tr></tbody></table></div></div>
+</section><div th:replace="~{fragments/footer :: footer}"></div></main></div></body></html>

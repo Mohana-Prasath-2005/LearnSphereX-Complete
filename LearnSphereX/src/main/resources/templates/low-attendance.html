@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Low Attendance</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+            background-color: #f7f7f7;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .actions {
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            background-color: #333;
+            color: white;
+            margin-right: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+        }
+
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        th {
+            background-color: #eeeeee;
+        }
+
+        .low {
+            color: #b00020;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1 th:text="'Students Below 75% Attendance - Batch ' + ${batchId}">Low Attendance</h1>
+
+    <div class="actions">
+        <a th:href="@{/attendance/batch/{batchId}(batchId=${batchId})}" class="btn">
+            Back to Batch Attendance
+        </a>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Student ID</th>
+                <th>Attendance %</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="entry : ${lowAttendance}">
+                <td th:text="${entry.key}"></td>
+                <td class="low" th:text="${#numbers.formatDecimal(entry.value, 1, 2)} + '%'"></td>
+            </tr>
+            <tr th:if="${#maps.isEmpty(lowAttendance)}">
+                <td colspan="2">No students below 75% attendance in this batch.</td>
+            </tr>
+        </tbody>
+    </table>
+
+</body>
+</html>

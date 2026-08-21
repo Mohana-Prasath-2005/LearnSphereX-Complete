@@ -1,0 +1,90 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Users | LearnSphereX</title>
+<link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+	<div class="app-shell">
+		<aside class="sidebar">
+			<div class="brand">
+				<div class="brand-mark">S</div>
+				<div>
+					<strong>LearnSphereX</strong><span>LEARNING MANAGEMENT SYSTEM</span>
+				</div>
+			</div>
+			<nav class="nav">
+				<a class="nav-item" th:href="@{/dashboard}">Dashboard</a>
+				<div class="nav-label">SORN MODULE</div>
+				<a class="nav-item active" th:href="@{/users}">Users</a><a
+					class="nav-item" th:href="@{/fee-plans}">Fee Plans</a><a
+					class="nav-item" th:href="@{/payments}">Record Payment</a>
+			</nav>
+			<div class="sidebar-footer">
+				<strong th:text="${username}"></strong><span>ADMIN</span>
+				<form th:action="@{/logout}" method="post">
+					<button class="nav-item" style="padding-left: 0; margin-top: 10px">Sign
+						out</button>
+				</form>
+			</div>
+		</aside>
+		<section class="main-area">
+			<header class="topbar">
+				<div>
+					<div class="eyebrow">LEARNSPHEREX / ADMINISTRATION</div>
+					<h1>Users</h1>
+				</div>
+			</header>
+			<div class="page-content">
+				<div class="panel">
+					<div class="panel-head">
+						<div>
+							<div class="eyebrow">AUTHENTICATION</div>
+							<h3>Registered users</h3>
+						</div>
+						<a class="btn primary" th:href="@{/users/new}">Create user</a>
+					</div>
+					<div class="alert success" th:if="${param.created}" style="margin: 16px">User account created successfully.</div>
+					<div class="table-wrap">
+						<table>
+							<thead>
+								<tr>
+									<th>ID</th>
+									<th>User</th>
+									<th>Email</th>
+									<th>Role</th>
+									<th>Status</th>
+									<th>Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="user : ${users}">
+									<td th:text="${user.id}"></td>
+									<td><strong
+										th:text="${user.firstName + ' ' + user.lastName}"></strong><small
+										th:text="${user.username}"></small></td>
+									<td th:text="${user.email}"></td>
+									<td th:text="${user.roles}"></td>
+									<td><span class="pill"
+										th:classappend="${user.status.name() == 'ACTIVE'} ? '' : ' inactive'"
+										th:text="${user.status}"></span></td>
+									<td><form th:action="@{/users/{id}/status(id=${user.id})}"
+											method="post">
+											<input type="hidden" name="active"
+												th:value="${user.status.name() != 'ACTIVE'}">
+											<button class="btn small"
+												th:classappend="${user.status.name() == 'ACTIVE'} ? ' danger' : ' primary'"
+												th:text="${user.status.name() == 'ACTIVE'} ? 'Deactivate' : 'Activate'"></button>
+										</form></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+</body>
+</html>

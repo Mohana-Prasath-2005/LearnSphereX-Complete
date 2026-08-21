@@ -1,0 +1,45 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Login | LearnSphereX</title>
+<link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+	<main class="login-shell">
+		<section class="login-card">
+			<div class="brand">
+				<div class="brand-mark">S</div>
+				<div>
+					<strong style="color: #172033">LearnSphereX</strong><span>LEARNING
+						MANAGEMENT SYSTEM</span>
+				</div>
+			</div>
+			<h1>Welcome back</h1>
+			<p>Sign in to continue to your workspace.</p>
+			<div class="alert success" th:if="${param.registered}">Account
+				created. Please sign in.</div>
+			<div class="alert success" th:if="${param.logout}">You have
+				signed out.</div>
+			<div class="alert error" th:if="${param.error}">Invalid
+				username or password.</div>
+			<form th:action="@{/login}" method="post">
+				<div class="field">
+					<label>Username</label><input class="input" name="username"
+						required autofocus>
+				</div>
+				<div class="field">
+					<label>Password</label><input class="input" name="password"
+						type="password" required>
+				</div>
+				<button class="btn primary" style="width: 100%; margin-top: 18px">Sign
+					in</button>
+			</form>
+			<p style="margin-top: 18px; text-align: center">
+				New student? <a th:href="@{/register}">Create an account</a>
+			</p>
+		</section>
+	</main>
+</body>
+</html>

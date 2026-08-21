@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head('Project Evaluation')}"></head>
+<body><div class="app-shell"><div th:replace="~{fragments/sidebar :: sidebar}"></div><main class="main-area">
+<div th:replace="~{fragments/navbar :: navbar}"></div><section class="page-content"><a class="back-link" th:href="@{/submissions/{id}(id=${submission.id})}">← Back to Submission</a>
+<div class="page-title"><div><h2>Evaluate Project</h2><p th:text="${submission.studentCode + ' · ' + submission.projectTitle}">Student · Project</p></div></div>
+<form class="form-panel" th:action="@{/submissions/{id}/evaluate(id=${submission.id})}" th:object="${evaluationForm}" method="post">
+<div class="form-grid"><div class="field"><label>Evaluator ID <span class="required">*</span></label><input class="input" type="number" th:field="*{evaluatorId}" placeholder="101" required></div><div class="field"><label>Maximum Project Marks</label><input class="input" type="text" th:value="${projectMaxMarks}" readonly></div></div>
+<div class="section-space"><h3>Criteria Scores</h3><div class="table-wrap"><table><thead><tr><th>Criteria</th><th>Maximum</th><th>Marks</th><th>Feedback</th></tr></thead><tbody><tr th:each="score,stat : *{criteriaScores}"><td><strong th:text="${score.criteriaName}">Architecture</strong><input type="hidden" th:field="*{criteriaScores[__${stat.index}__].criteriaId}"></td><td th:text="${score.maximumMarks}">20</td><td><input class="input score-input" type="number" min="0" th:max="${score.maximumMarks}" th:field="*{criteriaScores[__${stat.index}__].marks}" required></td><td><input class="input" th:field="*{criteriaScores[__${stat.index}__].feedback}" placeholder="Optional feedback"></td></tr><tr th:if="${#lists.isEmpty(evaluationForm.criteriaScores)}"><td colspan="4" class="empty">No criteria have been configured for this project.</td></tr></tbody></table></div></div>
+<div class="field section-space"><label>Overall Feedback</label><textarea class="textarea" th:field="*{feedback}" placeholder="Provide overall feedback to the student."></textarea></div>
+<div class="notice section-space">Marks are validated by the existing JPA service. A submission can only be evaluated once.</div>
+<div class="form-actions"><a class="btn secondary" th:href="@{/submissions/{id}(id=${submission.id})}">Cancel</a><button class="btn primary" type="submit">Save Evaluation</button></div>
+</form></section><div th:replace="~{fragments/footer :: footer}"></div></main></div></body></html>

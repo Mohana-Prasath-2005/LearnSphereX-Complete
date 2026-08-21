@@ -1,0 +1,1 @@
+package com.learnspherex.payment; import java.util.*; import org.springframework.data.jpa.repository.JpaRepository; public interface FeePlanRepository extends JpaRepository<FeePlan,Long>{List<FeePlan> findByCourseIdAndActiveTrue(Long courseId);}

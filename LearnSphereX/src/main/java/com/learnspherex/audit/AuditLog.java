@@ -1,0 +1,3 @@
+package com.learnspherex.audit;
+import java.time.*; import jakarta.persistence.*; import lombok.*;
+@Entity @Table(name="audit_logs") @Getter @NoArgsConstructor public class AuditLog { @Id @GeneratedValue(strategy=GenerationType.IDENTITY) private Long id; private Long userId; @Column(nullable=false,length=50) private String action; @Column(nullable=false,length=80) private String entityName; private Long entityId; private String ipAddress; @Column(nullable=false) private Instant timestamp; @Column(length=1000) private String description; public AuditLog(Long u,String a,String en,Long ei,String ip,String d){userId=u;action=a;entityName=en;entityId=ei;ipAddress=ip;description=d;timestamp=Instant.now();} }

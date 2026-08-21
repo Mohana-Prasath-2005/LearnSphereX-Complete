@@ -1,0 +1,9 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head('Student Dashboard')}"></head>
+<body><div class="app-shell"><div th:replace="~{fragments/sidebar :: sidebar}"></div><main class="main-area">
+<div th:replace="~{fragments/navbar :: navbar}"></div><section class="page-content"><a class="back-link" th:href="@{/students/{id}(id=${student.id})}">← Back to Student</a>
+<div class="hero"><div><span class="badge">STUDENT DASHBOARD</span><h2 th:text="${student.studentCode}">STU2026001</h2><p>Progress summary generated directly from the JPA data.</p></div><a class="btn primary" th:href="@{/students/{id}/submissions(id=${student.id})}">My Submissions</a></div>
+<div class="summary-grid"><div class="summary"><span>Total Courses</span><strong th:text="${dashboard.totalCourses}">2</strong></div><div class="summary"><span>Active Courses</span><strong th:text="${dashboard.activeCourses}">1</strong></div><div class="summary"><span>Project Submissions</span><strong th:text="${dashboard.totalProjects}">2</strong></div><div class="summary"><span>Evaluated Projects</span><strong th:text="${dashboard.evaluatedProjects}">1</strong></div></div>
+<div class="panel"><div class="panel-head"><div><span class="eyebrow">PERFORMANCE</span><h3>Project Average</h3></div></div><div style="padding:28px"><div class="metric-highlight" th:text="${dashboard.averageProjectPercentage != null ? dashboard.averageProjectPercentage + '%' : 'Not evaluated'}">84%</div><p style="color:#7d889a">Average percentage across evaluated project submissions.</p></div></div>
+</section><div th:replace="~{fragments/footer :: footer}"></div></main></div></body></html>

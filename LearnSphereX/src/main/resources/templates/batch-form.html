@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title th:text="${batch.id == null ? 'Create Batch' : 'Edit Batch'}">
+        Create Batch
+    </title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/batch.css}">
+
+</head>
+
+
+<body>
+
+<div class="app-container">
+
+
+    <!-- ================= SIDEBAR ================= -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+
+            <div class="brand-logo">
+                L
+            </div>
+
+            <div>
+                <h2>LearnSphereX</h2>
+                <span>Training Management</span>
+            </div>
+
+        </div>
+
+
+        <div class="menu-title">
+            MAIN
+        </div>
+
+
+        <nav class="sidebar-menu">
+
+            <a href="/batches"
+               class="menu-item active">
+                📚
+                <span>Batches</span>
+            </a>
+
+            <a href="/attendance"
+               class="menu-item">
+                📋
+                <span>Attendance</span>
+            </a>
+
+            <a href="#"
+               class="menu-item">
+                🎓
+                <span>Courses</span>
+            </a>
+
+            <a href="#"
+               class="menu-item">
+                👨‍🎓
+                <span>Students</span>
+            </a>
+
+            <a href="#"
+               class="menu-item">
+                🔔
+                <span>Notifications</span>
+            </a>
+
+        </nav>
+
+
+        <div class="menu-title">
+            BATCH MANAGEMENT
+        </div>
+
+
+        <nav class="sidebar-menu">
+
+            <a href="/batches"
+               class="menu-item">
+                📋
+                <span>All Batches</span>
+            </a>
+
+            <a href="/batches/new"
+               class="menu-item active">
+                ➕
+                <span>Create Batch</span>
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <div class="admin-avatar">
+                A
+            </div>
+
+            <div>
+
+                <strong>Admin</strong>
+
+                <span>
+                    Administrator
+                </span>
+
+            </div>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="main-content">
+
+
+        <!-- HEADER -->
+
+        <header class="top-header">
+
+            <div>
+
+                <div class="page-label">
+                    BATCH MANAGEMENT
+                </div>
+
+                <h1>
+                    Batch Dashboard
+                </h1>
+
+            </div>
+
+
+            <div class="system-status">
+
+                <span class="status-dot"></span>
+
+                <span>
+                    System Online
+                </span>
+
+                <div class="user-circle">
+                    A
+                </div>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- ================= CONTENT ================= -->
+
+        <section class="content-area">
+
+
+            <!-- PAGE HEADING -->
+
+            <div class="page-heading">
+
+                <div>
+
+                    <h2 th:text="${batch.id == null ? 'Create New Batch' : 'Edit Batch'}">
+                        Create New Batch
+                    </h2>
+
+                    <p>
+                        Create and manage training batch information.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ================= FORM ================= -->
+
+            <div class="form-card">
+
+
+                <form th:object="${batch}"
+                      th:action="${batch.id == null}
+                          ? @{/batches}
+                          : @{/batches/{id}(id=${batch.id})}"
+                      method="post">
+
+
+                    <!-- BATCH NAME -->
+
+                    <div class="form-group">
+
+                        <label for="batchName">
+                            Batch Name
+                        </label>
+
+                        <input type="text"
+                               id="batchName"
+                               th:field="*{batchName}"
+                               class="form-control"
+                               placeholder="Enter batch name"
+                               required>
+
+                    </div>
+
+
+
+                    <!-- BATCH MODE -->
+
+                    <div class="form-group">
+
+                        <label for="batchMode">
+                            Batch Mode
+                        </label>
+
+                        <select id="batchMode"
+                                th:field="*{batchMode}"
+                                class="form-control"
+                                required>
+
+                            <option value="">
+                                Select Mode
+                            </option>
+
+                            <option value="ONLINE">
+                                ONLINE
+                            </option>
+
+                            <option value="OFFLINE">
+                                OFFLINE
+                            </option>
+
+                            <option value="HYBRID">
+                                HYBRID
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+
+                    <!-- BATCH STATUS -->
+
+                    <div class="form-group">
+
+                        <label for="batchStatus">
+                            Batch Status
+                        </label>
+
+                        <select id="batchStatus"
+                                th:field="*{batchStatus}"
+                                class="form-control"
+                                required>
+
+                            <option value="">
+                                Select Status
+                            </option>
+
+                            <option value="ACTIVE">
+                                ACTIVE
+                            </option>
+
+                            <option value="INACTIVE">
+                                INACTIVE
+                            </option>
+
+                            <option value="COMPLETED">
+                                COMPLETED
+                            </option>
+
+                            <option value="CANCELLED">
+                                CANCELLED
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+
+                    <!-- CAPACITY -->
+
+                    <div class="form-group">
+
+                        <label for="capacity">
+                            Capacity
+                        </label>
+
+                        <input type="number"
+                               id="capacity"
+                               th:field="*{capacity}"
+                               class="form-control"
+                               placeholder="Enter capacity"
+                               min="1"
+                               required>
+
+                    </div>
+
+
+
+                    <!-- START DATE -->
+
+                    <div class="form-group">
+
+                        <label for="startDate">
+                            Start Date
+                        </label>
+
+                        <input type="date"
+                               id="startDate"
+                               th:field="*{startDate}"
+                               class="form-control"
+                               required>
+
+                    </div>
+
+
+
+                    <!-- END DATE -->
+
+                    <div class="form-group">
+
+                        <label for="endDate">
+                            End Date
+                        </label>
+
+                        <input type="date"
+                               id="endDate"
+                               th:field="*{endDate}"
+                               class="form-control"
+                               required>
+
+                    </div>
+
+
+
+                    <!-- TRAINER ID -->
+
+                    <div class="form-group">
+
+                        <label for="trainerId">
+                            Trainer ID
+                        </label>
+
+                        <input type="number"
+                               id="trainerId"
+                               th:field="*{trainerId}"
+                               class="form-control"
+                               placeholder="Enter trainer ID">
+
+                    </div>
+
+
+
+                    <!-- COURSE ID -->
+
+                    <div class="form-group">
+
+                        <label for="courseId">
+                            Course ID
+                        </label>
+
+                        <input type="number"
+                               id="courseId"
+                               th:field="*{courseId}"
+                               class="form-control"
+                               placeholder="Enter course ID">
+
+                    </div>
+
+
+
+                    <!-- BUTTONS -->
+
+                    <div style="
+                        display:flex;
+                        gap:10px;
+                        margin-top:28px;
+                    ">
+
+                        <button type="submit"
+                                class="btn btn-primary">
+
+                            <span th:text="${batch.id == null
+                                ? 'Save Batch'
+                                : 'Update Batch'}">
+                                Save Batch
+                            </span>
+
+                        </button>
+
+
+                        <a href="/batches"
+                           class="btn"
+                           style="
+                               background-color:#667085;
+                               color:white;
+                           ">
+
+                            Cancel
+
+                        </a>
+
+                    </div>
+
+
+                </form>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- FOOTER -->
+
+        <footer class="footer">
+
+            <span>
+                LearnSphereX Batch Management Module
+            </span>
+
+            <span>
+                Spring Boot · JPA · Thymeleaf
+            </span>
+
+        </footer>
+
+
+    </main>
+
+</div>
+
+</body>
+
+</html>

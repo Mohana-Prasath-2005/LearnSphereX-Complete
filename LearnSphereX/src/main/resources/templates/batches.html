@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Batch Management</title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/batch.css}">
+
+</head>
+
+
+<body>
+
+<div class="app-container">
+
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+
+            <div class="brand-logo">
+                L
+            </div>
+
+            <div>
+                <h2>LearnSphereX</h2>
+                <span>Training Management</span>
+            </div>
+
+        </div>
+
+
+        <div class="menu-title">
+            MAIN
+        </div>
+
+
+        <nav class="sidebar-menu">
+
+            <a href="/batches"
+               class="menu-item active">
+                📚
+                <span>Batches</span>
+            </a>
+
+            <a href="/attendance"
+               class="menu-item">
+                📋
+                <span>Attendance</span>
+            </a>
+
+            <a href="#"
+               class="menu-item">
+                🎓
+                <span>Courses</span>
+            </a>
+
+            <a href="#"
+               class="menu-item">
+                👨‍🎓
+                <span>Students</span>
+            </a>
+
+            <a href="#"
+               class="menu-item">
+                🔔
+                <span>Notifications</span>
+            </a>
+
+        </nav>
+
+
+        <div class="menu-title">
+            BATCH MANAGEMENT
+        </div>
+
+
+        <nav class="sidebar-menu">
+
+            <a href="/batches"
+               class="menu-item active">
+                📋
+                <span>All Batches</span>
+            </a>
+
+            <a href="/batches/new"
+               class="menu-item">
+                ➕
+                <span>Create Batch</span>
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <div class="admin-avatar">
+                A
+            </div>
+
+            <div>
+
+                <strong>Admin</strong>
+
+                <span>
+                    Administrator
+                </span>
+
+            </div>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- MAIN CONTENT -->
+
+    <main class="main-content">
+
+
+        <!-- HEADER -->
+
+        <header class="top-header">
+
+            <div>
+
+                <div class="page-label">
+                    BATCH MANAGEMENT
+                </div>
+
+                <h1>
+                    Batch Dashboard
+                </h1>
+
+            </div>
+
+
+            <div class="system-status">
+
+                <span class="status-dot"></span>
+
+                <span>
+                    System Online
+                </span>
+
+                <div class="user-circle">
+                    A
+                </div>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- CONTENT -->
+
+        <section class="content-area">
+
+
+            <!-- PAGE HEADING -->
+
+            <div class="page-heading">
+
+                <div>
+
+                    <h2>
+                        Batches
+                    </h2>
+
+                    <p>
+                        Manage training batches, schedules and sessions.
+                    </p>
+
+                </div>
+
+
+                <a href="/batches/new"
+                   class="btn btn-primary">
+
+                    + Create New Batch
+
+                </a>
+
+            </div>
+
+
+
+            <!-- TABLE -->
+
+            <div class="table-card">
+
+                <table class="batch-table">
+
+
+                    <thead>
+
+                    <tr>
+
+                        <th>ID</th>
+
+                        <th>Batch</th>
+
+                        <th>Mode</th>
+
+                        <th>Status</th>
+
+                        <th>Capacity</th>
+
+                        <th>Start Date</th>
+
+                        <th>End Date</th>
+
+                        <th>Trainer</th>
+
+                        <th>Course</th>
+
+                        <th>Actions</th>
+
+                    </tr>
+
+                    </thead>
+
+
+
+                    <tbody>
+
+                    <tr th:each="batch : ${batches}">
+
+
+                        <td th:text="${batch.id}">
+                            1
+                        </td>
+
+
+                        <td>
+
+                            <strong
+                                th:text="${batch.batchName}">
+                                Java Full Stack
+                            </strong>
+
+                        </td>
+
+
+                        <td th:text="${batch.batchMode}">
+                            ONLINE
+                        </td>
+
+
+                        <td>
+
+                            <span class="status-badge"
+                                  th:text="${batch.batchStatus}">
+                                ACTIVE
+                            </span>
+
+                        </td>
+
+
+                        <td th:text="${batch.capacity}">
+                            30
+                        </td>
+
+
+                        <td th:text="${batch.startDate}">
+                            2026-08-01
+                        </td>
+
+
+                        <td th:text="${batch.endDate}">
+                            2026-11-30
+                        </td>
+
+
+                        <td th:text="${batch.trainerId}">
+                            1
+                        </td>
+
+
+                        <td th:text="${batch.courseId}">
+                            1
+                        </td>
+
+
+                        <td>
+
+                            <div class="actions">
+
+
+                                <a th:href="@{/batches/{id}(id=${batch.id})}"
+                                   class="btn btn-view">
+                                    View
+                                </a>
+
+
+                                <a th:href="@{/batches/{id}/edit(id=${batch.id})}"
+                                   class="btn btn-edit">
+                                    Edit
+                                </a>
+
+
+                                <form th:action="@{/batches/{id}/delete(id=${batch.id})}"
+                                      method="post"
+                                      style="display:inline;">
+
+                                    <button type="submit"
+                                            class="btn btn-delete"
+                                            onclick="return confirm('Are you sure you want to delete this batch?');">
+                                        Delete
+                                    </button>
+
+                                </form>
+
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+
+                    <tr th:if="${#lists.isEmpty(batches)}">
+
+                        <td colspan="10"
+                            style="text-align:center; padding:40px;">
+
+                            No batches found.
+
+                        </td>
+
+                    </tr>
+
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- FOOTER -->
+
+        <footer class="footer">
+
+            <span>
+                LearnSphereX Batch Management Module
+            </span>
+
+            <span>
+                Spring Boot · JPA · Thymeleaf
+            </span>
+
+        </footer>
+
+
+    </main>
+
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head('Students')}"></head>
+<body><div class="app-shell"><div th:replace="~{fragments/sidebar :: sidebar}"></div><main class="main-area">
+<div th:replace="~{fragments/navbar :: navbar}"></div><section class="page-content">
+<div th:replace="~{fragments/messages :: messages}"></div>
+<div class="page-title"><div><h2>Students</h2><p>Manage student profiles, enrollment and progress.</p></div><a class="btn primary" th:href="@{/students/new}">+ Add Student</a></div>
+<div class="panel"><div class="table-wrap"><table><thead><tr><th>Student</th><th>College</th><th>Qualification</th><th>Joining Date</th><th>Status</th><th>Actions</th></tr></thead><tbody>
+<tr th:each="s : ${students}"><td><div class="person"><span class="avatar">S</span><div><strong th:text="${s.studentCode}">STU</strong><small th:text="${'User ID: ' + s.userId}">User</small></div></div></td><td th:text="${s.college}">College</td><td th:text="${s.qualification}">B.E CSE</td><td th:text="${s.joiningDate}">2026-08-01</td><td><span class="pill" th:text="${s.status}">ACTIVE</span></td><td><div class="actions"><a class="btn small secondary" th:href="@{/students/{id}(id=${s.id})}">View</a><a class="btn small secondary" th:href="@{/students/{id}/edit(id=${s.id})}">Edit</a><form th:action="@{/students/{id}/delete(id=${s.id})}" method="post"><button class="btn small danger" type="submit">Delete</button></form></div></td></tr>
+<tr th:if="${#lists.isEmpty(students)}"><td colspan="6" class="empty">No students available.</td></tr>
+</tbody></table></div></div>
+</section><div th:replace="~{fragments/footer :: footer}"></div></main></div></body></html>

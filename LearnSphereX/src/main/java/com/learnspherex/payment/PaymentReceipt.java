@@ -1,0 +1,3 @@
+package com.learnspherex.payment;
+import java.time.*; import jakarta.persistence.*; import lombok.*;
+@Entity @Table(name="payment_receipts") @Getter @NoArgsConstructor public class PaymentReceipt { @Id @GeneratedValue(strategy=GenerationType.IDENTITY) private Long id; @OneToOne(fetch=FetchType.LAZY) @JoinColumn(name="payment_id",nullable=false,unique=true) private Payment payment; @Column(nullable=false,unique=true,length=50) private String receiptNumber; @Column(nullable=false) private Instant generatedAt; public PaymentReceipt(Payment p,String n){payment=p;receiptNumber=n;generatedAt=Instant.now();} }

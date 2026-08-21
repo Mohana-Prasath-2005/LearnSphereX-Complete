@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>LearnSphereX - Assignment Management</title>
+    <!-- Links to your CSS design system -->
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+
+<div class="app-shell">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-mark">SS</div>
+            <div>
+                <strong>LearnSphereX</strong>
+                <span>Enterprise Portal</span>
+            </div>
+        </div>
+        
+        <div class="nav-label">NAVIGATION</div>
+        <nav class="nav">
+            <a class="nav-item" th:href="@{/courses}">📚 Courses</a>
+            <a class="nav-item" th:href="@{/assignments}">📝 Assignments</a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="mini-avatar">AD</div>
+            <div>
+                <strong>Admin User</strong>
+                <span>admin@learnspherex.com</span>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="main-area">
+        <header class="topbar">
+            <div>
+                <span class="eyebrow">MODULE MANAGEMENT</span>
+                <h1>Assignments Directory</h1>
+            </div>
+            <div class="topbar-right">
+                <span class="status-dot"></span> System Online
+            </div>
+        </header>
+
+        <main class="page-content">
+            <!-- Hero Banner -->
+            <section class="hero">
+                <div>
+                    <span class="badge">LEARNSPHEREX PLATFORM</span>
+                    <h2>Assignment Overview & Tracking</h2>
+                    <p>Monitor active tasks, difficulties, deadlines, and maximum marks assigned across your courses.</p>
+                </div>
+            </section>
+
+            <!-- Table Panel -->
+            <div class="panel">
+                <div class="panel-head">
+                    <div>
+                        <span class="eyebrow">DATABASE RECORDS</span>
+                        <h3>All Assignments</h3>
+                    </div>
+                </div>
+
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Course</th>
+                                <th>Difficulty</th>
+                                <th>Deadline</th>
+                                <th>Max Marks</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Dynamically iterate over assignments sent from Spring Controller -->
+                            <tr th:each="assignment : ${assignments}">
+                                <td>
+                                    <strong th:text="${assignment.title}">Build REST API</strong>
+                                    <small th:text="${assignment.description}">Implement CRUD controllers</small>
+                                </td>
+                                <td>
+                                    <span th:if="${assignment.course != null}" th:text="${assignment.course.courseName}">Java Enterprise</span>
+                                    <span th:unless="${assignment.course != null}">N/A</span>
+                                </td>
+                                <td th:text="${assignment.difficulty}">MEDIUM</td>
+                                <td th:text="${assignment.deadline}">2026-09-15</td>
+                                <td th:text="${assignment.maxMarks}">100</td>
+                                <td>
+                                    <span class="pill" th:text="${assignment.status}">ACTIVE</span>
+                                </td>
+                            </tr>
+                            <!-- Fallback if empty -->
+                            <tr th:if="${#lists.isEmpty(assignments)}">
+                                <td colspan="6" class="empty">No assignments found in the database.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <span>&copy; 2026 LearnSphereX Enterprise. All rights reserved.</span>
+            <span>Module Integration: Complete</span>
+        </footer>
+    </div>
+</div>
+
+</body>
+</html>

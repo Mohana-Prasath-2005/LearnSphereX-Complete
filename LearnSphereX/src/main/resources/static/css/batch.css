@@ -1,0 +1,1055 @@
+/* =========================================================
+   LEARNSPHEREX - BATCH MODULE
+   Complete Batch UI Styles
+   ========================================================= */
+
+
+/* =========================================================
+   1. GLOBAL RESET
+   ========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f4f7fb;
+    color: #172033;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+a {
+    text-decoration: none;
+}
+
+button,
+input,
+select {
+    font-family: inherit;
+}
+
+
+/* =========================================================
+   2. MAIN APPLICATION LAYOUT
+   ========================================================= */
+
+.app-container {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+}
+
+
+/* =========================================================
+   3. SIDEBAR
+   ========================================================= */
+
+.sidebar {
+    width: 260px;
+    min-width: 260px;
+    min-height: 100vh;
+
+    background: #101828;
+    color: #ffffff;
+
+    padding: 28px 18px;
+
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* -------------------------
+   Brand
+------------------------- */
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    padding: 0 10px 30px;
+}
+
+.brand-logo {
+    width: 44px;
+    height: 44px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 11px;
+
+    background: #356ae6;
+    color: #ffffff;
+
+    font-size: 21px;
+    font-weight: 700;
+}
+
+.brand-text h2 {
+    margin: 0;
+
+    color: #ffffff;
+
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.brand-text span {
+    display: block;
+
+    margin-top: 3px;
+
+    color: #98a2b3;
+
+    font-size: 11px;
+}
+
+
+/* -------------------------
+   Menu title
+------------------------- */
+
+.menu-title {
+    padding: 16px 12px 10px;
+
+    color: #667085;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    letter-spacing: 1.7px;
+
+    text-transform: uppercase;
+}
+
+
+/* -------------------------
+   Sidebar menu
+------------------------- */
+
+.sidebar-menu {
+    display: flex;
+    flex-direction: column;
+
+    gap: 4px;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 11px 12px;
+
+    border-radius: 8px;
+
+    color: #d0d5dd;
+
+    font-size: 14px;
+    font-weight: 500;
+
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+}
+
+.menu-item:hover {
+    background: #1d2939;
+    color: #ffffff;
+}
+
+.menu-item.active {
+    background: #253553;
+    color: #ffffff;
+}
+
+.menu-icon {
+    width: 20px;
+
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 15px;
+}
+
+
+/* -------------------------
+   Sidebar bottom
+------------------------- */
+
+.sidebar-bottom {
+    margin-top: auto;
+
+    padding: 20px 10px 0;
+
+    border-top: 1px solid #344054;
+
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+}
+
+.admin-avatar {
+    width: 39px;
+    height: 39px;
+
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #e8eefc;
+    color: #356ae6;
+
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.admin-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-info strong {
+    color: #ffffff;
+
+    font-size: 13px;
+}
+
+.admin-info span {
+    margin-top: 3px;
+
+    color: #98a2b3;
+
+    font-size: 11px;
+}
+
+
+/* =========================================================
+   4. MAIN CONTENT
+   ========================================================= */
+
+.main-content {
+    flex: 1;
+    min-width: 0;
+
+    background: #f4f7fb;
+}
+
+
+/* =========================================================
+   5. TOP HEADER
+   ========================================================= */
+
+.top-header {
+    height: 96px;
+
+    padding: 0 38px;
+
+    background: #ffffff;
+
+    border-bottom: 1px solid #eaecf0;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+/* -------------------------
+   Header title
+------------------------- */
+
+.page-label {
+    margin-bottom: 5px;
+
+    color: #98a2b3;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    letter-spacing: 1.7px;
+}
+
+.top-header h1 {
+    margin: 0;
+
+    color: #101828;
+
+    font-size: 24px;
+    font-weight: 700;
+}
+
+
+/* -------------------------
+   System status
+------------------------- */
+
+.system-status {
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+
+    color: #667085;
+
+    font-size: 13px;
+}
+
+.status-dot {
+    width: 9px;
+    height: 9px;
+
+    border-radius: 50%;
+
+    background: #32b583;
+}
+
+.user-circle {
+    width: 40px;
+    height: 40px;
+
+    margin-left: 15px;
+
+    border-radius: 50%;
+
+    background: #e8eefc;
+    color: #356ae6;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   6. CONTENT AREA
+   ========================================================= */
+
+.content-area {
+    width: 100%;
+
+    max-width: 1400px;
+
+    padding: 42px 38px;
+}
+
+
+/* =========================================================
+   7. PAGE HEADING
+   ========================================================= */
+
+.page-heading {
+    margin-bottom: 28px;
+
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+
+    gap: 20px;
+}
+
+.page-heading h2 {
+    margin: 0 0 7px;
+
+    color: #101828;
+
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.page-heading p {
+    margin: 0;
+
+    color: #667085;
+
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   8. BUTTON BASE
+   ========================================================= */
+
+.btn {
+    min-height: 42px;
+
+    padding: 0 17px;
+
+    border: none;
+    border-radius: 8px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 7px;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        transform 0.1s ease;
+}
+
+.btn:hover {
+    text-decoration: none;
+}
+
+.btn:active {
+    transform: translateY(1px);
+}
+
+
+/* -------------------------
+   Primary
+------------------------- */
+
+.btn-primary {
+    background: #356ae6;
+    color: #ffffff;
+}
+
+.btn-primary:hover {
+    background: #2857c8;
+}
+
+
+/* -------------------------
+   Secondary
+------------------------- */
+
+.btn-secondary {
+    background: #667085;
+    color: #ffffff;
+}
+
+.btn-secondary:hover {
+    background: #475467;
+}
+
+
+/* -------------------------
+   View
+------------------------- */
+
+.btn-view {
+    min-height: 36px;
+
+    padding: 0 12px;
+
+    background: #eef4ff;
+    color: #356ae6;
+
+    font-size: 12px;
+}
+
+.btn-view:hover {
+    background: #dfeaff;
+}
+
+
+/* -------------------------
+   Edit
+------------------------- */
+
+.btn-edit {
+    min-height: 36px;
+
+    padding: 0 12px;
+
+    background: #fff4df;
+    color: #d97706;
+
+    font-size: 12px;
+}
+
+.btn-edit:hover {
+    background: #ffebc4;
+}
+
+
+/* -------------------------
+   Delete
+------------------------- */
+
+.btn-delete {
+    min-height: 36px;
+
+    padding: 0 12px;
+
+    background: #fff1f1;
+    color: #dc2626;
+
+    font-size: 12px;
+}
+
+.btn-delete:hover {
+    background: #ffe1e1;
+}
+
+
+/* -------------------------
+   Back link
+------------------------- */
+
+.back-link {
+    color: #356ae6;
+
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}
+
+
+/* =========================================================
+   9. BATCH TABLE
+   ========================================================= */
+
+.table-card {
+    width: 100%;
+
+    background: #ffffff;
+
+    border: 1px solid #eaecf0;
+
+    border-radius: 14px;
+
+    overflow-x: auto;
+
+    box-shadow:
+        0 4px 14px rgba(16, 24, 40, 0.05);
+}
+
+.batch-table {
+    width: 100%;
+
+    min-width: 1050px;
+
+    border-collapse: collapse;
+}
+
+
+/* -------------------------
+   Table header
+------------------------- */
+
+.batch-table th {
+    padding: 16px 18px;
+
+    background: #f9fafb;
+
+    border-bottom: 1px solid #eaecf0;
+
+    color: #475467;
+
+    text-align: left;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    letter-spacing: 0.8px;
+
+    text-transform: uppercase;
+
+    white-space: nowrap;
+}
+
+
+/* -------------------------
+   Table body
+------------------------- */
+
+.batch-table td {
+    padding: 17px 18px;
+
+    border-bottom: 1px solid #eaecf0;
+
+    color: #344054;
+
+    font-size: 14px;
+
+    vertical-align: middle;
+
+    white-space: nowrap;
+}
+
+.batch-table tbody tr:hover {
+    background: #f9fafb;
+}
+
+.batch-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+
+/* =========================================================
+   10. BATCH STATUS
+   ========================================================= */
+
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 5px 10px;
+
+    border-radius: 20px;
+
+    background: #e7f7f0;
+    color: #16805b;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    text-transform: uppercase;
+}
+
+
+/* =========================================================
+   11. TABLE ACTIONS
+   ========================================================= */
+
+.actions,
+.schedule-actions {
+    display: flex;
+    align-items: center;
+
+    gap: 7px;
+
+    white-space: nowrap;
+}
+
+.actions .btn,
+.schedule-actions .btn {
+    min-height: 36px;
+
+    padding: 0 12px;
+
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   12. DELETE FORM
+   ========================================================= */
+
+.delete-form {
+    display: inline;
+
+    margin: 0;
+    padding: 0;
+}
+
+
+/* =========================================================
+   13. EMPTY TABLE
+   ========================================================= */
+
+.empty-message {
+    padding: 45px 20px !important;
+
+    text-align: center !important;
+
+    color: #98a2b3 !important;
+
+    font-size: 14px !important;
+}
+
+
+/* =========================================================
+   14. FORM CARD
+   ========================================================= */
+
+.form-card {
+    width: 100%;
+    max-width: 760px;
+
+    padding: 32px;
+
+    background: #ffffff;
+
+    border: 1px solid #eaecf0;
+
+    border-radius: 14px;
+
+    box-shadow:
+        0 4px 14px rgba(16, 24, 40, 0.05);
+}
+
+
+/* =========================================================
+   15. FORM GROUP
+   ========================================================= */
+
+.form-group {
+    margin-bottom: 22px;
+}
+
+.form-group label {
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: #344054;
+
+    font-size: 13px;
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   16. FORM INPUTS
+   ========================================================= */
+
+.form-group input,
+.form-group select,
+.form-control {
+    width: 100%;
+
+    height: 46px;
+
+    padding: 0 14px;
+
+    border: 1px solid #d0d5dd;
+
+    border-radius: 8px;
+
+    outline: none;
+
+    background: #ffffff;
+
+    color: #101828;
+
+    font-size: 14px;
+}
+
+.form-group input::placeholder,
+.form-control::placeholder {
+    color: #98a2b3;
+}
+
+
+.form-group input:focus,
+.form-group select:focus,
+.form-control:focus {
+    border-color: #356ae6;
+
+    box-shadow:
+        0 0 0 3px rgba(53, 106, 230, 0.12);
+}
+
+
+/* =========================================================
+   17. FORM GRID
+   ========================================================= */
+
+.form-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 20px;
+}
+
+
+/* =========================================================
+   18. TIME ROW
+   ========================================================= */
+
+.time-row {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 20px;
+}
+
+
+/* =========================================================
+   19. FORM ACTIONS
+   ========================================================= */
+
+.form-actions {
+    margin-top: 30px;
+
+    padding-top: 24px;
+
+    border-top: 1px solid #eaecf0;
+
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+}
+
+
+/* =========================================================
+   20. DETAILS CARD
+   ========================================================= */
+
+.details-card {
+    width: 100%;
+    max-width: 850px;
+
+    padding: 10px 30px;
+
+    background: #ffffff;
+
+    border: 1px solid #eaecf0;
+
+    border-radius: 14px;
+
+    box-shadow:
+        0 4px 14px rgba(16, 24, 40, 0.05);
+}
+
+
+/* =========================================================
+   21. DETAIL ROW
+   ========================================================= */
+
+.detail-row {
+    min-height: 62px;
+
+    padding: 17px 0;
+
+    border-bottom: 1px solid #eaecf0;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 30px;
+}
+
+.detail-row:last-child {
+    border-bottom: none;
+}
+
+
+.detail-label {
+    color: #344054;
+
+    font-size: 13px;
+    font-weight: 600;
+}
+
+
+.detail-value {
+    color: #475467;
+
+    font-size: 14px;
+
+    text-align: right;
+}
+
+
+/* =========================================================
+   22. FORM HEADING
+   ========================================================= */
+
+.form-heading {
+    margin-bottom: 25px;
+}
+
+.form-heading h2 {
+    margin: 0 0 7px;
+
+    color: #101828;
+
+    font-size: 28px;
+}
+
+.form-heading p {
+    margin: 0;
+
+    color: #667085;
+
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   23. BACK SECTION
+   ========================================================= */
+
+.back-section {
+    margin-top: 22px;
+}
+
+
+/* =========================================================
+   24. SCHEDULE TABLE
+   ========================================================= */
+
+.schedule-table {
+    width: 100%;
+
+    border-collapse: collapse;
+}
+
+
+/* =========================================================
+   25. FOOTER
+   ========================================================= */
+
+.footer {
+    width: 100%;
+
+    padding: 0 38px 30px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    color: #98a2b3;
+
+    font-size: 11px;
+}
+
+
+/* =========================================================
+   26. RESPONSIVE - TABLET
+   ========================================================= */
+
+@media (max-width: 1000px) {
+
+    .sidebar {
+        width: 220px;
+        min-width: 220px;
+    }
+
+    .top-header {
+        padding: 0 25px;
+    }
+
+    .content-area {
+        padding: 35px 25px;
+    }
+
+    .footer {
+        padding-left: 25px;
+        padding-right: 25px;
+    }
+
+    .batch-table {
+        min-width: 950px;
+    }
+}
+
+
+/* =========================================================
+   27. RESPONSIVE - MOBILE
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+    .sidebar {
+        display: none;
+    }
+
+    .top-header {
+        height: auto;
+        min-height: 85px;
+
+        padding: 18px 20px;
+    }
+
+    .top-header h1 {
+        font-size: 20px;
+    }
+
+    .system-status span:not(.status-dot) {
+        display: none;
+    }
+
+    .user-circle {
+        margin-left: 8px;
+    }
+
+    .content-area {
+        padding: 25px 18px;
+    }
+
+    .page-heading {
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        gap: 15px;
+    }
+
+    .page-heading h2 {
+        font-size: 24px;
+    }
+
+    .form-card {
+        padding: 22px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .time-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .detail-row {
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        gap: 6px;
+    }
+
+    .detail-value {
+        text-align: left;
+    }
+
+    .form-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .form-actions .btn {
+        width: 100%;
+    }
+
+    .footer {
+        padding: 0 18px 25px;
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 8px;
+    }
+}

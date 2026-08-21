@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/header :: head('Course Enrollment')}"></head>
-<body><div class="app-shell"><div th:replace="~{fragments/sidebar :: sidebar}"></div><main class="main-area">
-<div th:replace="~{fragments/navbar :: navbar}"></div><section class="page-content"><a class="back-link" th:href="@{/students/{id}(id=${student.id})}">← Back to Student</a><div class="page-title"><div><h2>Course Enrollment</h2><p th:text="${'Enroll ' + student.studentCode + ' into an active batch.'}">Enrollment</p></div></div>
+<body><div class="app-shell"><div th:replace="~{fragments/sidebar :: sidebar(active='students')}"></div><main class="main-area">
+<div th:replace="~{fragments/navbar :: navbar(heading='Course Enrollment', eyebrow='ACADEMICS')}"></div><section class="page-content"><a class="back-link" th:href="@{/students/{id}(id=${student.id})}">← Back to Student</a><div class="page-title"><div><h2>Course Enrollment</h2><p th:text="${'Enroll ' + student.studentCode + ' into an active batch.'}">Enrollment</p></div></div>
 <form class="form-panel" th:action="@{/students/{id}/enroll(id=${student.id})}" th:object="${enrollmentForm}" method="post"><div class="form-grid">
-<div class="field"><label>Course</label><select class="select" th:field="*{courseId}" required><option value="">Select course</option><option th:each="c : ${courses}" th:value="${c.id}" th:text="${c.name}"></option></select></div>
-<div class="field"><label>Active Batch</label><select class="select" th:field="*{batchId}" required><option value="">Select batch</option><option th:each="b : ${batches}" th:value="${b.id}" th:text="${b.batchCode + ' — ' + b.course.name}"></option></select></div>
+<div class="field"><label>Course</label><select class="select" th:field="*{courseId}" required><option value="">Select course</option><option th:each="c : ${courses}" th:value="${c.id}" th:text="${c.courseName}"></option></select></div>
+<div class="field"><label>Active Batch</label><select class="select" th:field="*{batchId}" required><option value="">Select batch</option><option th:each="b : ${batches}" th:value="${b.id}" th:text="${b.batchCode + ' — ' + b.courseName}"></option></select></div>
 <div class="field"><label>Enrollment Date</label><input class="input" type="date" th:field="*{enrollmentDate}" required></div>
-<div class="field"><label>Status</label><select class="select" th:field="*{status}"><option th:each="s : ${T(com.example.jobi.student.entity.EnrollmentStatus).values()}" th:value="${s}" th:text="${s}"></option></select></div>
+<div class="field"><label>Status</label><select class="select" th:field="*{status}"><option th:each="s : ${T(com.learnspherex.student.entity.EnrollmentStatus).values()}" th:value="${s}" th:text="${s}"></option></select></div>
 </div><div class="notice section-space">The selected batch must be active and belong to the selected course.</div><div class="form-actions"><a class="btn secondary" th:href="@{/students/{id}(id=${student.id})}">Cancel</a><button class="btn primary" type="submit">Enroll Student</button></div></form>
 </section><div th:replace="~{fragments/footer :: footer}"></div></main></div></body></html>

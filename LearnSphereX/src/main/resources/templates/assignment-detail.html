@@ -1,47 +1,16 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>LearnSphereX - Assignment Detail</title>
-    <link rel="stylesheet" th:href="@{/css/styles.css}">
-</head>
+<head th:replace="~{fragments/header :: head('Assignment Detail')}"></head>
 <body>
 
 <div class="app-shell">
-    <aside class="sidebar">
-        <div class="brand">
-            <div class="brand-mark">SS</div>
-            <div>
-                <strong>LearnSphereX</strong>
-                <span>Enterprise Portal</span>
-            </div>
-        </div>
-        <div class="nav-label">NAVIGATION</div>
-        <nav class="nav">
-            <a class="nav-item" th:href="@{/courses}">📚 Courses</a>
-            <a class="nav-item" th:href="@{/assignments}">📝 Assignments</a>
-        </nav>
-        <div class="sidebar-footer">
-            <div class="mini-avatar">AD</div>
-            <div>
-                <strong>Admin User</strong>
-                <span>admin@learnspherex.com</span>
-            </div>
-        </div>
-    </aside>
+    <div th:replace="~{fragments/sidebar :: sidebar(active='assignments')}"></div>
 
     <div class="main-area">
-        <header class="topbar">
-            <div>
-                <span class="eyebrow">MODULE MANAGEMENT</span>
-                <h1 th:text="${assignment.title}">Assignment Title</h1>
-            </div>
-            <div class="topbar-right">
-                <a class="btn btn-secondary btn-sm" th:href="@{/assignments}">← Back to Assignments</a>
-            </div>
-        </header>
+        <div th:replace="~{fragments/navbar :: navbar(heading=${assignment.title}, eyebrow='MODULE MANAGEMENT')}"></div>
 
         <main class="page-content">
+            <a class="back-link" th:href="@{/assignments}">← Back to Assignments</a>
             <!-- Assignment summary -->
             <section class="hero">
                 <div>
@@ -125,9 +94,7 @@
             </div>
         </main>
 
-        <footer class="footer">
-            <span>&copy; 2026 LearnSphereX Enterprise. All rights reserved.</span>
-        </footer>
+        <div th:replace="~{fragments/footer :: footer}"></div>
     </div>
 </div>
 

@@ -63,6 +63,12 @@ public class ProjectSubmissionService {
     }
 
     @Transactional(readOnly = true)
+    public List<SubmissionResponse> findAll(Authentication authentication) {
+        currentUserService.assertOwnerOrRole(authentication, null, "ADMIN", "TRAINER", "EVALUATOR");
+        return repository.findAll().stream().map(this::toResponse).toList();
+    }
+
+    @Transactional(readOnly = true)
     public List<SubmissionResponse> findByStudent(Long studentId, Authentication authentication) {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new ResourceNotFoundException("Student not found: " + studentId));

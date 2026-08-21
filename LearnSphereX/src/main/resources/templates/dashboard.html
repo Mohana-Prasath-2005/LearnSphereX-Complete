@@ -1023,6 +1023,14 @@
 
 
             <a class="nav-item"
+               th:href="@{/students}">
+
+                🎓 Students
+
+            </a>
+
+
+            <a class="nav-item"
                th:href="@{/assignments}">
 
                 📝 Assignments
@@ -1041,14 +1049,6 @@
                th:href="@{/batches}">
 
                 🏢 Batches
-
-            </a>
-
-
-            <a class="nav-item"
-               th:href="@{/batch-schedules}">
-
-                🗓 Schedule
 
             </a>
 
@@ -1077,9 +1077,9 @@
 
 
             <!--
-                 These are disabled for now because
-                 the current dashboard template does not
-                 have confirmed Thymeleaf page routes.
+                 Examination and Certification have no
+                 Thymeleaf UI route yet (JSON API only) -
+                 kept disabled until one is built.
             -->
 
             <div class="nav-item disabled-card"
@@ -1090,12 +1090,20 @@
             </div>
 
 
-            <div class="nav-item disabled-card"
-                 title="Project page will be connected when its UI route is available">
+            <a class="nav-item"
+               th:href="@{/projects}">
 
                 💻 Projects
 
-            </div>
+            </a>
+
+
+            <a class="nav-item"
+               th:href="@{/submissions}">
+
+                📁 Submissions
+
+            </a>
 
 
             <div class="nav-item disabled-card"
@@ -1108,12 +1116,15 @@
 
             <!-- FINANCE -->
 
-            <div class="nav-label">
+            <div class="nav-label"
+                 th:if="${#lists.contains(roles,'ADMIN')}">
+
                 FINANCE
             </div>
 
 
             <a class="nav-item"
+               th:if="${#lists.contains(roles,'ADMIN')}"
                th:href="@{/fee-plans}">
 
                 💰 Fee Plans
@@ -1122,6 +1133,7 @@
 
 
             <a class="nav-item"
+               th:if="${#lists.contains(roles,'ADMIN')}"
                th:href="@{/payments}">
 
                 💳 Payments
@@ -1151,12 +1163,12 @@
             </div>
 
 
-            <div class="nav-item disabled-card"
-                 title="Reports page will be connected when its UI route is available">
+            <a class="nav-item"
+               th:href="@{/reports}">
 
                 📊 Reports
 
-            </div>
+            </a>
 
 
             <!-- ADMINISTRATION -->
@@ -1174,6 +1186,21 @@
                th:href="@{/users}">
 
                 👥 Users
+
+            </a>
+
+
+            <!-- ACCOUNT -->
+
+            <div class="nav-label">
+                ACCOUNT
+            </div>
+
+
+            <a class="nav-item"
+               th:href="@{/profile}">
+
+                👤 My Profile
 
             </a>
 
@@ -1538,7 +1565,7 @@
                         </h3>
 
 
-                        <a th:href="@{/batch-schedules}">
+                        <a th:href="@{/batches}">
                             View all
                         </a>
 
@@ -1885,7 +1912,7 @@
 
 
                 <a class="quick-action"
-                   th:href="@{/batch-schedules}">
+                   th:href="@{/batches}">
 
                     🗓 View Schedule
 
@@ -2023,7 +2050,7 @@
                 <!-- SCHEDULE -->
 
                 <a class="module-card"
-                   th:href="@{/batch-schedules}">
+                   th:href="@{/batches}">
 
 
                     <div class="module-icon">

@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/header :: head('Project Evaluation')}"></head>
-<body><div class="app-shell"><div th:replace="~{fragments/sidebar :: sidebar}"></div><main class="main-area">
-<div th:replace="~{fragments/navbar :: navbar}"></div><section class="page-content"><a class="back-link" th:href="@{/submissions/{id}(id=${submission.id})}">← Back to Submission</a>
+<body><div class="app-shell"><div th:replace="~{fragments/sidebar :: sidebar(active='submissions')}"></div><main class="main-area">
+<div th:replace="~{fragments/navbar :: navbar(heading='Evaluate Project', eyebrow='COURSEWORK')}"></div><section class="page-content"><a class="back-link" th:href="@{/submissions/{id}(id=${submission.id})}">← Back to Submission</a>
 <div class="page-title"><div><h2>Evaluate Project</h2><p th:text="${submission.studentCode + ' · ' + submission.projectTitle}">Student · Project</p></div></div>
 <form class="form-panel" th:action="@{/submissions/{id}/evaluate(id=${submission.id})}" th:object="${evaluationForm}" method="post">
 <div class="form-grid"><div class="field"><label>Evaluator ID <span class="required">*</span></label><input class="input" type="number" th:field="*{evaluatorId}" placeholder="101" required></div><div class="field"><label>Maximum Project Marks</label><input class="input" type="text" th:value="${projectMaxMarks}" readonly></div></div>

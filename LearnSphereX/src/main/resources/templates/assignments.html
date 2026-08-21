@@ -1,50 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>LearnSphereX - Assignment Management</title>
-    <!-- Links to your CSS design system -->
-    <link rel="stylesheet" th:href="@{/css/styles.css}">
-</head>
+<head th:replace="~{fragments/header :: head('Assignments')}"></head>
 <body>
 
 <div class="app-shell">
-    <!-- Sidebar Navigation -->
-    <aside class="sidebar">
-        <div class="brand">
-            <div class="brand-mark">SS</div>
-            <div>
-                <strong>LearnSphereX</strong>
-                <span>Enterprise Portal</span>
-            </div>
-        </div>
-        
-        <div class="nav-label">NAVIGATION</div>
-        <nav class="nav">
-            <a class="nav-item" th:href="@{/courses}">📚 Courses</a>
-            <a class="nav-item" th:href="@{/assignments}">📝 Assignments</a>
-        </nav>
-
-        <div class="sidebar-footer">
-            <div class="mini-avatar">AD</div>
-            <div>
-                <strong>Admin User</strong>
-                <span>admin@learnspherex.com</span>
-            </div>
-        </div>
-    </aside>
+    <div th:replace="~{fragments/sidebar :: sidebar(active='assignments')}"></div>
 
     <!-- Main Content Area -->
     <div class="main-area">
-        <header class="topbar">
-            <div>
-                <span class="eyebrow">MODULE MANAGEMENT</span>
-                <h1>Assignments Directory</h1>
-            </div>
-            <div class="topbar-right">
-                <span class="status-dot"></span> System Online
-            </div>
-        </header>
+        <div th:replace="~{fragments/navbar :: navbar(heading='Assignments Directory', eyebrow='MODULE MANAGEMENT')}"></div>
 
         <main class="page-content">
             <!-- Hero Banner -->
@@ -63,6 +27,7 @@
                         <span class="eyebrow">DATABASE RECORDS</span>
                         <h3>All Assignments</h3>
                     </div>
+                    <a class="btn primary" th:href="@{/assignments/new}">+ Add Assignment</a>
                 </div>
 
                 <div class="table-wrap">
@@ -75,6 +40,7 @@
                                 <th>Deadline</th>
                                 <th>Max Marks</th>
                                 <th>Status</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -94,10 +60,14 @@
                                 <td>
                                     <span class="pill" th:text="${assignment.status}">ACTIVE</span>
                                 </td>
+                                <td><div class="actions">
+                                    <a class="btn small secondary" th:href="@{/assignments/{id}(id=${assignment.id})}">View</a>
+                                    <a class="btn small secondary" th:href="@{/assignments/{id}/edit(id=${assignment.id})}">Edit</a>
+                                </div></td>
                             </tr>
                             <!-- Fallback if empty -->
                             <tr th:if="${#lists.isEmpty(assignments)}">
-                                <td colspan="6" class="empty">No assignments found in the database.</td>
+                                <td colspan="7" class="empty">No assignments found in the database.</td>
                             </tr>
                         </tbody>
                     </table>
@@ -105,10 +75,7 @@
             </div>
         </main>
 
-        <footer class="footer">
-            <span>&copy; 2026 LearnSphereX Enterprise. All rights reserved.</span>
-            <span>Module Integration: Complete</span>
-        </footer>
+        <div th:replace="~{fragments/footer :: footer}"></div>
     </div>
 </div>
 

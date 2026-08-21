@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/header :: head('Projects')}"></head>
-<body><div class="app-shell"><div th:replace="~{fragments/sidebar :: sidebar}"></div><main class="main-area">
-<div th:replace="~{fragments/navbar :: navbar}"></div><section class="page-content"><div th:replace="~{fragments/messages :: messages}"></div>
+<body><div class="app-shell"><div th:replace="~{fragments/sidebar :: sidebar(active='projects')}"></div><main class="main-area">
+<div th:replace="~{fragments/navbar :: navbar(heading='Projects', eyebrow='COURSEWORK')}"></div><section class="page-content"><div th:replace="~{fragments/messages :: messages}"></div>
 <div class="page-title"><div><h2>Projects</h2><p>Create projects, define criteria and review submissions.</p></div><a class="btn primary" th:href="@{/projects/new}">+ Create Project</a></div>
 <div class="project-grid"><article class="project-card" th:each="p : ${projects}"><div style="display:flex;justify-content:space-between;gap:10px"><span class="badge" th:text="${p.status}">ACTIVE</span><span style="color:#8b96a8;font-size:11px" th:text="${p.deadline}">2026-09-30</span></div><h3 th:text="${p.title}">Project</h3><p th:text="${p.description}">Description</p><div class="project-meta"><div class="meta-box"><span>Course</span><strong th:text="${p.courseName}">Java</strong></div><div class="meta-box"><span>Marks</span><strong th:text="${p.maximumMarks}">100</strong></div></div><div class="actions"><a class="btn small primary" th:href="@{/projects/{id}(id=${p.id})}">Open</a><a class="btn small secondary" th:href="@{/projects/{id}/edit(id=${p.id})}">Edit</a><a class="btn small secondary" th:href="@{/projects/{id}/criteria(id=${p.id})}">Criteria</a><form th:action="@{/projects/{id}/delete(id=${p.id})}" method="post"><button class="btn small danger" type="submit">Delete</button></form></div></article></div>
 <div th:if="${#lists.isEmpty(projects)}" class="panel"><div class="empty">No projects available.</div></div>

@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/header :: head(${pageTitle})}"></head>
-<body><div class="app-shell"><div th:replace="~{fragments/sidebar :: sidebar}"></div><main class="main-area">
-<div th:replace="~{fragments/navbar :: navbar}"></div><section class="page-content"><a class="back-link" th:href="@{/projects}">← Back to Projects</a><div class="page-title"><div><h2 th:text="${pageTitle}">Create Project</h2><p>Define the project brief and evaluation settings.</p></div></div>
+<body><div class="app-shell"><div th:replace="~{fragments/sidebar :: sidebar(active='projects')}"></div><main class="main-area">
+<div th:replace="~{fragments/navbar :: navbar(heading=${pageTitle}, eyebrow='COURSEWORK')}"></div><section class="page-content"><a class="back-link" th:href="@{/projects}">← Back to Projects</a><div class="page-title"><div><h2 th:text="${pageTitle}">Create Project</h2><p>Define the project brief and evaluation settings.</p></div></div>
 <form class="form-panel" th:action="@{/projects/save}" th:object="${projectForm}" method="post"><input type="hidden" th:field="*{id}"><div class="form-grid">
 <div class="field full"><label>Project Title <span class="required">*</span></label><input class="input" th:field="*{title}" placeholder="E-Commerce Application" required></div>
 <div class="field full"><label>Description <span class="required">*</span></label><textarea class="textarea" th:field="*{description}" required></textarea></div>

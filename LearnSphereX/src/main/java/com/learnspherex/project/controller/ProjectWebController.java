@@ -121,6 +121,14 @@ public class ProjectWebController {
         return "submission/submissions";
     }
 
+    // ---------- All submissions (global) ----------
+    @GetMapping("/submissions")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('TRAINER') or hasRole('EVALUATOR')")
+    public String allSubmissions(Model model, Authentication authentication) {
+        model.addAttribute("submissions", submissionService.findAll(authentication));
+        return "submission/submissions";
+    }
+
     // ---------- Criteria ----------
     @GetMapping("/projects/{id}/criteria")
     @PreAuthorize("hasRole('ADMIN') or hasRole('TRAINER')")

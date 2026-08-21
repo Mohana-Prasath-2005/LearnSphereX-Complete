@@ -1,35 +1,11 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Create User | LearnSphereX</title>
-<link rel="stylesheet" th:href="@{/css/styles.css}">
-</head>
+<head th:replace="~{fragments/header :: head('Create User')}"></head>
 <body>
 	<div class="app-shell">
-		<aside class="sidebar">
-			<div class="brand">
-				<div class="brand-mark">S</div>
-				<div>
-					<strong>LearnSphereX</strong><span>LEARNING MANAGEMENT SYSTEM</span>
-				</div>
-			</div>
-			<nav class="nav">
-				<a class="nav-item" th:href="@{/dashboard}">Dashboard</a>
-				<div class="nav-label">SORN MODULE</div>
-				<a class="nav-item active" th:href="@{/users}">Users</a><a
-					class="nav-item" th:href="@{/fee-plans}">Fee Plans</a><a
-					class="nav-item" th:href="@{/payments}">Record Payment</a>
-			</nav>
-		</aside>
+		<div th:replace="~{fragments/sidebar :: sidebar(active='users')}"></div>
 		<section class="main-area">
-			<header class="topbar">
-				<div>
-					<div class="eyebrow">LEARNSPHEREX / ADMINISTRATION</div>
-					<h1>Create user</h1>
-				</div>
-			</header>
+			<div th:replace="~{fragments/navbar :: navbar(heading='Create User', eyebrow='ADMINISTRATION')}"></div>
 			<div class="page-content">
 				<section class="form-panel">
 					<div class="eyebrow">ADMIN ONLY</div>
@@ -74,6 +50,7 @@
 					</form>
 				</section>
 			</div>
+			<div th:replace="~{fragments/footer :: footer}"></div>
 		</section>
 	</div>
 </body>

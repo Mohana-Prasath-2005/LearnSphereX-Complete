@@ -1,6 +1,0 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/header :: head('Courses')}"></head>
-<body><div class="app-shell"><div th:replace="~{fragments/sidebar :: sidebar}"></div><main class="main-area"><div th:replace="~{fragments/navbar :: navbar}"></div><section class="page-content">
-<div class="page-title"><div><h2>Courses</h2><p>Courses available to students and projects.</p></div></div><div class="project-grid"><article class="project-card" th:each="c : ${courses}"><span class="badge" th:text="${c.active ? 'ACTIVE' : 'INACTIVE'}">ACTIVE</span><h3 th:text="${c.name}">Java Full Stack</h3><p th:text="${c.description}">Description</p><div class="meta-box"><span>Course ID</span><strong th:text="${c.id}">1</strong></div></article></div>
-</section><div th:replace="~{fragments/footer :: footer}"></div></main></div></body></html>

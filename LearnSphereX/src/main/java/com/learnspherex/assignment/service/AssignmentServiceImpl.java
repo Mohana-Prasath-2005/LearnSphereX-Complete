@@ -75,7 +75,7 @@ public class AssignmentServiceImpl implements AssignmentService {
     @Transactional(readOnly = true)
     public Assignment getAssignmentById(Long id) {
 
-        return assignmentRepository.findById(id)
+        return assignmentRepository.findByIdWithCourse(id)
                 .orElseThrow(() ->
                         new ResourceNotFoundException(
                                 "Assignment not found with id: " + id

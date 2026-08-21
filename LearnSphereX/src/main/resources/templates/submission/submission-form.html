@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/header :: head('Submit Project')}"></head>
-<body><div class="app-shell"><div th:replace="~{fragments/sidebar :: sidebar}"></div><main class="main-area">
-<div th:replace="~{fragments/navbar :: navbar}"></div><section class="page-content"><a class="back-link" th:href="@{/projects/{id}(id=${project.id})}">← Back to Project</a><div class="page-title"><div><h2>Submit Project</h2><p th:text="${project.title}">Project</p></div></div>
+<body><div class="app-shell"><div th:replace="~{fragments/sidebar :: sidebar(active='projects')}"></div><main class="main-area">
+<div th:replace="~{fragments/navbar :: navbar(heading='Submit Project', eyebrow='COURSEWORK')}"></div><section class="page-content"><a class="back-link" th:href="@{/projects/{id}(id=${project.id})}">← Back to Project</a><div class="page-title"><div><h2>Submit Project</h2><p th:text="${project.title}">Project</p></div></div>
 <form class="form-panel" th:action="@{/projects/{id}/submit(id=${project.id})}" th:object="${submissionForm}" method="post"><div class="form-grid">
 <div class="field"><label>Student</label><select class="select" th:field="*{studentId}" required><option value="">Select student</option><option th:each="s : ${students}" th:value="${s.id}" th:text="${s.studentCode + ' — ' + s.college}"></option></select></div>
 <div class="field"><label>Version</label><input class="input" th:field="*{version}" placeholder="1.0" required></div>

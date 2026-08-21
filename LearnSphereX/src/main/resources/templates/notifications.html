@@ -652,9 +652,19 @@
                 Profile
             </a>
 
+            <a href="/courses">
+                <span class="menu-icon">📚</span>
+                Courses
+            </a>
+
             <a href="/batches">
                 <span class="menu-icon">👥</span>
                 Batches
+            </a>
+
+            <a href="/students">
+                <span class="menu-icon">🎓</span>
+                Students
             </a>
 
             <a href="/attendance">
@@ -662,14 +672,19 @@
                 Attendance
             </a>
 
-            <a href="/schedule">
-                <span class="menu-icon">📅</span>
-                Schedule
-            </a>
-
             <a href="/holidays">
                 <span class="menu-icon">🏖</span>
                 Holidays
+            </a>
+
+            <a href="/assignments">
+                <span class="menu-icon">📝</span>
+                Assignments
+            </a>
+
+            <a href="/projects">
+                <span class="menu-icon">💻</span>
+                Projects
             </a>
 
             <a href="/notifications" class="active">
@@ -694,30 +709,33 @@
                 Reports
             </a>
 
-            <a href="/settings">
-                <span class="menu-icon">⚙</span>
-                Settings
-            </a>
-
         </nav>
 
 
         <div class="logout">
 
-            <a href="/logout"
-               style="
-                   display:flex;
-                   align-items:center;
-                   gap:12px;
-                   text-decoration:none;
-                   color:#344054;
-                   padding:12px 15px;
-                   font-weight:600;
-               ">
+            <form th:action="@{/logout}" method="post" style="margin:0">
+                <button type="submit"
+                        style="
+                            display:flex;
+                            align-items:center;
+                            gap:12px;
+                            width:100%;
+                            border:0;
+                            background:transparent;
+                            cursor:pointer;
+                            text-align:left;
+                            font:inherit;
+                            text-decoration:none;
+                            color:#344054;
+                            padding:12px 15px;
+                            font-weight:600;
+                        ">
 
-                🚪 Logout
+                    🚪 Logout
 
-            </a>
+                </button>
+            </form>
 
         </div>
 

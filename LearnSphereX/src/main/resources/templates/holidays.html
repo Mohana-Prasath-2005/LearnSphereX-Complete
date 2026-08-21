@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head('Holidays')}"></head>
+<body><div class="app-shell"><div th:replace="~{fragments/sidebar :: sidebar(active='holidays')}"></div><main class="main-area">
+<div th:replace="~{fragments/navbar :: navbar(heading='Holidays', eyebrow='BATCH MANAGEMENT')}"></div><section class="page-content">
+<div th:replace="~{fragments/messages :: messages}"></div>
+<div class="alert success" th:if="${param.created}">Holiday added successfully.</div>
+<div class="page-title"><div><h2>Holidays</h2><p>Government, institute and batch-specific non-working days used when generating session schedules.</p></div></div>
+
+<div class="two-column">
+<div class="panel">
+    <div class="panel-head"><div><span class="eyebrow">CALENDAR</span><h3>All holidays</h3></div></div>
+    <div class="table-wrap"><table><thead><tr><th>Date</th><th>Reason</th><th>Type</th><th>Batch</th><th></th></tr></thead><tbody>
+    <tr th:each="h : ${holidays}">
+        <td th:text="${h.holidayDate}">2026-01-01</td>
+        <td th:text="${h.reason}">New Year</td>
+        <td><span class="pill" th:text="${h.holidayType}">GOVERNMENT</span></td>
+        <td th:text="${h.batchId != null ? '#' + h.batchId : 'All batches'}">All batches</td>
+        <td><form th:action="@{/holidays/{id}/delete(id=${h.id})}" method="post"><button class="btn small danger" type="submit">Delete</button></form></td>
+    </tr>
+    <tr th:if="${#lists.isEmpty(holidays)}"><td colspan="5" class="empty">No holidays configured yet.</td></tr>
+    </tbody></table></div>
+</div>
+
+<section class="form-panel">
+    <div class="eyebrow">ADD HOLIDAY</div>
+    <h2>New holiday</h2>
+    <form th:action="@{/holidays}" method="post">
+        <div class="form-grid">
+            <div class="field"><label>Date <span class="required">*</span></label><input class="input" type="date" name="holidayDate" required></div>
+            <div class="field"><label>Type <span class="required">*</span></label><select class="select" name="holidayType" required><option th:each="t : ${holidayTypes}" th:value="${t}" th:text="${t}"></option></select></div>
+            <div class="field full"><label>Reason <span class="required">*</span></label><input class="input" name="reason" placeholder="Republic Day" required></div>
+            <div class="field full"><label>Batch (leave blank for a global holiday)</label>
+                <select class="select" name="batchId"><option value="">All batches</option><option th:each="b : ${batches}" th:value="${b.id}" th:text="${b.batchCode + ' — ' + b.batchName}"></option></select>
+            </div>
+        </div>
+        <div class="form-actions"><button class="btn primary" type="submit">Add holiday</button></div>
+    </form>
+</section>
+</div>
+
+</section><div th:replace="~{fragments/footer :: footer}"></div></main></div></body></html>

@@ -35,20 +35,22 @@
                     </div>
                 </div>
                 <form th:action="@{/assignments/{id}/submit(id=${assignment.id})}" method="post">
-                    <div class="form-group">
-                        <label>Student ID</label>
-                        <input type="number" name="studentId" placeholder="e.g. 101" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Submission URL</label>
-                        <input type="text" name="submissionUrl" placeholder="e.g. https://github.com/student/repo" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Comments</label>
-                        <textarea name="comments" placeholder="Any notes for the trainer"></textarea>
+                    <div class="form-grid">
+                        <div class="field">
+                            <label>Student ID <span class="required">*</span></label>
+                            <input class="input" type="number" name="studentId" placeholder="e.g. 101" required>
+                        </div>
+                        <div class="field">
+                            <label>Submission URL <span class="required">*</span></label>
+                            <input class="input" type="text" name="submissionUrl" placeholder="e.g. https://github.com/student/repo" required>
+                        </div>
+                        <div class="field full">
+                            <label>Comments</label>
+                            <textarea class="textarea" name="comments" placeholder="Any notes for the trainer"></textarea>
+                        </div>
                     </div>
                     <div class="form-actions">
-                        <button type="submit" class="btn btn-primary">Submit Assignment</button>
+                        <button type="submit" class="btn primary">Submit Assignment</button>
                     </div>
                 </form>
             </div>
@@ -66,30 +68,28 @@
                     No submissions yet.
                 </div>
 
-                <div th:each="submission : ${submissions}" class="detail-block">
-                    <div class="chip-item">
-                        <strong th:text="'Student #' + ${submission.studentId} + ' — Version ' + ${submission.version}">Student</strong>
-                        <small>
-                            <a th:href="${submission.submissionUrl}" target="_blank" th:text="${submission.submissionUrl}"></a>
-                        </small>
-                        <p th:if="${submission.comments}" th:text="${submission.comments}"></p>
-                        <p>
-                            <span class="pill" th:text="${submission.status}">SUBMITTED</span>
-                            &nbsp;<span th:if="${submission.marks != null}" th:text="'Marks: ' + ${submission.marks} + ' / ' + ${assignment.maxMarks}"></span>
-                        </p>
-                        <p th:if="${submission.feedback}">
-                            <strong>Feedback:</strong> <span th:text="${submission.feedback}"></span>
-                        </p>
-
-                        <!-- Evaluate form -->
-                        <form th:action="@{/submissions/{id}/evaluate(id=${submission.id})}" method="post"
-                              style="display:flex; gap:8px; flex-wrap:wrap; margin-top:8px;">
-                            <input type="hidden" name="assignmentId" th:value="${assignment.id}">
-                            <input type="number" name="marks" min="0" th:max="${assignment.maxMarks}" placeholder="Marks" required style="width:100px;">
-                            <input type="text" name="feedback" placeholder="Feedback" style="flex:1; min-width:150px;">
-                            <button type="submit" class="btn btn-secondary btn-sm">Evaluate</button>
-                        </form>
+                <div th:each="submission : ${submissions}" style="padding:18px 22px; border-bottom:1px solid var(--line)">
+                    <strong th:text="'Student #' + ${submission.studentId} + ' — Version ' + ${submission.version}">Student</strong>
+                    <div class="block">
+                        <a class="code-link" th:href="${submission.submissionUrl}" target="_blank" th:text="${submission.submissionUrl}"></a>
                     </div>
+                    <p th:if="${submission.comments}" th:text="${submission.comments}" style="margin:8px 0"></p>
+                    <p style="margin:8px 0">
+                        <span class="pill" th:text="${submission.status}">SUBMITTED</span>
+                        &nbsp;<span th:if="${submission.marks != null}" th:text="'Marks: ' + ${submission.marks} + ' / ' + ${assignment.maxMarks}"></span>
+                    </p>
+                    <p th:if="${submission.feedback}" style="margin:8px 0">
+                        <strong>Feedback:</strong> <span th:text="${submission.feedback}"></span>
+                    </p>
+
+                    <!-- Evaluate form -->
+                    <form th:action="@{/submissions/{id}/evaluate(id=${submission.id})}" method="post"
+                          style="display:flex; gap:8px; flex-wrap:wrap; margin-top:10px;">
+                        <input type="hidden" name="assignmentId" th:value="${assignment.id}">
+                        <input class="input" type="number" name="marks" min="0" th:max="${assignment.maxMarks}" placeholder="Marks" required style="width:100px;">
+                        <input class="input" type="text" name="feedback" placeholder="Feedback" style="flex:1; min-width:150px;">
+                        <button type="submit" class="btn secondary small">Evaluate</button>
+                    </form>
                 </div>
             </div>
         </main>

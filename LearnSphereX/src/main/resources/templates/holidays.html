@@ -16,7 +16,7 @@
         <td th:text="${h.reason}">New Year</td>
         <td><span class="pill" th:text="${h.holidayType}">GOVERNMENT</span></td>
         <td th:text="${h.batchId != null ? '#' + h.batchId : 'All batches'}">All batches</td>
-        <td><form th:action="@{/holidays/{id}/delete(id=${h.id})}" method="post"><button class="btn small danger" type="submit">Delete</button></form></td>
+        <td><form th:action="@{/holidays/{id}/delete(id=${h.id})}" method="post" onsubmit="return confirm('Delete this holiday?');"><button class="btn small danger" type="submit">Delete</button></form></td>
     </tr>
     <tr th:if="${#lists.isEmpty(holidays)}"><td colspan="5" class="empty">No holidays configured yet.</td></tr>
     </tbody></table></div>

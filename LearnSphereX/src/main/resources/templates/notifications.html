@@ -43,8 +43,7 @@
 
         .sidebar {
             width: 235px;
-            background: #ffffff;
-            border-right: 1px solid #e7eaf2;
+            background: #101827;
             position: fixed;
             top: 0;
             bottom: 0;
@@ -57,14 +56,14 @@
             display: flex;
             align-items: center;
             padding: 0 25px;
-            border-bottom: 1px solid #f0f1f5;
+            border-bottom: 1px solid #253043;
         }
 
         .brand-icon {
             width: 42px;
             height: 42px;
             border-radius: 12px;
-            background: #fce4ee;
+            background: linear-gradient(135deg, #4e6ff3, #2c48c8);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -75,12 +74,12 @@
         .brand-name {
             font-size: 18px;
             font-weight: 700;
-            color: #20263a;
+            color: #ffffff;
         }
 
         .brand-subtitle {
             font-size: 12px;
-            color: #6f7890;
+            color: #7f8ca3;
             margin-top: 2px;
         }
 
@@ -90,7 +89,7 @@
 
         .menu-title {
             font-size: 11px;
-            color: #9aa1b2;
+            color: #66738a;
             text-transform: uppercase;
             letter-spacing: 1.2px;
             padding: 10px 15px;
@@ -101,7 +100,7 @@
             align-items: center;
             gap: 12px;
             text-decoration: none;
-            color: #344054;
+            color: #aeb9cc;
             padding: 12px 15px;
             border-radius: 10px;
             margin: 4px 0;
@@ -111,14 +110,14 @@
         }
 
         .menu a:hover {
-            background: #fff1f6;
-            color: #ed3d73;
+            background: #1a2537;
+            color: #ffffff;
         }
 
         .menu a.active {
-            background: #fff0f5;
-            color: #ed3d73;
-            border-left: 3px solid #ed3d73;
+            background: #1a2537;
+            color: #ffffff;
+            border-left: 3px solid #315bea;
         }
 
         .menu-icon {
@@ -129,7 +128,7 @@
 
         .notification-count {
             margin-left: auto;
-            background: #ed3d73;
+            background: #315bea;
             color: white;
             min-width: 21px;
             height: 21px;
@@ -188,7 +187,7 @@
         .search button {
             width: 48px;
             border: none;
-            background: #ed3d73;
+            background: #315bea;
             color: white;
             cursor: pointer;
             font-size: 18px;
@@ -214,7 +213,7 @@
             width: 18px;
             height: 18px;
             border-radius: 50%;
-            background: #ed3d73;
+            background: #315bea;
             color: white;
             font-size: 10px;
             display: flex;
@@ -232,8 +231,8 @@
             width: 42px;
             height: 42px;
             border-radius: 50%;
-            background: #fbd9e6;
-            color: #ed3d73;
+            background: #dbe4ff;
+            color: #315bea;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -279,7 +278,7 @@
 
         .mark-all {
             border: none;
-            background: #ed3d73;
+            background: #315bea;
             color: white;
             padding: 12px 20px;
             border-radius: 8px;
@@ -289,7 +288,7 @@
         }
 
         .mark-all:hover {
-            background: #d92e62;
+            background: #2449c8;
         }
 
         /* ================================
@@ -324,8 +323,8 @@
         }
 
         .pink {
-            background: #ffe4ee;
-            color: #ed3d73;
+            background: #e6efff;
+            color: #315bea;
         }
 
         .blue {
@@ -388,8 +387,8 @@
         }
 
         .tab.active {
-            color: #ed3d73;
-            border-bottom: 2px solid #ed3d73;
+            color: #315bea;
+            border-bottom: 2px solid #315bea;
         }
 
         .filter {
@@ -414,7 +413,7 @@
             gap: 18px;
             padding: 20px;
             border: 1px solid #edf0f4;
-            border-left: 4px solid #ed3d73;
+            border-left: 4px solid #315bea;
             border-radius: 11px;
             margin: 10px 0;
             transition: 0.2s;
@@ -440,8 +439,8 @@
             align-items: center;
             justify-content: center;
             font-size: 21px;
-            background: #ffe4ee;
-            color: #ed3d73;
+            background: #e6efff;
+            color: #315bea;
         }
 
         .notification-body {
@@ -472,8 +471,8 @@
             display: inline-block;
             padding: 5px 10px;
             border-radius: 20px;
-            background: #fff0f5;
-            color: #ed3d73;
+            background: #edf1ff;
+            color: #315bea;
             font-size: 11px;
             font-weight: 700;
             text-transform: uppercase;
@@ -487,7 +486,7 @@
         .unread-dot {
             width: 9px;
             height: 9px;
-            background: #ed3d73;
+            background: #315bea;
             border-radius: 50%;
         }
 
@@ -714,7 +713,7 @@
 
         <div class="logout">
 
-            <form th:action="@{/logout}" method="post" style="margin:0">
+            <form th:action="@{/logout}" method="post" style="margin:0; border-top:1px solid #253043; padding-top:15px">
                 <button type="submit"
                         style="
                             display:flex;
@@ -727,10 +726,11 @@
                             text-align:left;
                             font:inherit;
                             text-decoration:none;
-                            color:#344054;
+                            color:#aeb9cc;
                             padding:12px 15px;
+                            border-radius:10px;
                             font-weight:600;
-                        ">
+                        " onmouseover="this.style.background='#1a2537';this.style.color='#fff'" onmouseout="this.style.background='transparent';this.style.color='#aeb9cc'">
 
                     🚪 Logout
 
@@ -782,7 +782,7 @@
                 </div>
 
 
-                <div class="profile">
+                <a class="profile" th:href="@{/profile}" style="text-decoration:none">
 
                     <div class="profile-circle"
                          th:text="${username != null ? #strings.substring(username,0,1).toUpperCase() : 'S'}">
@@ -801,7 +801,7 @@
 
                     </div>
 
-                </div>
+                </a>
 
             </div>
 
@@ -1087,7 +1087,7 @@
                                 <span
                                         th:if="${!notification.readStatus}"
                                         style="
-                                            color:#ed3d73;
+                                            color:#315bea;
                                             font-size:10px;
                                             margin-left:8px;
                                         ">

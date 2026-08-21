@@ -1,97 +1,42 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
-<head>
-    <meta charset="UTF-8">
-    <title>Attendance Details</title>
-
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 30px;
-            background-color: #f7f7f7;
-        }
-
-        .container {
-            width: 500px;
-            margin: auto;
-            background-color: white;
-            padding: 25px;
-            border-radius: 8px;
-        }
-
-        h1 {
-            text-align: center;
-        }
-
-        .row {
-            padding: 12px;
-            border-bottom: 1px solid #ddd;
-        }
-
-        .label {
-            font-weight: bold;
-        }
-
-        .buttons {
-            margin-top: 20px;
-            text-align: center;
-        }
-
-        a {
-            margin: 5px;
-        }
-    </style>
-</head>
-
+<head th:replace="~{fragments/header :: head('Attendance Details')}"></head>
 <body>
 
-<div class="container">
+<div class="app-shell">
+    <div th:replace="~{fragments/sidebar :: sidebar(active='attendance')}"></div>
 
-    <h1>Attendance Details</h1>
+    <div class="main-area">
+        <div th:replace="~{fragments/navbar :: navbar(heading='Attendance Details', eyebrow='BATCH MANAGEMENT')}"></div>
 
-    <div class="row">
-        <span class="label">ID:</span>
-        <span th:text="${attendance.id}"></span>
+        <main class="page-content">
+            <a class="back-link" th:href="@{/attendance}">← Back to Attendance</a>
+
+            <div class="detail-card" style="max-width:600px">
+                <h3>Record #<span th:text="${attendance.id}"></span></h3>
+                <div class="detail-grid">
+                    <div class="detail-item"><span>Batch ID</span><strong th:text="${attendance.batchId}"></strong></div>
+                    <div class="detail-item"><span>Student ID</span><strong th:text="${attendance.studentId}"></strong></div>
+                    <div class="detail-item"><span>Date</span><strong th:text="${attendance.attendanceDate}"></strong></div>
+                    <div class="detail-item">
+                        <span>Status</span>
+                        <strong>
+                            <span class="pill"
+                                  th:classappend="${attendance.status.name() == 'ABSENT'} ? ' inactive' : (${attendance.status.name() == 'LATE'} ? ' warning' : '')"
+                                  th:text="${attendance.status}"></span>
+                        </strong>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <a class="btn secondary" th:href="@{/attendance}">Back</a>
+                    <a class="btn primary" th:href="@{/attendance/{id}/edit(id=${attendance.id})}">Edit</a>
+                </div>
+            </div>
+        </main>
+
+        <div th:replace="~{fragments/footer :: footer}"></div>
     </div>
-
-    <div class="row">
-        <span class="label">Batch ID:</span>
-        <span th:text="${attendance.batchId}"></span>
-    </div>
-
-    <div class="row">
-        <span class="label">Student ID:</span>
-        <span th:text="${attendance.studentId}"></span>
-    </div>
-
-    <div class="row">
-        <span class="label">Attendance Date:</span>
-        <span th:text="${attendance.attendanceDate}"></span>
-    </div>
-
-    <div class="row">
-        <span class="label">Status:</span>
-        <span th:text="${attendance.status}"></span>
-    </div>
-
-    <div class="buttons">
-
-        <a
-            th:href="@{/attendance/{id}/edit(id=${attendance.id})}">
-            Edit
-        </a>
-
-        |
-
-        <a href="/attendance">
-            Back
-        </a>
-
-    </div>
-
 </div>
 
 </body>
-
 </html>

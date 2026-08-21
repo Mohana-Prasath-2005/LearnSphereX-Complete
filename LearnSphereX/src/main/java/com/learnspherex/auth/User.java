@@ -73,4 +73,10 @@ public class User {
 	public void changePassword(String p) {
 		password = p;
 	}
+
+	public void updateProfile(String f, String l, String ph) {
+		firstName = f;
+		lastName = l;
+		phone = ph;
+	}
 }

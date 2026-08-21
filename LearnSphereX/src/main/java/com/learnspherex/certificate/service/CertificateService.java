@@ -1,5 +1,5 @@
 package com.learnspherex.certificate.service;
-import com.learnspherex.certificate.entity.Certificate; import com.learnspherex.certificate.repository.CertificateRepository; import com.learnspherex.student.repository.*; import com.learnspherex.student.entity.*; import com.learnspherex.course.repository.CourseRepository; import com.learnspherex.batch.repository.AttendanceRepository; import com.learnspherex.batch.entity.AttendanceStatus; import com.learnspherex.project.repository.*; import com.learnspherex.examination.repository.ExamAttemptRepository; import com.learnspherex.auth.*; import com.learnspherex.exception.*; import com.learnspherex.notification.event.NotificationEvent; import org.springframework.context.ApplicationEventPublisher; import org.springframework.stereotype.Service; import org.springframework.transaction.annotation.Transactional; import java.math.*; import java.util.*;
+import com.learnspherex.certificate.entity.Certificate; import com.learnspherex.certificate.repository.CertificateRepository; import com.learnspherex.student.repository.*; import com.learnspherex.student.entity.*; import com.learnspherex.course.repository.CourseRepository; import com.learnspherex.batch.repository.AttendanceRepository; import com.learnspherex.batch.entity.AttendanceStatus; import com.learnspherex.project.repository.*; import com.learnspherex.examination.repository.ExamAttemptRepository; import com.learnspherex.auth.*; import com.learnspherex.exception.*; import com.learnspherex.notification.event.NotificationEvent; import com.learnspherex.common.ApiException; import org.springframework.context.ApplicationEventPublisher; import org.springframework.http.HttpStatus; import org.springframework.stereotype.Service; import org.springframework.transaction.annotation.Transactional; import com.lowagie.text.Document; import com.lowagie.text.Element; import com.lowagie.text.Font; import com.lowagie.text.FontFactory; import com.lowagie.text.PageSize; import com.lowagie.text.Paragraph; import com.lowagie.text.pdf.PdfWriter; import java.io.ByteArrayOutputStream; import java.math.*; import java.util.*;
 @Service
 public class CertificateService {
  private final CertificateRepository certs; private final StudentRepository students; private final StudentCourseRepository enrollments; private final CourseRepository courses; private final AttendanceRepository attendance; private final ProjectSubmissionRepository submissions; private final ProjectEvaluationRepository evaluations; private final ExamAttemptRepository attempts; private final UserRepository users; private final ApplicationEventPublisher eventPublisher;
@@ -58,4 +58,57 @@ public class CertificateService {
  }
  @Transactional(readOnly=true) public List<Certificate> byStudent(Long studentId){return certs.findByStudentId(studentId);}
  @Transactional(readOnly=true) public Certificate get(String id){return certs.findByCertificateId(id).orElseThrow(()->new ResourceNotFoundException("Certificate not found"));}
+ @Transactional(readOnly=true) public Certificate getById(Long id){return certs.findById(id).orElseThrow(()->new ResourceNotFoundException("Certificate not found: "+id));}
+
+ @Transactional(readOnly=true) public byte[] generatePdf(Long id){
+  Certificate c=getById(id);
+  ByteArrayOutputStream out=new ByteArrayOutputStream();
+  Document document=new Document(PageSize.A4.rotate());
+  try{
+   PdfWriter.getInstance(document,out);
+   document.open();
+   Font titleFont=FontFactory.getFont(FontFactory.HELVETICA_BOLD,26);
+   Font labelFont=FontFactory.getFont(FontFactory.HELVETICA,14);
+   Font nameFont=FontFactory.getFont(FontFactory.HELVETICA_BOLD,28);
+   Font courseFont=FontFactory.getFont(FontFactory.HELVETICA_BOLD,20);
+
+   Paragraph certId=new Paragraph("Certificate ID: "+c.getCertificateId(),labelFont);
+   certId.setAlignment(Element.ALIGN_CENTER);
+   document.add(certId);
+   document.add(new Paragraph(" "));
+
+   Paragraph title=new Paragraph("This is to certify that",labelFont);
+   title.setAlignment(Element.ALIGN_CENTER);
+   document.add(title);
+   document.add(new Paragraph(" "));
+
+   Paragraph name=new Paragraph(c.getStudentName().toUpperCase(),nameFont);
+   name.setAlignment(Element.ALIGN_CENTER);
+   document.add(name);
+   document.add(new Paragraph(" "));
+
+   Paragraph completed=new Paragraph("has successfully completed",labelFont);
+   completed.setAlignment(Element.ALIGN_CENTER);
+   document.add(completed);
+   document.add(new Paragraph(" "));
+
+   Paragraph course=new Paragraph(c.getCourseName(),courseFont);
+   course.setAlignment(Element.ALIGN_CENTER);
+   document.add(course);
+   document.add(new Paragraph(" "));
+
+   Paragraph grade=new Paragraph("with Grade: "+c.getGrade(),labelFont);
+   grade.setAlignment(Element.ALIGN_CENTER);
+   document.add(grade);
+   document.add(new Paragraph(" "));
+
+   Paragraph date=new Paragraph("Date: "+c.getIssuedDate(),labelFont);
+   date.setAlignment(Element.ALIGN_CENTER);
+   document.add(date);
+   document.close();
+  }catch(Exception ex){
+   throw new ApiException(HttpStatus.INTERNAL_SERVER_ERROR,"Failed to generate certificate PDF: "+ex.getMessage());
+  }
+  return out.toByteArray();
+ }
 }

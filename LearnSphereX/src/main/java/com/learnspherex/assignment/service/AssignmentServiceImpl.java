@@ -54,7 +54,7 @@ public class AssignmentServiceImpl implements AssignmentService {
     @Override
     @Transactional(readOnly = true)
     public List<Assignment> getAllAssignments() {
-        return assignmentRepository.findAll();
+                return assignmentRepository.findAllWithCourse();
     }
 
     @Override

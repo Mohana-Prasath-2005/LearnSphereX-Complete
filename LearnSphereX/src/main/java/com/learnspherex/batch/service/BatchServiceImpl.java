@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -13,9 +14,12 @@ import com.learnspherex.auth.User;
 import com.learnspherex.auth.UserRepository;
 import com.learnspherex.batch.entity.Batch;
 import com.learnspherex.batch.entity.BatchStatus;
+import com.learnspherex.batch.repository.BatchEnrollmentRepository;
 import com.learnspherex.batch.repository.BatchRepository;
 import com.learnspherex.course.repository.CourseRepository;
 import com.learnspherex.notification.event.NotificationEvent;
+import com.learnspherex.security.CurrentUserService;
+import com.learnspherex.student.repository.StudentRepository;
 
 @Service
 public class BatchServiceImpl implements BatchService {
@@ -24,17 +28,49 @@ public class BatchServiceImpl implements BatchService {
     private final CourseRepository courseRepository;
     private final UserRepository userRepository;
     private final ApplicationEventPublisher eventPublisher;
+    private final BatchEnrollmentRepository batchEnrollmentRepository;
+    private final StudentRepository studentRepository;
+    private final CurrentUserService currentUserService;
 
     public BatchServiceImpl(
             BatchRepository batchRepository,
             CourseRepository courseRepository,
             UserRepository userRepository,
-            ApplicationEventPublisher eventPublisher) {
+            ApplicationEventPublisher eventPublisher,
+            BatchEnrollmentRepository batchEnrollmentRepository,
+            StudentRepository studentRepository,
+            CurrentUserService currentUserService) {
 
         this.batchRepository = batchRepository;
         this.courseRepository = courseRepository;
         this.userRepository = userRepository;
         this.eventPublisher = eventPublisher;
+        this.batchEnrollmentRepository = batchEnrollmentRepository;
+        this.studentRepository = studentRepository;
+        this.currentUserService = currentUserService;
+    }
+
+    // =========================================================
+    // BROADCAST AN ANNOUNCEMENT TO EVERY STUDENT ENROLLED IN THE BATCH
+    // =========================================================
+
+    @Override
+    public int announce(Long batchId, String message, Authentication authentication) {
+        Batch batch = getBatchById(batchId);
+        currentUserService.assertOwnerOrRole(authentication, batch.getTrainerId(), "ADMIN");
+
+        var enrollments = batchEnrollmentRepository.findByBatchId(batchId);
+        int notified = 0;
+        for (var enrollment : enrollments) {
+            Long userId = studentRepository.findById(enrollment.getStudentId())
+                    .map(com.learnspherex.student.entity.Student::getUserId)
+                    .orElse(null);
+            if (userId == null) continue;
+            eventPublisher.publishEvent(new NotificationEvent(userId, null,
+                    "Batch Announcement: " + batch.getBatchName(), message, "BATCH_ANNOUNCEMENT"));
+            notified++;
+        }
+        return notified;
     }
 
     // =========================================================

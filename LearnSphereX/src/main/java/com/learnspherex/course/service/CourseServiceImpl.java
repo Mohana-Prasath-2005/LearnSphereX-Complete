@@ -9,6 +9,8 @@ import com.learnspherex.course.repository.CourseRepository;
 import com.learnspherex.course.repository.TechnologyRepository;
 import com.learnspherex.exception.DuplicateResourceException;
 import com.learnspherex.exception.ResourceNotFoundException;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,6 +45,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    @CacheEvict(cacheNames = "courses", allEntries = true)
     public CourseResponseDTO createCourse(CourseRequestDTO request) {
         if (courseRepository.existsByCourseCode(request.getCourseCode())) {
             throw new DuplicateResourceException("Course code already exists: " + request.getCourseCode());
@@ -66,6 +69,7 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     @Transactional(readOnly = true)
+    @Cacheable(cacheNames = "courses", key = "'all'")
     public List<CourseResponseDTO> getAllCourses() {
         return courseRepository.findAll().stream()
                 .map(courseMapper::toCourseResponseDTO)
@@ -74,6 +78,7 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     @Transactional(readOnly = true)
+    @Cacheable(cacheNames = "courses", key = "'id:' + #id")
     public CourseResponseDTO getCourseById(Long id) {
         Course course = courseRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Course not found with id: " + id));
@@ -82,6 +87,7 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     @Transactional(readOnly = true)
+    @Cacheable(cacheNames = "courses", key = "'code:' + #courseCode")
     public CourseResponseDTO getCourseByCode(String courseCode) {
         Course course = courseRepository.findByCourseCode(courseCode)
                 .orElseThrow(() -> new ResourceNotFoundException("Course not found with code: " + courseCode));
@@ -89,6 +95,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    @CacheEvict(cacheNames = "courses", allEntries = true)
     public CourseResponseDTO updateCourse(Long id, CourseRequestDTO request) {
         Course existingCourse = courseRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Course not found with id: " + id));
@@ -111,6 +118,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    @CacheEvict(cacheNames = "courses", allEntries = true)
     public void deleteCourse(Long id) {
         if (!courseRepository.existsById(id)) {
             throw new ResourceNotFoundException("Course not found with id: " + id);

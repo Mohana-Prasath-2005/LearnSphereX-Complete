@@ -109,6 +109,27 @@ public class AuthController {
     }
 
 
+    @GetMapping("/me")
+    AuthDtos.UserResponse me(Authentication a) {
+
+        return service.me(a.getName());
+    }
+
+
+    @PutMapping("/me")
+    AuthDtos.UserResponse updateMe(
+            @Valid @RequestBody
+            AuthDtos.ProfileUpdateRequest r,
+            Authentication a,
+            HttpServletRequest req) {
+
+        return service.updateMyProfile(
+                a.getName(),
+                r,
+                req.getRemoteAddr());
+    }
+
+
     @PostMapping("/me/change-password")
     ResponseEntity<Void> changePassword(
             @Valid @RequestBody

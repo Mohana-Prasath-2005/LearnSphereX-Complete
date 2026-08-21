@@ -91,6 +91,22 @@ public class AuthService {
 		return view(u);
 	}
 
+	@Transactional(readOnly = true)
+	public AuthDtos.UserResponse me(String username) {
+		return users.findByUsername(username)
+				.map(this::view)
+				.orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "User not found"));
+	}
+
+	@Transactional
+	public AuthDtos.UserResponse updateMyProfile(String username, AuthDtos.ProfileUpdateRequest r, String ip) {
+		User u = users.findByUsername(username)
+				.orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "User not found"));
+		u.updateProfile(r.firstName(), r.lastName(), r.phone());
+		audit.record(u.getId(), "UPDATE_PROFILE", "User", u.getId(), ip, "Profile updated");
+		return view(u);
+	}
+
 	@Transactional
 	public void changeMyPassword(String username, AuthDtos.ChangePasswordRequest r, String ip) {
 		User u = users.findByUsername(username)

@@ -86,6 +86,15 @@ public class WebController {
 
         return "dashboard";
     }
+    @GetMapping("/profile") String profile(Authentication auth,Model model){user(model,auth);model.addAttribute("profile",authService.me(auth.getName()));return "profile";}
+    @PostMapping("/profile") String updateProfile(@RequestParam String firstName,@RequestParam String lastName,@RequestParam(required=false) String phone,Authentication auth,HttpServletRequest req,Model model){
+        try{authService.updateMyProfile(auth.getName(),new AuthDtos.ProfileUpdateRequest(firstName,lastName,phone),req.getRemoteAddr());return "redirect:/profile?updated";}
+        catch(ApiException e){user(model,auth);model.addAttribute("profile",authService.me(auth.getName()));model.addAttribute("error",e.getMessage());return "profile";}
+    }
+    @PostMapping("/profile/change-password") String changeMyPassword(@RequestParam String currentPassword,@RequestParam String newPassword,Authentication auth,HttpServletRequest req,Model model){
+        try{authService.changeMyPassword(auth.getName(),new AuthDtos.ChangePasswordRequest(currentPassword,newPassword),req.getRemoteAddr());return "redirect:/profile?passwordChanged";}
+        catch(ApiException e){user(model,auth);model.addAttribute("profile",authService.me(auth.getName()));model.addAttribute("error",e.getMessage());return "profile";}
+    }
     @GetMapping("/users") @PreAuthorize("hasRole('ADMIN')") String users(Authentication auth,Model model){user(model,auth);model.addAttribute("users",authService.list());return "users";}
     @GetMapping("/users/new") @PreAuthorize("hasRole('ADMIN')") String newUser(Authentication auth,Model model){user(model,auth);model.addAttribute("roles",RoleName.values());return "create-user";}
     @PostMapping("/users/new") @PreAuthorize("hasRole('ADMIN')") String createUser(@RequestParam String username,@RequestParam String email,@RequestParam String password,@RequestParam String firstName,@RequestParam String lastName,@RequestParam(required=false) String phone,@RequestParam RoleName role,HttpServletRequest req,Authentication auth,Model model){try{authService.createStaffUser(new AuthDtos.RegisterRequest(username,email,password,firstName,lastName,phone,role),req.getRemoteAddr(),currentUserService.currentUser(auth).getId());return "redirect:/users?created";}catch(ApiException e){user(model,auth);model.addAttribute("roles",RoleName.values());model.addAttribute("error",e.getMessage());return "create-user";}}

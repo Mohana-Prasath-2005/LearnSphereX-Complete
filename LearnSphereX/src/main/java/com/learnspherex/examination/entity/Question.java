@@ -16,4 +16,5 @@ public class Question {
  @OneToMany(mappedBy="question",cascade=CascadeType.ALL,orphanRemoval=true) private List<QuestionOption> options=new ArrayList<>();
  @Column(columnDefinition="TEXT") private String expectedAnswer;
  @Column(columnDefinition="TEXT") private String constraints;
+ @OneToMany(mappedBy="question",cascade=CascadeType.ALL,orphanRemoval=true) private List<TestCase> testCases=new ArrayList<>();
 }

@@ -1,0 +1,98 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>My Profile | LearnSphereX</title>
+<link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+	<div class="app-shell">
+		<aside class="sidebar">
+			<div class="brand">
+				<div class="brand-mark">S</div>
+				<div>
+					<strong>LearnSphereX</strong><span>LEARNING MANAGEMENT SYSTEM</span>
+				</div>
+			</div>
+			<nav class="nav">
+				<a class="nav-item" th:href="@{/dashboard}">Dashboard</a>
+				<div class="nav-label">ACCOUNT</div>
+				<a class="nav-item active" th:href="@{/profile}">My Profile</a>
+			</nav>
+			<div class="sidebar-footer">
+				<strong th:text="${username}"></strong><span th:text="${#strings.listJoin(roles, ', ')}"></span>
+				<form th:action="@{/logout}" method="post">
+					<button class="nav-item" style="padding-left: 0; margin-top: 10px">Sign
+						out</button>
+				</form>
+			</div>
+		</aside>
+		<section class="main-area">
+			<header class="topbar">
+				<div>
+					<div class="eyebrow">LEARNSPHEREX / ACCOUNT</div>
+					<h1>My Profile</h1>
+				</div>
+			</header>
+			<div class="page-content">
+				<div class="alert success" th:if="${param.updated}" style="margin-bottom: 16px">Profile updated successfully.</div>
+				<div class="alert success" th:if="${param.passwordChanged}" style="margin-bottom: 16px">Password changed successfully.</div>
+				<div class="alert error" th:if="${error}" th:text="${error}" style="margin-bottom: 16px"></div>
+
+				<section class="form-panel">
+					<div class="eyebrow">PROFILE DETAILS</div>
+					<h2>Update your information</h2>
+					<form th:action="@{/profile}" method="post">
+						<div class="form-grid">
+							<div class="field">
+								<label>Username</label><input class="input" th:value="${profile.username()}" disabled>
+							</div>
+							<div class="field">
+								<label>Email</label><input class="input" th:value="${profile.email()}" disabled>
+							</div>
+							<div class="field">
+								<label>First name *</label><input class="input" name="firstName"
+									th:value="${profile.firstName()}" required>
+							</div>
+							<div class="field">
+								<label>Last name *</label><input class="input" name="lastName"
+									th:value="${profile.lastName()}" required>
+							</div>
+							<div class="field">
+								<label>Phone</label><input class="input" name="phone" th:value="${profile.phone()}">
+							</div>
+							<div class="field">
+								<label>Account status</label><input class="input" th:value="${profile.status()}" disabled>
+							</div>
+						</div>
+						<div class="form-actions">
+							<button class="btn primary">Save changes</button>
+						</div>
+					</form>
+				</section>
+
+				<section class="form-panel" style="margin-top: 24px">
+					<div class="eyebrow">SECURITY</div>
+					<h2>Change password</h2>
+					<form th:action="@{/profile/change-password}" method="post">
+						<div class="form-grid">
+							<div class="field">
+								<label>Current password *</label><input class="input" name="currentPassword"
+									type="password" required>
+							</div>
+							<div class="field">
+								<label>New password *</label><input class="input" name="newPassword"
+									type="password" minlength="8" required>
+							</div>
+						</div>
+						<div class="form-actions">
+							<button class="btn primary">Change password</button>
+						</div>
+					</form>
+				</section>
+			</div>
+		</section>
+	</div>
+</body>
+</html>

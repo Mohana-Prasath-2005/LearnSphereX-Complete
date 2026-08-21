@@ -26,7 +26,7 @@ public class ExamService {
   }
   return saved;
  }
- @Transactional public Question addQuestion(Long examId,CreateQuestionRequest r){ Exam e=exams.findById(examId).orElseThrow(()->new ResourceNotFoundException("Exam not found: "+examId)); Question q=new Question(null,e,r.questionText(),r.questionType().toUpperCase(),r.marks(),r.questionOrder(),new ArrayList<>(),r.expectedAnswer(),r.constraints()); if(r.options()!=null) for(var o:r.options()) q.getOptions().add(new QuestionOption(null,q,o.optionText(),o.correct())); e.getQuestions().add(q); return questions.save(q);}
+ @Transactional public Question addQuestion(Long examId,CreateQuestionRequest r){ Exam e=exams.findById(examId).orElseThrow(()->new ResourceNotFoundException("Exam not found: "+examId)); Question q=new Question(null,e,r.questionText(),r.questionType().toUpperCase(),r.marks(),r.questionOrder(),new ArrayList<>(),r.expectedAnswer(),r.constraints(),new ArrayList<>()); if(r.options()!=null) for(var o:r.options()) q.getOptions().add(new QuestionOption(null,q,o.optionText(),o.correct())); if(r.testCases()!=null) for(var t:r.testCases()) q.getTestCases().add(new TestCase(null,q,t.input(),t.expectedOutput(),t.caseOrder())); e.getQuestions().add(q); return questions.save(q);}
  @Transactional public StartAttemptResponse start(Long examId,Long studentId,Authentication authentication){ Exam e=exams.findById(examId).orElseThrow(()->new ResourceNotFoundException("Exam not found")); var student=studentRepository.findById(studentId).orElseThrow(()->new ResourceNotFoundException("Student not found: "+studentId)); currentUserService.assertOwnerOrRole(authentication,student.getUserId(),"ADMIN"); LocalDateTime now=LocalDateTime.now(); if(!e.isActive()||now.isBefore(e.getStartAt())||now.isAfter(e.getEndAt())) throw new InvalidOperationException("Exam is not currently available"); int used=attempts.findByStudentIdAndExamId(studentId,examId).size(); if(used>=e.getAttemptsAllowed()) throw new InvalidOperationException("Attempt limit reached"); ExamAttempt a=attempts.save(new ExamAttempt(e,studentId)); return new StartAttemptResponse(a.getId(),examId,a.getStartedAt(),a.getStartedAt().plusMinutes(e.getDurationMinutes())); }
  private boolean isExpired(ExamAttempt a){ return LocalDateTime.now().isAfter(a.getStartedAt().plusMinutes(a.getExam().getDurationMinutes())); }
 
@@ -123,7 +123,7 @@ public class ExamService {
  // Forces Exam.questions and each Question.options to load while the transaction/session
  // is still open; without this, serializing the response throws LazyInitializationException
  // once the method returns and open-in-view=false closes the session.
- private Exam initQuestions(Exam e){ e.getQuestions().size(); e.getQuestions().forEach(q->q.getOptions().size()); return e; }
+ private Exam initQuestions(Exam e){ e.getQuestions().size(); e.getQuestions().forEach(q->{q.getOptions().size();q.getTestCases().size();}); return e; }
  @Transactional(readOnly=true) public List<Exam> list(){ var all=exams.findAll(); all.forEach(this::initQuestions); return all; }
  @Transactional(readOnly=true) public Exam get(Long id){ return initQuestions(exams.findById(id).orElseThrow(()->new ResourceNotFoundException("Exam not found: "+id))); }
 }

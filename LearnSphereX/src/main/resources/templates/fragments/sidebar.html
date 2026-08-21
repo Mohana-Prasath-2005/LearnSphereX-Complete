@@ -49,11 +49,6 @@
     </nav>
 
     <div class="sidebar-footer">
-        <strong sec:authentication="name">user</strong>
-        <span sec:authorize="hasRole('ADMIN')">ADMIN</span>
-        <span sec:authorize="!hasRole('ADMIN') and hasRole('TRAINER')">TRAINER</span>
-        <span sec:authorize="!hasRole('ADMIN') and !hasRole('TRAINER') and hasRole('STUDENT')">STUDENT</span>
-        <span sec:authorize="!hasRole('ADMIN') and !hasRole('TRAINER') and !hasRole('STUDENT')">MEMBER</span>
         <form th:action="@{/logout}" method="post">
             <button type="submit" class="logout-button">&#8618; Sign out</button>
         </form>

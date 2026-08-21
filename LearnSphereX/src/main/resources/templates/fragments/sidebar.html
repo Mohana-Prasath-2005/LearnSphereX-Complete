@@ -2,6 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <body>
 <aside th:fragment="sidebar(active)" class="sidebar">
+
     <div class="brand">
         <div class="brand-mark">S</div>
         <div>
@@ -10,49 +11,54 @@
         </div>
     </div>
 
-    <nav class="nav">
-        <a class="nav-item" th:classappend="${active == 'dashboard'} ? ' active'" th:href="@{/dashboard}">Dashboard</a>
+    <nav>
+        <div class="nav-label">WORKSPACE</div>
+        <a class="nav-item" th:classappend="${active == 'dashboard'} ? ' active'" th:href="@{/dashboard}">🏠 Dashboard</a>
 
-        <div class="nav-label">ACADEMICS</div>
-        <a class="nav-item" th:classappend="${active == 'courses'} ? ' active'" th:href="@{/courses}">Courses</a>
-        <a class="nav-item" th:classappend="${active == 'batches'} ? ' active'" th:href="@{/batches}">Batches</a>
-        <a class="nav-item" th:classappend="${active == 'students'} ? ' active'" th:href="@{/students}">Students</a>
-        <a class="nav-item" th:classappend="${active == 'attendance'} ? ' active'" th:href="@{/attendance}">Attendance</a>
-        <a class="nav-item" th:classappend="${active == 'holidays'} ? ' active'" th:href="@{/holidays}">Holidays</a>
+        <div class="nav-label">LEARNING</div>
+        <a class="nav-item" th:classappend="${active == 'courses'} ? ' active'" th:href="@{/courses}">📚 Courses</a>
+        <a class="nav-item" th:classappend="${active == 'students'} ? ' active'" th:href="@{/students}">🎓 Students</a>
+        <a class="nav-item" th:classappend="${active == 'assignments'} ? ' active'" th:href="@{/assignments}">📝 Assignments</a>
 
-        <div class="nav-label">COURSEWORK</div>
-        <a class="nav-item" th:classappend="${active == 'assignments'} ? ' active'" th:href="@{/assignments}">Assignments</a>
-        <a class="nav-item" sec:authorize="hasRole('ADMIN') or hasRole('TRAINER') or hasRole('EVALUATOR')" th:classappend="${active == 'submissions'} ? ' active'" th:href="@{/submissions}">Submissions</a>
-        <a class="nav-item" th:classappend="${active == 'projects'} ? ' active'" th:href="@{/projects}">Projects</a>
+        <div class="nav-label">TRAINING</div>
+        <a class="nav-item" th:classappend="${active == 'batches'} ? ' active'" th:href="@{/batches}">🏢 Batches</a>
+        <a class="nav-item" th:classappend="${active == 'holidays'} ? ' active'" th:href="@{/holidays}">🏖 Holidays</a>
+        <a class="nav-item" th:classappend="${active == 'attendance'} ? ' active'" th:href="@{/attendance}">✅ Attendance</a>
+
+        <div class="nav-label">EVALUATION</div>
+        <div class="nav-item disabled-card" title="Examination page will be connected when its UI route is available">🧪 Examination</div>
+        <a class="nav-item" th:classappend="${active == 'projects'} ? ' active'" th:href="@{/projects}">💻 Projects</a>
+        <a class="nav-item" sec:authorize="hasRole('ADMIN') or hasRole('TRAINER') or hasRole('EVALUATOR')" th:classappend="${active == 'submissions'} ? ' active'" th:href="@{/submissions}">📁 Submissions</a>
+        <div class="nav-item disabled-card" title="Certification page will be connected when its UI route is available">🏆 Certification</div>
 
         <div class="nav-label" sec:authorize="hasRole('ADMIN')">FINANCE</div>
-        <a class="nav-item" sec:authorize="hasRole('ADMIN')" th:classappend="${active == 'fee-plans'} ? ' active'" th:href="@{/fee-plans}">Fee Plans</a>
-        <a class="nav-item" sec:authorize="hasRole('ADMIN')" th:classappend="${active == 'payments'} ? ' active'" th:href="@{/payments}">Record Payment</a>
+        <a class="nav-item" sec:authorize="hasRole('ADMIN')" th:classappend="${active == 'fee-plans'} ? ' active'" th:href="@{/fee-plans}">💰 Fee Plans</a>
+        <a class="nav-item" sec:authorize="hasRole('ADMIN')" th:classappend="${active == 'payments'} ? ' active'" th:href="@{/payments}">💳 Payments</a>
 
-        <div class="nav-label">INSIGHTS</div>
-        <a class="nav-item" th:classappend="${active == 'reports'} ? ' active'" th:href="@{/reports}">Reports</a>
-        <a class="nav-item" th:classappend="${active == 'notifications'} ? ' active'" th:href="@{/notifications}">Notifications</a>
+        <div class="nav-label">COMMUNICATION</div>
+        <a class="nav-item" th:classappend="${active == 'notifications'} ? ' active'" th:href="@{/notifications}">🔔 Notifications</a>
+
+        <div class="nav-label">REPORTING</div>
+        <a class="nav-item" th:classappend="${active == 'reports'} ? ' active'" th:href="@{/reports}">📊 Reports</a>
 
         <div class="nav-label" sec:authorize="hasRole('ADMIN')">ADMINISTRATION</div>
-        <a class="nav-item" sec:authorize="hasRole('ADMIN')" th:classappend="${active == 'users'} ? ' active'" th:href="@{/users}">Users</a>
+        <a class="nav-item" sec:authorize="hasRole('ADMIN')" th:classappend="${active == 'users'} ? ' active'" th:href="@{/users}">👥 Users</a>
 
         <div class="nav-label">ACCOUNT</div>
-        <a class="nav-item" th:classappend="${active == 'profile'} ? ' active'" th:href="@{/profile}">My Profile</a>
+        <a class="nav-item" th:classappend="${active == 'profile'} ? ' active'" th:href="@{/profile}">👤 My Profile</a>
     </nav>
 
     <div class="sidebar-footer">
-        <div class="mini-avatar" th:text="${#strings.substring(#authentication.name,0,1).toUpperCase()}">A</div>
-        <div>
-            <strong sec:authentication="name">user</strong>
-            <span sec:authorize="hasRole('ADMIN')">ADMIN</span>
-            <span sec:authorize="!hasRole('ADMIN') and hasRole('TRAINER')">TRAINER</span>
-            <span sec:authorize="!hasRole('ADMIN') and !hasRole('TRAINER') and hasRole('STUDENT')">STUDENT</span>
-            <span sec:authorize="!hasRole('ADMIN') and !hasRole('TRAINER') and !hasRole('STUDENT')">MEMBER</span>
-        </div>
-        <form th:action="@{/logout}" method="post" style="margin-left: auto">
-            <button class="nav-item" style="padding: 8px 10px" title="Sign out">&#8618;</button>
+        <strong sec:authentication="name">user</strong>
+        <span sec:authorize="hasRole('ADMIN')">ADMIN</span>
+        <span sec:authorize="!hasRole('ADMIN') and hasRole('TRAINER')">TRAINER</span>
+        <span sec:authorize="!hasRole('ADMIN') and !hasRole('TRAINER') and hasRole('STUDENT')">STUDENT</span>
+        <span sec:authorize="!hasRole('ADMIN') and !hasRole('TRAINER') and !hasRole('STUDENT')">MEMBER</span>
+        <form th:action="@{/logout}" method="post">
+            <button type="submit" class="logout-button">&#8618; Sign out</button>
         </form>
     </div>
+
 </aside>
 </body>
 </html>

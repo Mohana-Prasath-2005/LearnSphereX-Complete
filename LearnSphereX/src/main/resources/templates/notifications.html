@@ -42,7 +42,7 @@
         ================================= */
 
         .sidebar {
-            width: 235px;
+            width: 250px;
             background: #101827;
             position: fixed;
             top: 0;
@@ -151,8 +151,8 @@
         ================================= */
 
         .main {
-            margin-left: 235px;
-            width: calc(100% - 235px);
+            margin-left: 250px;
+            width: calc(100% - 250px);
         }
 
         /* ================================
@@ -603,6 +603,8 @@
 
     </style>
 
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+
 </head>
 
 
@@ -614,132 +616,7 @@
          SIDEBAR
     ========================================== -->
 
-    <aside class="sidebar">
-
-        <div class="brand">
-
-            <div class="brand-icon">
-                🎓
-            </div>
-
-            <div>
-                <div class="brand-name">
-                    LearnSphereX
-                </div>
-
-                <div class="brand-subtitle">
-                    Enterprise
-                </div>
-            </div>
-
-        </div>
-
-
-        <nav class="menu">
-
-            <div class="menu-title">
-                Workspace
-            </div>
-
-            <a href="/dashboard">
-                <span class="menu-icon">⌂</span>
-                Dashboard
-            </a>
-
-            <a href="/profile">
-                <span class="menu-icon">👤</span>
-                Profile
-            </a>
-
-            <a href="/courses">
-                <span class="menu-icon">📚</span>
-                Courses
-            </a>
-
-            <a href="/batches">
-                <span class="menu-icon">👥</span>
-                Batches
-            </a>
-
-            <a href="/students">
-                <span class="menu-icon">🎓</span>
-                Students
-            </a>
-
-            <a href="/attendance">
-                <span class="menu-icon">✓</span>
-                Attendance
-            </a>
-
-            <a href="/holidays">
-                <span class="menu-icon">🏖</span>
-                Holidays
-            </a>
-
-            <a href="/assignments">
-                <span class="menu-icon">📝</span>
-                Assignments
-            </a>
-
-            <a href="/projects">
-                <span class="menu-icon">💻</span>
-                Projects
-            </a>
-
-            <a href="/notifications" class="active">
-
-                <span class="menu-icon">
-                    🔔
-                </span>
-
-                Notifications
-
-                <!-- Shows actual unread count -->
-                <span class="notification-count"
-                      th:if="${notifications != null}"
-                      th:text="${#lists.size(notifications)}">
-                    0
-                </span>
-
-            </a>
-
-            <a href="/reports">
-                <span class="menu-icon">📊</span>
-                Reports
-            </a>
-
-        </nav>
-
-
-        <div class="logout">
-
-            <form th:action="@{/logout}" method="post" style="margin:0; border-top:1px solid #253043; padding-top:15px">
-                <button type="submit"
-                        style="
-                            display:flex;
-                            align-items:center;
-                            gap:12px;
-                            width:100%;
-                            border:0;
-                            background:transparent;
-                            cursor:pointer;
-                            text-align:left;
-                            font:inherit;
-                            text-decoration:none;
-                            color:#aeb9cc;
-                            padding:12px 15px;
-                            border-radius:10px;
-                            font-weight:600;
-                        " onmouseover="this.style.background='#1a2537';this.style.color='#fff'" onmouseout="this.style.background='transparent';this.style.color='#aeb9cc'">
-
-                    🚪 Logout
-
-                </button>
-            </form>
-
-        </div>
-
-    </aside>
+    <div th:replace="~{fragments/sidebar :: sidebar(active='notifications')}"></div>
 
 
     <!-- =========================================

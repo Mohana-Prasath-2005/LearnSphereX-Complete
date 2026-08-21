@@ -17,225 +17,31 @@
     <link rel="stylesheet"
           th:href="@{/css/batch.css}">
 
+    <link rel="stylesheet"
+          th:href="@{/css/styles.css}">
+
 </head>
 
 
 <body>
 
-<div class="app-container">
+<div class="app-shell">
 
 
     <!-- ================= SIDEBAR ================= -->
 
-    <aside class="sidebar">
-
-        <div class="brand">
-
-            <div class="brand-logo">
-                L
-            </div>
-
-            <div>
-                <h2>LearnSphereX</h2>
-                <span>Training Management</span>
-            </div>
-
-        </div>
-
-
-        <div class="menu-title">
-            MAIN
-        </div>
-
-
-        <nav class="sidebar-menu">
-
-            <a th:href="@{/dashboard}"
-               class="menu-item">
-                &#8962;
-                <span>Dashboard</span>
-            </a>
-
-            <a th:href="@{/courses}"
-               class="menu-item">
-                🎓
-                <span>Courses</span>
-            </a>
-
-            <a th:href="@{/batches}"
-               class="menu-item active">
-                📚
-                <span>Batches</span>
-            </a>
-
-            <a th:href="@{/students}"
-               class="menu-item">
-                👨‍🎓
-                <span>Students</span>
-            </a>
-
-            <a th:href="@{/attendance}"
-               class="menu-item">
-                📋
-                <span>Attendance</span>
-            </a>
-
-            <a th:href="@{/holidays}"
-               class="menu-item">
-                🏖
-                <span>Holidays</span>
-            </a>
-
-            <a th:href="@{/assignments}"
-               class="menu-item">
-                📝
-                <span>Assignments</span>
-            </a>
-
-            <a th:href="@{/projects}"
-               class="menu-item">
-                💻
-                <span>Projects</span>
-            </a>
-
-            <a th:href="@{/submissions}"
-               class="menu-item">
-                📁
-                <span>Submissions</span>
-            </a>
-
-            <a th:href="@{/reports}"
-               class="menu-item">
-                📊
-                <span>Reports</span>
-            </a>
-
-            <a th:href="@{/notifications}"
-               class="menu-item">
-                🔔
-                <span>Notifications</span>
-            </a>
-
-        </nav>
-
-
-        <div class="menu-title" sec:authorize="hasRole('ADMIN')">
-            ADMINISTRATION
-        </div>
-
-
-        <nav class="sidebar-menu" sec:authorize="hasRole('ADMIN')">
-
-            <a th:href="@{/fee-plans}"
-               class="menu-item">
-                💰
-                <span>Fee Plans</span>
-            </a>
-
-            <a th:href="@{/payments}"
-               class="menu-item">
-                💳
-                <span>Record Payment</span>
-            </a>
-
-            <a th:href="@{/users}"
-               class="menu-item">
-                👥
-                <span>Users</span>
-            </a>
-
-        </nav>
-
-
-        <div class="menu-title">
-            BATCH MANAGEMENT
-        </div>
-
-
-        <nav class="sidebar-menu">
-
-            <a href="/batches"
-               class="menu-item">
-                📋
-                <span>All Batches</span>
-            </a>
-
-            <a href="/batches/new"
-               class="menu-item active">
-                ➕
-                <span>Create Batch</span>
-            </a>
-
-        </nav>
-
-
-        <div class="sidebar-bottom">
-
-            <a th:href="@{/profile}" style="display:flex; align-items:center; gap:10px; text-decoration:none; color:inherit; flex:1; min-width:0">
-                <div class="admin-avatar" th:text="${#strings.substring(#authentication.name,0,1).toUpperCase()}">
-                    A
-                </div>
-
-                <div style="min-width:0">
-
-                    <strong th:text="${#authentication.name}">Admin</strong>
-
-                    <span sec:authorize="hasRole('ADMIN')">Administrator</span>
-                    <span sec:authorize="!hasRole('ADMIN')">Member</span>
-
-                </div>
-            </a>
-
-            <form th:action="@{/logout}" method="post" style="margin:0">
-                <button type="submit" title="Sign out"
-                        style="border:0;background:transparent;cursor:pointer;font-size:16px;padding:6px;color:inherit">
-                    &#8618;
-                </button>
-            </form>
-
-        </div>
-
-    </aside>
+    <div th:replace="~{fragments/sidebar :: sidebar(active='batches')}"></div>
 
 
 
     <!-- ================= MAIN ================= -->
 
-    <main class="main-content">
+    <main class="main-area">
 
 
         <!-- HEADER -->
 
-        <header class="top-header">
-
-            <div>
-
-                <div class="page-label">
-                    BATCH MANAGEMENT
-                </div>
-
-                <h1>
-                    Batch Dashboard
-                </h1>
-
-            </div>
-
-
-            <div class="system-status">
-
-                <span class="status-dot"></span>
-
-                <span>
-                    System Online
-                </span>
-
-                <div class="user-circle">
-                    A
-                </div>
-
-            </div>
-
-        </header>
+        <div th:replace="~{fragments/navbar :: navbar(heading=${batch.id == null} ? 'Create Batch' : 'Edit Batch', eyebrow='BATCH MANAGEMENT')}"></div>
 
 
 
